@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="zh-CN" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Migration Guide &mdash; jupyter_client 7.1.0 文档</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/translations.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="索引" href="genindex.html" />
+    <link rel="search" title="搜索" href="search.html" />
+    <link rel="prev" title="Changes in Jupyter Client {#changelog}" href="changelog.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="index.html" class="icon icon-home"> jupyter_client
+          </a>
+              <div class="version">
+                7.1
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">用户文档</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="messaging.html">Jupyter 中的消息传递</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">开发者文档</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="kernels.html">Making kernels for Jupyter</a></li>
+<li class="toctree-l1"><a class="reference internal" href="wrapperkernels.html">Making simple Python wrapper kernels</a></li>
+<li class="toctree-l1"><a class="reference internal" href="provisioning.html">Customizing the kernel’s runtime environment</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="api/index.html">jupyter_client API</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">变更</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="changelog.html">Changes in Jupyter Client {#changelog}</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Migration Guide</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#jupyter-client-6-0-to-7-0">Jupyter Client 6.0 to 7.0</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#api-changes">API Changes</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#kernelmanager"><code class="docutils literal notranslate"><span class="pre">KernelManager</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#asynckernelmanager"><code class="docutils literal notranslate"><span class="pre">AsyncKernelManager</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#asynckernelclient"><code class="docutils literal notranslate"><span class="pre">AsyncKernelClient</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#blockingkernelclient"><code class="docutils literal notranslate"><span class="pre">BlockingKernelClient</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id1"><code class="docutils literal notranslate"><span class="pre">BlockingKernelClient</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#zmqsocketchannel"><code class="docutils literal notranslate"><span class="pre">ZMQSocketChannel</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#deprecations-removed">Deprecations removed</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#method-kernelmanager-cleanup">Method <code class="docutils literal notranslate"><span class="pre">KernelManager.cleanup()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#attribute-kernelmanager-kernel-cmd">Attribute <code class="docutils literal notranslate"><span class="pre">KernelManager.kernel_cmd</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">jupyter_client</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+      <li>Migration Guide</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/migration.md.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section class="tex2jax_ignore mathjax_ignore" id="migration-guide">
+<h1>Migration Guide<a class="headerlink" href="#migration-guide" title="永久链接至标题">¶</a></h1>
+<section id="jupyter-client-6-0-to-7-0">
+<h2>Jupyter Client 6.0 to 7.0<a class="headerlink" href="#jupyter-client-6-0-to-7-0" title="永久链接至标题">¶</a></h2>
+<section id="api-changes">
+<h3>API Changes<a class="headerlink" href="#api-changes" title="永久链接至标题">¶</a></h3>
+<p>All of the API changes for <code class="docutils literal notranslate"><span class="pre">KernelManager</span></code> and <code class="docutils literal notranslate"><span class="pre">AsyncKernelManager</span></code> in the 7.0 release were confined to <em>internal public</em> methods, which we define as methods called from the <em>formally public</em> methods but could be overridden in subclass implementations. As a result, these changes may impact subclasses of <code class="docutils literal notranslate"><span class="pre">KernelManager</span></code> or <code class="docutils literal notranslate"><span class="pre">AsyncKernelManager</span></code> provided those implementations also implement or call these methods, but should not affect applications that call only the <em>formally public</em> methods.</p>
+<section id="kernelmanager">
+<h4><code class="docutils literal notranslate"><span class="pre">KernelManager</span></code><a class="headerlink" href="#kernelmanager" title="永久链接至标题">¶</a></h4>
+<p>The following internal methods had signature changes:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">def</span> <span class="pre">pre_start_kernel(self,</span> <span class="pre">**kwargs)</span> <span class="pre">-&gt;</span> <span class="pre">Tuple[List[str],</span> <span class="pre">Dict[str,</span> <span class="pre">Any]]:</span></code></p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">pre_start_kernel</span></code> now returns a tuple consisting of the formatted kernel startup list and an updated set of keyword arguments.</p></li>
+</ul>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">def</span> <span class="pre">_launch_kernel(self,</span> <span class="pre">kernel_cmd:</span> <span class="pre">List[str],</span> <span class="pre">**kw)</span> <span class="pre">-&gt;</span> <span class="pre">None:</span></code></p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">_launch_kernel</span></code> now returns <code class="docutils literal notranslate"><span class="pre">None</span></code> instead of the <code class="docutils literal notranslate"><span class="pre">Popen</span></code> instance</p></li>
+</ul>
+</li>
+<li><p>These methods now take the keyword argument <code class="docutils literal notranslate"><span class="pre">restart</span></code> indicating the shutdown was on behalf of a kernel restart (when <code class="docutils literal notranslate"><span class="pre">True</span></code>).</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">def</span> <span class="pre">finish_shutdown(self,</span> <span class="pre">restart:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">False):</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">def</span> <span class="pre">_kill_kernel(self,</span> <span class="pre">restart:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">False):</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">def</span> <span class="pre">_send_kernel_sigterm(self,</span> <span class="pre">restart:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">False):</span></code></p></li>
+</ul>
+</li>
+<li><p>Attribute <code class="docutils literal notranslate"><span class="pre">kernel</span></code> has been removed and <em>logically</em> replaced with <code class="docutils literal notranslate"><span class="pre">provisioner</span></code> - which is an instance of <code class="docutils literal notranslate"><span class="pre">KernelProvisionerBase</span></code> and can be viewed as an abstract <code class="docutils literal notranslate"><span class="pre">Popen</span></code> instance.</p></li>
+</ul>
+</section>
+<section id="asynckernelmanager">
+<h4><code class="docutils literal notranslate"><span class="pre">AsyncKernelManager</span></code><a class="headerlink" href="#asynckernelmanager" title="永久链接至标题">¶</a></h4>
+<p>Besides the signature and attribute changes described above, the following internal methods were made <code class="docutils literal notranslate"><span class="pre">async</span></code> for <code class="docutils literal notranslate"><span class="pre">AsyncKernelManager</span></code>:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">async</span> <span class="pre">def</span> <span class="pre">pre_start_kernel(self,</span> <span class="pre">**kwargs)</span> <span class="pre">-&gt;</span> <span class="pre">Tuple[List[str],</span> <span class="pre">Dict[str,</span> <span class="pre">Any]]:</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">async</span> <span class="pre">def</span> <span class="pre">post_start_kernel(self,</span> <span class="pre">**kwargs):</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">async</span> <span class="pre">def</span> <span class="pre">request_shutdown(self,</span> <span class="pre">restart:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">False):</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">async</span> <span class="pre">def</span> <span class="pre">cleanup_resources(self,</span> <span class="pre">restart:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">False):</span></code></p></li>
+</ul>
+</section>
+<section id="asynckernelclient">
+<h4><code class="docutils literal notranslate"><span class="pre">AsyncKernelClient</span></code><a class="headerlink" href="#asynckernelclient" title="永久链接至标题">¶</a></h4>
+<p>We dropped the <code class="docutils literal notranslate"><span class="pre">block:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">True</span></code> keyword argument for the following methods:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">async</span> <span class="pre">def</span> <span class="pre">get_shell_msg(self,</span> <span class="pre">timeout:</span> <span class="pre">Optional[float]</span> <span class="pre">=</span> <span class="pre">None)</span> <span class="pre">-&gt;</span> <span class="pre">Dict[str,</span> <span class="pre">Any]:</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">async</span> <span class="pre">def</span> <span class="pre">get_iopub_msg(self,</span> <span class="pre">timeout:</span> <span class="pre">Optional[float]</span> <span class="pre">=</span> <span class="pre">None)</span> <span class="pre">-&gt;</span> <span class="pre">Dict[str,</span> <span class="pre">Any]:</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">async</span> <span class="pre">def</span> <span class="pre">get_stdin_msg(self,</span> <span class="pre">timeout:</span> <span class="pre">Optional[float]</span> <span class="pre">=</span> <span class="pre">None)</span> <span class="pre">-&gt;</span> <span class="pre">Dict[str,</span> <span class="pre">Any]:</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">async</span> <span class="pre">def</span> <span class="pre">get_control_msg(self,</span> <span class="pre">timeout:</span> <span class="pre">Optional[float]</span> <span class="pre">=</span> <span class="pre">None)</span> <span class="pre">-&gt;</span> <span class="pre">Dict[str,</span> <span class="pre">Any]:</span></code></p></li>
+</ul>
+<p>Calling these methods with <code class="docutils literal notranslate"><span class="pre">block=False</span></code> previously translates to calling them with <code class="docutils literal notranslate"><span class="pre">timeout=0</span></code> now.
+Calling these methods with <code class="docutils literal notranslate"><span class="pre">block=True</span></code> previously translates to calling them with a non-zero <code class="docutils literal notranslate"><span class="pre">timeout</span></code> value now.</p>
+</section>
+<section id="blockingkernelclient">
+<h4><code class="docutils literal notranslate"><span class="pre">BlockingKernelClient</span></code><a class="headerlink" href="#blockingkernelclient" title="永久链接至标题">¶</a></h4>
+<p>We dropped the <code class="docutils literal notranslate"><span class="pre">block:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">True</span></code> keyword argument for the following methods:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">def</span> <span class="pre">get_shell_msg(self,</span> <span class="pre">timeout:</span> <span class="pre">Optional[float]</span> <span class="pre">=</span> <span class="pre">None)</span> <span class="pre">-&gt;</span> <span class="pre">Dict[str,</span> <span class="pre">Any]:</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">def</span> <span class="pre">get_iopub_msg(self,</span> <span class="pre">timeout:</span> <span class="pre">Optional[float]</span> <span class="pre">=</span> <span class="pre">None)</span> <span class="pre">-&gt;</span> <span class="pre">Dict[str,</span> <span class="pre">Any]:</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">def</span> <span class="pre">get_stdin_msg(self,</span> <span class="pre">timeout:</span> <span class="pre">Optional[float]</span> <span class="pre">=</span> <span class="pre">None)</span> <span class="pre">-&gt;</span> <span class="pre">Dict[str,</span> <span class="pre">Any]:</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">def</span> <span class="pre">get_control_msg(self,</span> <span class="pre">timeout:</span> <span class="pre">Optional[float]</span> <span class="pre">=</span> <span class="pre">None)</span> <span class="pre">-&gt;</span> <span class="pre">Dict[str,</span> <span class="pre">Any]:</span></code></p></li>
+</ul>
+<p>Calling these methods with <code class="docutils literal notranslate"><span class="pre">block=False</span></code> previously translates to calling them with <code class="docutils literal notranslate"><span class="pre">timeout=0</span></code> now.
+Calling these methods with <code class="docutils literal notranslate"><span class="pre">block=True</span></code> previously translates to calling them with a non-zero <code class="docutils literal notranslate"><span class="pre">timeout</span></code> value now.</p>
+</section>
+<section id="id1">
+<h4><code class="docutils literal notranslate"><span class="pre">BlockingKernelClient</span></code><a class="headerlink" href="#id1" title="永久链接至标题">¶</a></h4>
+</section>
+<section id="zmqsocketchannel">
+<h4><code class="docutils literal notranslate"><span class="pre">ZMQSocketChannel</span></code><a class="headerlink" href="#zmqsocketchannel" title="永久链接至标题">¶</a></h4>
+<p>We dropped the <code class="docutils literal notranslate"><span class="pre">block:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">True</span></code> keyword argument for the following method:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">async</span> <span class="pre">def</span> <span class="pre">get_msg(self,</span> <span class="pre">timeout:</span> <span class="pre">Optional[float]</span> <span class="pre">=</span> <span class="pre">None)</span> <span class="pre">-&gt;</span> <span class="pre">Dict[str,</span> <span class="pre">Any]:</span></code>:</p></li>
+</ul>
+<p>Calling this method with <code class="docutils literal notranslate"><span class="pre">block=False</span></code> previously translates to calling it with <code class="docutils literal notranslate"><span class="pre">timeout=0</span></code> now.
+Calling this method with <code class="docutils literal notranslate"><span class="pre">block=True</span></code> previously translates to calling it with a non-zero <code class="docutils literal notranslate"><span class="pre">timeout</span></code> value now.</p>
+<div class="admonition-note admonition">
+<p class="admonition-title">Note</p>
+<p>Prefer calling e.g. <code class="docutils literal notranslate"><span class="pre">client.get_shell_msg()</span></code> over <code class="docutils literal notranslate"><span class="pre">client.shell_channel.get_msg()</span></code>.</p>
+</div>
+</section>
+</section>
+<section id="deprecations-removed">
+<h3>Deprecations removed<a class="headerlink" href="#deprecations-removed" title="永久链接至标题">¶</a></h3>
+<section id="method-kernelmanager-cleanup">
+<h4>Method <code class="docutils literal notranslate"><span class="pre">KernelManager.cleanup()</span></code><a class="headerlink" href="#method-kernelmanager-cleanup" title="永久链接至标题">¶</a></h4>
+<p>The <code class="docutils literal notranslate"><span class="pre">cleanup()</span></code> method on <code class="docutils literal notranslate"><span class="pre">KernelManager</span></code> has been removed. <code class="docutils literal notranslate"><span class="pre">cleanup_resources(restart:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">False)</span></code> should be used.</p>
+</section>
+<section id="attribute-kernelmanager-kernel-cmd">
+<h4>Attribute <code class="docutils literal notranslate"><span class="pre">KernelManager.kernel_cmd</span></code><a class="headerlink" href="#attribute-kernelmanager-kernel-cmd" title="永久链接至标题">¶</a></h4>
+<p>This attribute had been marked for deprecation for 4 years. The command used to start the kernel is derived from the <code class="docutils literal notranslate"><span class="pre">argv</span></code> stanza of the kernel specification file (<code class="docutils literal notranslate"><span class="pre">kernel.json</span></code>).</p>
+</section>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="changelog.html" class="btn btn-neutral float-left" title="Changes in Jupyter Client {#changelog}" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; 版权所有 2015, Jupyter Development Team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

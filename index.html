@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="zh-CN" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Jupyter Client 7.1 &mdash; jupyter_client 7.1.0 文档</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/translations.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="索引" href="genindex.html" />
+    <link rel="search" title="搜索" href="search.html" />
+    <link rel="next" title="Jupyter 中的消息传递" href="messaging.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="#" class="icon icon-home"> jupyter_client
+          </a>
+              <div class="version">
+                7.1
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">用户文档</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="messaging.html">Jupyter 中的消息传递</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">开发者文档</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="kernels.html">Making kernels for Jupyter</a></li>
+<li class="toctree-l1"><a class="reference internal" href="wrapperkernels.html">Making simple Python wrapper kernels</a></li>
+<li class="toctree-l1"><a class="reference internal" href="provisioning.html">Customizing the kernel’s runtime environment</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="api/index.html">jupyter_client API</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">变更</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="changelog.html">Changes in Jupyter Client {#changelog}</a></li>
+<li class="toctree-l1"><a class="reference internal" href="migration.html">Migration Guide</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="#">jupyter_client</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="#" class="icon icon-home"></a> &raquo;</li>
+      <li>Jupyter Client 7.1</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/index.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="jupyter-client-version">
+<h1>Jupyter Client 7.1<a class="headerlink" href="#jupyter-client-version" title="永久链接至标题">¶</a></h1>
+<p>这个包提供了用于启动、管理和与 Jupyter 内核通信的 Python API。</p>
+<div class="admonition important">
+<p class="admonition-title">重要</p>
+<p>这份文档包含了 Jupyter 消息传递协议的权威描述。我们强烈鼓励所有的开发者随着实现的发展而不断更新它，这样我们就有了一个关于所有协议细节的统一参考。</p>
+</div>
+<div class="toctree-wrapper compound">
+<p class="caption" role="heading"><span class="caption-text">用户文档</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="messaging.html">Jupyter 中的消息传递</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="messaging.html#versioning">版本管理</a></li>
+<li class="toctree-l2"><a class="reference internal" href="messaging.html#introduction">介绍</a></li>
+<li class="toctree-l2"><a class="reference internal" href="messaging.html#general-message-format">通用消息格式</a></li>
+<li class="toctree-l2"><a class="reference internal" href="messaging.html#compatibility">Compatibility</a></li>
+<li class="toctree-l2"><a class="reference internal" href="messaging.html#the-wire-protocol">The Wire Protocol</a></li>
+<li class="toctree-l2"><a class="reference internal" href="messaging.html#python-api">Python API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="messaging.html#messages-on-the-shell-router-dealer-channel">Messages on the shell (ROUTER/DEALER) channel</a></li>
+<li class="toctree-l2"><a class="reference internal" href="messaging.html#messages-on-the-control-router-dealer-channel">Messages on the Control (ROUTER/DEALER) channel</a></li>
+<li class="toctree-l2"><a class="reference internal" href="messaging.html#messages-on-the-iopub-pub-sub-channel">Messages on the IOPub (PUB/SUB) channel</a></li>
+<li class="toctree-l2"><a class="reference internal" href="messaging.html#messages-on-the-stdin-router-dealer-channel">Messages on the stdin (ROUTER/DEALER) channel</a></li>
+<li class="toctree-l2"><a class="reference internal" href="messaging.html#heartbeat-for-kernels">Heartbeat for kernels</a></li>
+<li class="toctree-l2"><a class="reference internal" href="messaging.html#custom-messages">Custom Messages</a></li>
+<li class="toctree-l2"><a class="reference internal" href="messaging.html#notes">Notes</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<p class="caption" role="heading"><span class="caption-text">开发者文档</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="kernels.html">Making kernels for Jupyter</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="kernels.html#connection-files">Connection files</a></li>
+<li class="toctree-l2"><a class="reference internal" href="kernels.html#handling-messages">Handling messages</a></li>
+<li class="toctree-l2"><a class="reference internal" href="kernels.html#kernel-specs">Kernel specs</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="wrapperkernels.html">Making simple Python wrapper kernels</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="wrapperkernels.html#required-steps">Required steps</a></li>
+<li class="toctree-l2"><a class="reference internal" href="wrapperkernels.html#example">Example</a></li>
+<li class="toctree-l2"><a class="reference internal" href="wrapperkernels.html#optional-steps">Optional steps</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="provisioning.html">Customizing the kernel’s runtime environment</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="provisioning.html#kernel-provisioning">Kernel Provisioning</a></li>
+<li class="toctree-l2"><a class="reference internal" href="provisioning.html#the-kernel-manager-and-kernel-provisioner-relationship">The kernel manager and kernel provisioner relationship</a></li>
+<li class="toctree-l2"><a class="reference internal" href="provisioning.html#discovery">Discovery</a></li>
+<li class="toctree-l2"><a class="reference internal" href="provisioning.html#backwards-compatibility">Backwards Compatibility</a></li>
+<li class="toctree-l2"><a class="reference internal" href="provisioning.html#implementing-a-custom-provisioner">Implementing a custom provisioner</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<p class="caption" role="heading"><span class="caption-text">API</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="api/index.html">jupyter_client API</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="api/kernelspec.html">kernelspec - discovering kernels</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/manager.html">manager - starting, stopping, signalling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/client.html">client - communicating with kernels</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/provisioners.html">kernel provisioner apis</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<p class="caption" role="heading"><span class="caption-text">变更</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="changelog.html">Changes in Jupyter Client {#changelog}</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id1">7.1.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id2">7.0.6</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id5">7.0.5</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id9">7.0.4</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id12">7.0.3</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id15">7.0.2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id18">7.0.1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id20">7.0.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id26">6.2.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id27">6.1.13</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id28">6.1.12</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id29">6.1.11</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id30">6.1.10</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id31">6.1.9</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id32">6.1.8</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id33">6.1.6</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id34">6.1.5</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id35">6.1.4</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id36">6.1.3</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id37">6.1.2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id38">6.1.1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id39">6.1.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id40">6.0.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id41">5.3.5</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id42">5.3.4</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id43">5.3.3</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id44">5.3.2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id45">5.3.1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id46">5.3.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id47">5.2.4</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id48">5.2.3</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id49">5.2.2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id50">5.2.1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id51">5.2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id52">5.1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id53">5.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id56">4.4</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id58">4.3</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id60">4.2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id64">4.1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id66">4.0</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="migration.html">Migration Guide</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="migration.html#jupyter-client-6-0-to-7-0">Jupyter Client 6.0 to 7.0</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</section>
+<section id="indices-and-tables">
+<h1>索引和表格<a class="headerlink" href="#indices-and-tables" title="永久链接至标题">¶</a></h1>
+<ul class="simple">
+<li><p><a class="reference internal" href="genindex.html"><span class="std std-ref">索引</span></a></p></li>
+<li><p><a class="reference internal" href="py-modindex.html"><span class="std std-ref">模块索引</span></a></p></li>
+<li><p><a class="reference internal" href="search.html"><span class="std std-ref">搜索页面</span></a></p></li>
+</ul>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="messaging.html" class="btn btn-neutral float-right" title="Jupyter 中的消息传递" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; 版权所有 2015, Jupyter Development Team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

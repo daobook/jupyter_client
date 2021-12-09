@@ -1,0 +1,920 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="zh-CN" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Changes in Jupyter Client {#changelog} &mdash; jupyter_client 7.1.0 文档</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/translations.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="索引" href="genindex.html" />
+    <link rel="search" title="搜索" href="search.html" />
+    <link rel="next" title="Migration Guide" href="migration.html" />
+    <link rel="prev" title="kernel provisioner apis" href="api/provisioners.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="index.html" class="icon icon-home"> jupyter_client
+          </a>
+              <div class="version">
+                7.1
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">用户文档</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="messaging.html">Jupyter 中的消息传递</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">开发者文档</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="kernels.html">Making kernels for Jupyter</a></li>
+<li class="toctree-l1"><a class="reference internal" href="wrapperkernels.html">Making simple Python wrapper kernels</a></li>
+<li class="toctree-l1"><a class="reference internal" href="provisioning.html">Customizing the kernel’s runtime environment</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="api/index.html">jupyter_client API</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">变更</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Changes in Jupyter Client {#changelog}</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#id1">7.1.0</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#enhancements-made">Enhancements made</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#bugs-fixed">Bugs fixed</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#maintenance-and-upkeep-improvements">Maintenance and upkeep improvements</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#contributors-to-this-release">Contributors to this release</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#id2">7.0.6</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id3">Bugs fixed</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#other-merged-prs">Other merged PRs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id4">Contributors to this release</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#id5">7.0.5</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id6">Bugs fixed</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id7">Maintenance and upkeep improvements</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id8">Contributors to this release</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#id9">7.0.4</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id10">Bugs fixed</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id11">Contributors to this release</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#id12">7.0.3</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id13">Bugs fixed</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id14">Contributors to this release</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#id15">7.0.2</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id16">Bugs fixed</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#documentation-improvements">Documentation improvements</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id17">Contributors to this release</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#id18">7.0.1</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#merged-prs">Merged PRs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id19">Contributors to this release</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#id20">7.0.0</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#summary">Summary</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id21">Enhancements made</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id22">Bugs fixed</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id23">Maintenance and upkeep improvements</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id24">Documentation improvements</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id25">Contributors to this release</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#id26">6.2.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id27">6.1.13</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id28">6.1.12</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id29">6.1.11</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id30">6.1.10</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id31">6.1.9</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id32">6.1.8</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id33">6.1.6</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id34">6.1.5</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id35">6.1.4</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id36">6.1.3</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id37">6.1.2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id38">6.1.1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id39">6.1.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id40">6.0.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id41">5.3.5</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id42">5.3.4</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id43">5.3.3</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id44">5.3.2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id45">5.3.1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id46">5.3.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id47">5.2.4</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id48">5.2.3</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id49">5.2.2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id50">5.2.1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id51">5.2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id52">5.1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id53">5.0</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id54">5.0.1</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id55">5.0.0</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#id56">4.4</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id57">4.4.0</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#id58">4.3</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id59">4.3.0</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#id60">4.2</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id61">4.2.2</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id62">4.2.1</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id63">4.2.0</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#id64">4.1</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id65">4.1.0</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#id66">4.0</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="migration.html">Migration Guide</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">jupyter_client</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+      <li>Changes in Jupyter Client {#changelog}</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/changelog.md.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section class="tex2jax_ignore mathjax_ignore" id="changes-in-jupyter-client-changelog">
+<h1>Changes in Jupyter Client {#changelog}<a class="headerlink" href="#changes-in-jupyter-client-changelog" title="永久链接至标题">¶</a></h1>
+<!-- <START NEW CHANGELOG ENTRY> -->
+<section id="id1">
+<h2>7.1.0<a class="headerlink" href="#id1" title="永久链接至标题">¶</a></h2>
+<p>(<a class="reference external" href="https://github.com/jupyter/jupyter_client/compare/v7.0.6...6b76603578fd3a76fd577d3319393c9933f53ab0">Full Changelog</a>)</p>
+<section id="enhancements-made">
+<h3>Enhancements made<a class="headerlink" href="#enhancements-made" title="永久链接至标题">¶</a></h3>
+<ul class="simple">
+<li><p>Add support for pending kernels <a class="reference external" href="https://github.com/jupyter/jupyter_client/pull/712">#712</a> (<a class="reference external" href="https://github.com/blink1073">&#64;blink1073</a>)</p></li>
+</ul>
+</section>
+<section id="bugs-fixed">
+<h3>Bugs fixed<a class="headerlink" href="#bugs-fixed" title="永久链接至标题">¶</a></h3>
+<ul class="simple">
+<li><p>Improve restarter logic <a class="reference external" href="https://github.com/jupyter/jupyter_client/pull/717">#717</a> (<a class="reference external" href="https://github.com/vidartf">&#64;vidartf</a>)</p></li>
+<li><p>Set sticky bit only on the directory <a class="reference external" href="https://github.com/jupyter/jupyter_client/pull/711">#711</a> (<a class="reference external" href="https://github.com/ci4ic4">&#64;ci4ic4</a>)</p></li>
+</ul>
+</section>
+<section id="maintenance-and-upkeep-improvements">
+<h3>Maintenance and upkeep improvements<a class="headerlink" href="#maintenance-and-upkeep-improvements" title="永久链接至标题">¶</a></h3>
+<ul class="simple">
+<li><p>Enforce labels on PRs <a class="reference external" href="https://github.com/jupyter/jupyter_client/pull/720">#720</a> (<a class="reference external" href="https://github.com/blink1073">&#64;blink1073</a>)</p></li>
+</ul>
+</section>
+<section id="contributors-to-this-release">
+<h3>Contributors to this release<a class="headerlink" href="#contributors-to-this-release" title="永久链接至标题">¶</a></h3>
+<p>(<a class="reference external" href="https://github.com/jupyter/jupyter_client/graphs/contributors?from=2021-10-01&amp;to=2021-11-22&amp;type=c">GitHub contributors page for this release</a>)</p>
+<p><a class="reference external" href="https://github.com/search?q=repo%3Ajupyter%2Fjupyter_client+involves%3Ablink1073+updated%3A2021-10-01..2021-11-22&amp;type=Issues">&#64;blink1073</a> | <a class="reference external" href="https://github.com/search?q=repo%3Ajupyter%2Fjupyter_client+involves%3Aci4ic4+updated%3A2021-10-01..2021-11-22&amp;type=Issues">&#64;ci4ic4</a> | <a class="reference external" href="https://github.com/search?q=repo%3Ajupyter%2Fjupyter_client+involves%3Adavidbrochart+updated%3A2021-10-01..2021-11-22&amp;type=Issues">&#64;davidbrochart</a> | <a class="reference external" href="https://github.com/search?q=repo%3Ajupyter%2Fjupyter_client+involves%3Akevin-bates+updated%3A2021-10-01..2021-11-22&amp;type=Issues">&#64;kevin-bates</a> | <a class="reference external" href="https://github.com/search?q=repo%3Ajupyter%2Fjupyter_client+involves%3Avidartf+updated%3A2021-10-01..2021-11-22&amp;type=Issues">&#64;vidartf</a></p>
+<!-- <END NEW CHANGELOG ENTRY> -->
+</section>
+</section>
+<section id="id2">
+<h2>7.0.6<a class="headerlink" href="#id2" title="永久链接至标题">¶</a></h2>
+<p>(<a class="reference external" href="https://github.com/jupyter/jupyter_client/compare/v7.0.5...58b11df0ecb729effacc59ce28e9f431fa9c6a4d">Full Changelog</a>)</p>
+<section id="id3">
+<h3>Bugs fixed<a class="headerlink" href="#id3" title="永久链接至标题">¶</a></h3>
+<ul class="simple">
+<li><p>Fallback to the old ipykernel “json_clean” if we are not able to serialize a JSON message <a class="reference external" href="https://github.com/jupyter/jupyter_client/pull/708">#708</a> (<a class="reference external" href="https://github.com/martinRenou">&#64;martinRenou</a>)</p></li>
+</ul>
+</section>
+<section id="other-merged-prs">
+<h3>Other merged PRs<a class="headerlink" href="#other-merged-prs" title="永久链接至标题">¶</a></h3>
+<ul class="simple">
+<li><p>Add test for serializing bytes <a class="reference external" href="https://github.com/jupyter/jupyter_client/pull/707">#707</a> (<a class="reference external" href="https://github.com/martinRenou">&#64;martinRenou</a>)</p></li>
+</ul>
+</section>
+<section id="id4">
+<h3>Contributors to this release<a class="headerlink" href="#id4" title="永久链接至标题">¶</a></h3>
+<p>(<a class="reference external" href="https://github.com/jupyter/jupyter_client/graphs/contributors?from=2021-09-29&amp;to=2021-10-01&amp;type=c">GitHub contributors page for this release</a>)</p>
+<p><a class="reference external" href="https://github.com/search?q=repo%3Ajupyter%2Fjupyter_client+involves%3AmartinRenou+updated%3A2021-09-29..2021-10-01&amp;type=Issues">&#64;martinRenou</a></p>
+</section>
+</section>
+<section id="id5">
+<h2>7.0.5<a class="headerlink" href="#id5" title="永久链接至标题">¶</a></h2>
+<p>(<a class="reference external" href="https://github.com/jupyter/jupyter_client/compare/v7.0.4...e379bf91fea63526b9c4cc6679e7953a325b540c">Full Changelog</a>)</p>
+<section id="id6">
+<h3>Bugs fixed<a class="headerlink" href="#id6" title="永久链接至标题">¶</a></h3>
+<ul class="simple">
+<li><p>avoid use of deprecated zmq.utils.jsonapi <a class="reference external" href="https://github.com/jupyter/jupyter_client/pull/703">#703</a> (<a class="reference external" href="https://github.com/minrk">&#64;minrk</a>)</p></li>
+</ul>
+</section>
+<section id="id7">
+<h3>Maintenance and upkeep improvements<a class="headerlink" href="#id7" title="永久链接至标题">¶</a></h3>
+<ul class="simple">
+<li><p>Use logger.warning instead of deprecated warn method <a class="reference external" href="https://github.com/jupyter/jupyter_client/pull/700">#700</a> (<a class="reference external" href="https://github.com/kevin-bates">&#64;kevin-bates</a>)</p></li>
+</ul>
+</section>
+<section id="id8">
+<h3>Contributors to this release<a class="headerlink" href="#id8" title="永久链接至标题">¶</a></h3>
+<p>(<a class="reference external" href="https://github.com/jupyter/jupyter_client/graphs/contributors?from=2021-09-28&amp;to=2021-09-29&amp;type=c">GitHub contributors page for this release</a>)</p>
+<p><a class="reference external" href="https://github.com/search?q=repo%3Ajupyter%2Fjupyter_client+involves%3Akevin-bates+updated%3A2021-09-28..2021-09-29&amp;type=Issues">&#64;kevin-bates</a> | <a class="reference external" href="https://github.com/search?q=repo%3Ajupyter%2Fjupyter_client+involves%3Aminrk+updated%3A2021-09-28..2021-09-29&amp;type=Issues">&#64;minrk</a></p>
+</section>
+</section>
+<section id="id9">
+<h2>7.0.4<a class="headerlink" href="#id9" title="永久链接至标题">¶</a></h2>
+<p>(<a class="reference external" href="https://github.com/jupyter/jupyter_client/compare/v7.0.3...5b570152c0d88dd5e0ff1711c75fc9987ef76256">Full Changelog</a>)</p>
+<section id="id10">
+<h3>Bugs fixed<a class="headerlink" href="#id10" title="永久链接至标题">¶</a></h3>
+<ul class="simple">
+<li><p>Fix json_default so that it’s closer to what ipykernel had before <a class="reference external" href="https://github.com/jupyter/jupyter_client/pull/698">#698</a> (<a class="reference external" href="https://github.com/martinRenou">&#64;martinRenou</a>)</p></li>
+<li><p>Clean up the pending task <a class="reference external" href="https://github.com/jupyter/jupyter_client/pull/697">#697</a> (<a class="reference external" href="https://github.com/shingo78">&#64;shingo78</a>)</p></li>
+<li><p>fix kernel can only restart once issue <a class="reference external" href="https://github.com/jupyter/jupyter_client/pull/695">#695</a> (<a class="reference external" href="https://github.com/mofanke">&#64;mofanke</a>)</p></li>
+<li><p>Prevent failure if kernel is not found when shutting it down <a class="reference external" href="https://github.com/jupyter/jupyter_client/pull/694">#694</a> (<a class="reference external" href="https://github.com/martinRenou">&#64;martinRenou</a>)</p></li>
+</ul>
+</section>
+<section id="id11">
+<h3>Contributors to this release<a class="headerlink" href="#id11" title="永久链接至标题">¶</a></h3>
+<p>(<a class="reference external" href="https://github.com/jupyter/jupyter_client/graphs/contributors?from=2021-09-16&amp;to=2021-09-28&amp;type=c">GitHub contributors page for this release</a>)</p>
+<p><a class="reference external" href="https://github.com/search?q=repo%3Ajupyter%2Fjupyter_client+involves%3Adavidbrochart+updated%3A2021-09-16..2021-09-28&amp;type=Issues">&#64;davidbrochart</a> | <a class="reference external" href="https://github.com/search?q=repo%3Ajupyter%2Fjupyter_client+involves%3AmartinRenou+updated%3A2021-09-16..2021-09-28&amp;type=Issues">&#64;martinRenou</a> | <a class="reference external" href="https://github.com/search?q=repo%3Ajupyter%2Fjupyter_client+involves%3Amofanke+updated%3A2021-09-16..2021-09-28&amp;type=Issues">&#64;mofanke</a> | <a class="reference external" href="https://github.com/search?q=repo%3Ajupyter%2Fjupyter_client+involves%3Ashingo78+updated%3A2021-09-16..2021-09-28&amp;type=Issues">&#64;shingo78</a></p>
+</section>
+</section>
+<section id="id12">
+<h2>7.0.3<a class="headerlink" href="#id12" title="永久链接至标题">¶</a></h2>
+<p>(<a class="reference external" href="https://github.com/jupyter/jupyter_client/compare/v7.0.2...e2e854c445d697ae1c188171ea0731532b6ac0d9">Full Changelog</a>)</p>
+<section id="id13">
+<h3>Bugs fixed<a class="headerlink" href="#id13" title="永久链接至标题">¶</a></h3>
+<ul class="simple">
+<li><p>Address missing <code class="docutils literal notranslate"><span class="pre">local-provisioner</span></code> scenario <a class="reference external" href="https://github.com/jupyter/jupyter_client/pull/692">#692</a> (<a class="reference external" href="https://github.com/kevin-bates">&#64;kevin-bates</a>)</p></li>
+<li><p>use <code class="docutils literal notranslate"><span class="pre">load_connection_info(info)</span></code> when constructing a blocking client <a class="reference external" href="https://github.com/jupyter/jupyter_client/pull/688">#688</a> (<a class="reference external" href="https://github.com/minrk">&#64;minrk</a>)</p></li>
+</ul>
+</section>
+<section id="id14">
+<h3>Contributors to this release<a class="headerlink" href="#id14" title="永久链接至标题">¶</a></h3>
+<p>(<a class="reference external" href="https://github.com/jupyter/jupyter_client/graphs/contributors?from=2021-08-30&amp;to=2021-09-16&amp;type=c">GitHub contributors page for this release</a>)</p>
+<p><a class="reference external" href="https://github.com/search?q=repo%3Ajupyter%2Fjupyter_client+involves%3Akevin-bates+updated%3A2021-08-30..2021-09-16&amp;type=Issues">&#64;kevin-bates</a> | <a class="reference external" href="https://github.com/search?q=repo%3Ajupyter%2Fjupyter_client+involves%3Aminrk+updated%3A2021-08-30..2021-09-16&amp;type=Issues">&#64;minrk</a></p>
+</section>
+</section>
+<section id="id15">
+<h2>7.0.2<a class="headerlink" href="#id15" title="永久链接至标题">¶</a></h2>
+<p>(<a class="reference external" href="https://github.com/jupyter/jupyter_client/compare/v7.0.1...b2a23d8f8b4f24a2bc908b6d95047242f4da87cd">Full Changelog</a>)</p>
+<section id="id16">
+<h3>Bugs fixed<a class="headerlink" href="#id16" title="永久链接至标题">¶</a></h3>
+<ul class="simple">
+<li><p>Don’t set event loop policy on Windows at import time <a class="reference external" href="https://github.com/jupyter/jupyter_client/pull/686">#686</a> (<a class="reference external" href="https://github.com/minrk">&#64;minrk</a>)</p></li>
+</ul>
+</section>
+<section id="documentation-improvements">
+<h3>Documentation improvements<a class="headerlink" href="#documentation-improvements" title="永久链接至标题">¶</a></h3>
+<ul class="simple">
+<li><p>Improve migration guide <a class="reference external" href="https://github.com/jupyter/jupyter_client/pull/685">#685</a> (<a class="reference external" href="https://github.com/davidbrochart">&#64;davidbrochart</a>)</p></li>
+</ul>
+</section>
+<section id="id17">
+<h3>Contributors to this release<a class="headerlink" href="#id17" title="永久链接至标题">¶</a></h3>
+<p>(<a class="reference external" href="https://github.com/jupyter/jupyter_client/graphs/contributors?from=2021-08-20&amp;to=2021-08-30&amp;type=c">GitHub contributors page for this release</a>)</p>
+<p><a class="reference external" href="https://github.com/search?q=repo%3Ajupyter%2Fjupyter_client+involves%3Ablink1073+updated%3A2021-08-20..2021-08-30&amp;type=Issues">&#64;blink1073</a> | <a class="reference external" href="https://github.com/search?q=repo%3Ajupyter%2Fjupyter_client+involves%3Adavidbrochart+updated%3A2021-08-20..2021-08-30&amp;type=Issues">&#64;davidbrochart</a> | <a class="reference external" href="https://github.com/search?q=repo%3Ajupyter%2Fjupyter_client+involves%3Adhirschfeld+updated%3A2021-08-20..2021-08-30&amp;type=Issues">&#64;dhirschfeld</a> | <a class="reference external" href="https://github.com/search?q=repo%3Ajupyter%2Fjupyter_client+involves%3Ajankatins+updated%3A2021-08-20..2021-08-30&amp;type=Issues">&#64;jankatins</a> | <a class="reference external" href="https://github.com/search?q=repo%3Ajupyter%2Fjupyter_client+involves%3Akevin-bates+updated%3A2021-08-20..2021-08-30&amp;type=Issues">&#64;kevin-bates</a> | <a class="reference external" href="https://github.com/search?q=repo%3Ajupyter%2Fjupyter_client+involves%3Aminrk+updated%3A2021-08-20..2021-08-30&amp;type=Issues">&#64;minrk</a> | <a class="reference external" href="https://github.com/search?q=repo%3Ajupyter%2Fjupyter_client+involves%3Atakluyver+updated%3A2021-08-20..2021-08-30&amp;type=Issues">&#64;takluyver</a> | <a class="reference external" href="https://github.com/search?q=repo%3Ajupyter%2Fjupyter_client+involves%3Ayuvipanda+updated%3A2021-08-20..2021-08-30&amp;type=Issues">&#64;yuvipanda</a></p>
+</section>
+</section>
+<section id="id18">
+<h2>7.0.1<a class="headerlink" href="#id18" title="永久链接至标题">¶</a></h2>
+<p>(<a class="reference external" href="https://github.com/jupyter/jupyter_client/compare/v7.0.0...0ce9f293ea574d61cae438469df5e53298713b63">Full Changelog</a>)</p>
+<section id="merged-prs">
+<h3>Merged PRs<a class="headerlink" href="#merged-prs" title="永久链接至标题">¶</a></h3>
+<ul class="simple">
+<li><p>Use formal method names when called internally <a class="reference external" href="https://github.com/jupyter/jupyter_client/pull/683">#683</a> (<a class="reference external" href="https://github.com/kevin-bates">&#64;kevin-bates</a>)</p></li>
+</ul>
+</section>
+<section id="id19">
+<h3>Contributors to this release<a class="headerlink" href="#id19" title="永久链接至标题">¶</a></h3>
+<p>(<a class="reference external" href="https://github.com/jupyter/jupyter_client/graphs/contributors?from=2021-08-19&amp;to=2021-08-20&amp;type=c">GitHub contributors page for this release</a>)</p>
+<p><a class="reference external" href="https://github.com/search?q=repo%3Ajupyter%2Fjupyter_client+involves%3Akevin-bates+updated%3A2021-08-19..2021-08-20&amp;type=Issues">&#64;kevin-bates</a></p>
+</section>
+</section>
+<section id="id20">
+<h2>7.0.0<a class="headerlink" href="#id20" title="永久链接至标题">¶</a></h2>
+<p>(<a class="reference external" href="https://github.com/jupyter/jupyter_client/compare/26a16c0c91e245f7403aa27a812fee5e905d2964...31750bc87baf88377bcc6967e227b650b38fa872">Full Changelog</a>)</p>
+<section id="summary">
+<h3>Summary<a class="headerlink" href="#summary" title="永久链接至标题">¶</a></h3>
+<p>The 7.0 release brings a major feature in <a class="reference external" href="https://github.com/jupyter/jupyter_client/blob/master/docs/provisioning.rst">Kernel Provisioners</a>, which enable the ability for third parties to manage the lifecycle of a kernel’s runtime environment.</p>
+<p>Being a major release, there are some backward incompatible changes. Please see the <a class="reference external" href="https://jupyter-client.readthedocs.io/en/latest/migration.html">migration guide</a> for further details.</p>
+</section>
+<section id="id21">
+<h3>Enhancements made<a class="headerlink" href="#id21" title="永久链接至标题">¶</a></h3>
+<ul class="simple">
+<li><p>Kernel Provisioning - initial implementation <a class="reference external" href="https://github.com/jupyter/jupyter_client/pull/612">#612</a> (<a class="reference external" href="https://github.com/kevin-bates">&#64;kevin-bates</a>)</p></li>
+</ul>
+</section>
+<section id="id22">
+<h3>Bugs fixed<a class="headerlink" href="#id22" title="永久链接至标题">¶</a></h3>
+<ul class="simple">
+<li><p>Fix up some async method aliases in KernelManager <a class="reference external" href="https://github.com/jupyter/jupyter_client/pull/670">#670</a> (<a class="reference external" href="https://github.com/kevin-bates">&#64;kevin-bates</a>)</p></li>
+<li><p>Support <code class="docutils literal notranslate"><span class="pre">answer_yes</span></code> when removing kernel specs <a class="reference external" href="https://github.com/jupyter/jupyter_client/pull/659">#659</a> (<a class="reference external" href="https://github.com/davidbrochart">&#64;davidbrochart</a>)</p></li>
+<li><p>Include process ID in message ID <a class="reference external" href="https://github.com/jupyter/jupyter_client/pull/655">#655</a> (<a class="reference external" href="https://github.com/takluyver">&#64;takluyver</a>)</p></li>
+<li><p>Fix qtconsole issues <a class="reference external" href="https://github.com/jupyter/jupyter_client/pull/638">#638</a> (<a class="reference external" href="https://github.com/davidbrochart">&#64;davidbrochart</a>)</p></li>
+</ul>
+</section>
+<section id="id23">
+<h3>Maintenance and upkeep improvements<a class="headerlink" href="#id23" title="永久链接至标题">¶</a></h3>
+<ul class="simple">
+<li><p>Added debugger key in <code class="docutils literal notranslate"><span class="pre">kernel_info_reply</span></code> <a class="reference external" href="https://github.com/jupyter/jupyter_client/pull/486">#486</a> (<a class="reference external" href="https://github.com/JohanMabille">&#64;JohanMabille</a>)</p></li>
+<li><p>Prepare for use with Jupyter Releaser <a class="reference external" href="https://github.com/jupyter/jupyter_client/pull/676">#676</a> (<a class="reference external" href="https://github.com/afshin">&#64;afshin</a>)</p></li>
+<li><p>Force install <code class="docutils literal notranslate"><span class="pre">jupyter_client</span></code> master <a class="reference external" href="https://github.com/jupyter/jupyter_client/pull/675">#675</a> (<a class="reference external" href="https://github.com/davidbrochart">&#64;davidbrochart</a>)</p></li>
+<li><p>Fix project name <a class="reference external" href="https://github.com/jupyter/jupyter_client/pull/674">#674</a> (<a class="reference external" href="https://github.com/vidartf">&#64;vidartf</a>)</p></li>
+<li><p>Rename trait to <code class="docutils literal notranslate"><span class="pre">allowed_kernelspecs</span></code> <a class="reference external" href="https://github.com/jupyter/jupyter_client/pull/672">#672</a> (<a class="reference external" href="https://github.com/blink1073">&#64;blink1073</a>)</p></li>
+<li><p>Remove block parameter from <code class="docutils literal notranslate"><span class="pre">get_msg()</span></code> <a class="reference external" href="https://github.com/jupyter/jupyter_client/pull/671">#671</a> (<a class="reference external" href="https://github.com/davidbrochart">&#64;davidbrochart</a>)</p></li>
+<li><p>Only import <code class="docutils literal notranslate"><span class="pre">nest_asyncio</span></code> locally <a class="reference external" href="https://github.com/jupyter/jupyter_client/pull/665">#665</a> (<a class="reference external" href="https://github.com/SylvainCorlay">&#64;SylvainCorlay</a>)</p></li>
+<li><p>Use a default serializer that is not only for date types <a class="reference external" href="https://github.com/jupyter/jupyter_client/pull/664">#664</a> (<a class="reference external" href="https://github.com/martinRenou">&#64;martinRenou</a>)</p></li>
+<li><p>Updated <code class="docutils literal notranslate"><span class="pre">debug_info_response</span></code> <a class="reference external" href="https://github.com/jupyter/jupyter_client/pull/657">#657</a> (<a class="reference external" href="https://github.com/JohanMabille">&#64;JohanMabille</a>)</p></li>
+<li><p>Do not block on exit <a class="reference external" href="https://github.com/jupyter/jupyter_client/pull/651">#651</a> (<a class="reference external" href="https://github.com/impact27">&#64;impact27</a>)</p></li>
+<li><p>Update test kernel with native coroutine, remove <code class="docutils literal notranslate"><span class="pre">async_generator</span></code> dependency <a class="reference external" href="https://github.com/jupyter/jupyter_client/pull/646">#646</a> (<a class="reference external" href="https://github.com/kevin-bates">&#64;kevin-bates</a>)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">setup.py</span></code> and CI improvements <a class="reference external" href="https://github.com/jupyter/jupyter_client/pull/645">#645</a> (<a class="reference external" href="https://github.com/dolfinus">&#64;dolfinus</a>)</p></li>
+<li><p>Test downstream projects <a class="reference external" href="https://github.com/jupyter/jupyter_client/pull/644">#644</a> (<a class="reference external" href="https://github.com/davidbrochart">&#64;davidbrochart</a>)</p></li>
+<li><p>Remove deprecations in kernel manager <a class="reference external" href="https://github.com/jupyter/jupyter_client/pull/643">#643</a> (<a class="reference external" href="https://github.com/kevin-bates">&#64;kevin-bates</a>)</p></li>
+<li><p>Add <code class="docutils literal notranslate"><span class="pre">block=True</span></code> back to <code class="docutils literal notranslate"><span class="pre">get_msg()</span></code> <a class="reference external" href="https://github.com/jupyter/jupyter_client/pull/641">#641</a> (<a class="reference external" href="https://github.com/davidbrochart">&#64;davidbrochart</a>)</p></li>
+<li><p>Pin <code class="docutils literal notranslate"><span class="pre">python&gt;=3.6.1</span></code> <a class="reference external" href="https://github.com/jupyter/jupyter_client/pull/636">#636</a> (<a class="reference external" href="https://github.com/davidbrochart">&#64;davidbrochart</a>)</p></li>
+<li><p>Use <code class="docutils literal notranslate"><span class="pre">pre-commit</span></code> <a class="reference external" href="https://github.com/jupyter/jupyter_client/pull/631">#631</a> (<a class="reference external" href="https://github.com/davidbrochart">&#64;davidbrochart</a>)</p></li>
+<li><p>Attempt CI with <code class="docutils literal notranslate"><span class="pre">ipykernel</span></code> 6.0 prerelease <a class="reference external" href="https://github.com/jupyter/jupyter_client/pull/629">#629</a> (<a class="reference external" href="https://github.com/SylvainCorlay">&#64;SylvainCorlay</a>)</p></li>
+<li><p>Make <code class="docutils literal notranslate"><span class="pre">KernelManager</span></code> subclass tests DRY <a class="reference external" href="https://github.com/jupyter/jupyter_client/pull/628">#628</a> (<a class="reference external" href="https://github.com/davidbrochart">&#64;davidbrochart</a>)</p></li>
+<li><p>Add tests to ensure MultiKernelManager subclass methods are called <a class="reference external" href="https://github.com/jupyter/jupyter_client/pull/627">#627</a> (<a class="reference external" href="https://github.com/kevin-bates">&#64;kevin-bates</a>)</p></li>
+<li><p>Add type annotations, refactor sync/async <a class="reference external" href="https://github.com/jupyter/jupyter_client/pull/623">#623</a> (<a class="reference external" href="https://github.com/davidbrochart">&#64;davidbrochart</a>)</p></li>
+</ul>
+</section>
+<section id="id24">
+<h3>Documentation improvements<a class="headerlink" href="#id24" title="永久链接至标题">¶</a></h3>
+<ul class="simple">
+<li><p>Create migration guide <a class="reference external" href="https://github.com/jupyter/jupyter_client/pull/681">#681</a> (<a class="reference external" href="https://github.com/blink1073">&#64;blink1073</a>)</p></li>
+<li><p>Update changelog for 7.0.0rc0 <a class="reference external" href="https://github.com/jupyter/jupyter_client/pull/673">#673</a> (<a class="reference external" href="https://github.com/blink1073">&#64;blink1073</a>)</p></li>
+<li><p>Added documentation for <code class="docutils literal notranslate"><span class="pre">richInspectVariables</span></code> request <a class="reference external" href="https://github.com/jupyter/jupyter_client/pull/654">#654</a> (<a class="reference external" href="https://github.com/JohanMabille">&#64;JohanMabille</a>)</p></li>
+<li><p>Change to <code class="docutils literal notranslate"><span class="pre">edit_magic</span></code> payload <a class="reference external" href="https://github.com/jupyter/jupyter_client/pull/652">#652</a> (<a class="reference external" href="https://github.com/yitzchak">&#64;yitzchak</a>)</p></li>
+<li><p>Added missing documentation for the inspectVariables request and resp… <a class="reference external" href="https://github.com/jupyter/jupyter_client/pull/649">#649</a> (<a class="reference external" href="https://github.com/JohanMabille">&#64;JohanMabille</a>)</p></li>
+<li><p>Add status field to other replies in documentation <a class="reference external" href="https://github.com/jupyter/jupyter_client/pull/648">#648</a> (<a class="reference external" href="https://github.com/yitzchak">&#64;yitzchak</a>)</p></li>
+</ul>
+</section>
+<section id="id25">
+<h3>Contributors to this release<a class="headerlink" href="#id25" title="永久链接至标题">¶</a></h3>
+<p>(<a class="reference external" href="https://github.com/jupyter/jupyter_client/graphs/contributors?from=2021-03-14&amp;to=2021-08-16&amp;type=c">GitHub contributors page for this release</a>)</p>
+<p><a class="reference external" href="https://github.com/search?q=repo%3Ajupyter%2Fjupyter_client+involves%3Aafshin+updated%3A2021-03-14..2021-08-16&amp;type=Issues">&#64;afshin</a> | <a class="reference external" href="https://github.com/search?q=repo%3Ajupyter%2Fjupyter_client+involves%3Ablink1073+updated%3A2021-03-14..2021-08-16&amp;type=Issues">&#64;blink1073</a> | <a class="reference external" href="https://github.com/search?q=repo%3Ajupyter%2Fjupyter_client+involves%3ACarreau+updated%3A2021-03-14..2021-08-16&amp;type=Issues">&#64;Carreau</a> | <a class="reference external" href="https://github.com/search?q=repo%3Ajupyter%2Fjupyter_client+involves%3Accordoba12+updated%3A2021-03-14..2021-08-16&amp;type=Issues">&#64;ccordoba12</a> | <a class="reference external" href="https://github.com/search?q=repo%3Ajupyter%2Fjupyter_client+involves%3Adavidbrochart+updated%3A2021-03-14..2021-08-16&amp;type=Issues">&#64;davidbrochart</a> | <a class="reference external" href="https://github.com/search?q=repo%3Ajupyter%2Fjupyter_client+involves%3Adhirschfeld+updated%3A2021-03-14..2021-08-16&amp;type=Issues">&#64;dhirschfeld</a> | <a class="reference external" href="https://github.com/search?q=repo%3Ajupyter%2Fjupyter_client+involves%3Adolfinus+updated%3A2021-03-14..2021-08-16&amp;type=Issues">&#64;dolfinus</a> | <a class="reference external" href="https://github.com/search?q=repo%3Ajupyter%2Fjupyter_client+involves%3Aecharles+updated%3A2021-03-14..2021-08-16&amp;type=Issues">&#64;echarles</a> | <a class="reference external" href="https://github.com/search?q=repo%3Ajupyter%2Fjupyter_client+involves%3Aimpact27+updated%3A2021-03-14..2021-08-16&amp;type=Issues">&#64;impact27</a> | <a class="reference external" href="https://github.com/search?q=repo%3Ajupyter%2Fjupyter_client+involves%3AJohanMabille+updated%3A2021-03-14..2021-08-16&amp;type=Issues">&#64;JohanMabille</a> | <a class="reference external" href="https://github.com/search?q=repo%3Ajupyter%2Fjupyter_client+involves%3Akevin-bates+updated%3A2021-03-14..2021-08-16&amp;type=Issues">&#64;kevin-bates</a> | <a class="reference external" href="https://github.com/search?q=repo%3Ajupyter%2Fjupyter_client+involves%3AmartinRenou+updated%3A2021-03-14..2021-08-16&amp;type=Issues">&#64;martinRenou</a> | <a class="reference external" href="https://github.com/search?q=repo%3Ajupyter%2Fjupyter_client+involves%3Amattip+updated%3A2021-03-14..2021-08-16&amp;type=Issues">&#64;mattip</a> | <a class="reference external" href="https://github.com/search?q=repo%3Ajupyter%2Fjupyter_client+involves%3Aminrk+updated%3A2021-03-14..2021-08-16&amp;type=Issues">&#64;minrk</a> | <a class="reference external" href="https://github.com/search?q=repo%3Ajupyter%2Fjupyter_client+involves%3AMSeal+updated%3A2021-03-14..2021-08-16&amp;type=Issues">&#64;MSeal</a> | <a class="reference external" href="https://github.com/search?q=repo%3Ajupyter%2Fjupyter_client+involves%3ASylvainCorlay+updated%3A2021-03-14..2021-08-16&amp;type=Issues">&#64;SylvainCorlay</a> | <a class="reference external" href="https://github.com/search?q=repo%3Ajupyter%2Fjupyter_client+involves%3Atakluyver+updated%3A2021-03-14..2021-08-16&amp;type=Issues">&#64;takluyver</a> | <a class="reference external" href="https://github.com/search?q=repo%3Ajupyter%2Fjupyter_client+involves%3Avidartf+updated%3A2021-03-14..2021-08-16&amp;type=Issues">&#64;vidartf</a> | <a class="reference external" href="https://github.com/search?q=repo%3Ajupyter%2Fjupyter_client+involves%3Ayitzchak+updated%3A2021-03-14..2021-08-16&amp;type=Issues">&#64;yitzchak</a></p>
+</section>
+</section>
+<section id="id26">
+<h2>6.2.0<a class="headerlink" href="#id26" title="永久链接至标题">¶</a></h2>
+<ul class="simple">
+<li><p>Yanked (PyPI) and marked as broken (conda)</p></li>
+</ul>
+</section>
+<section id="id27">
+<h2>6.1.13<a class="headerlink" href="#id27" title="永久链接至标题">¶</a></h2>
+<ul class="simple">
+<li><p>Yanked (PyPI) and marked as broken (conda)</p></li>
+</ul>
+</section>
+<section id="id28">
+<h2>6.1.12<a class="headerlink" href="#id28" title="永久链接至标题">¶</a></h2>
+<ul class="simple">
+<li><p>Shutdown request sequence has been modified to be more graceful, it
+now is preceded by interrupt, and will also send a <code class="docutils literal notranslate"><span class="pre">SIGTERM</span></code> before
+forcibly killing the kernel. <a class="reference external" href="https://github.com/jupyter/jupyter_client/pull/620">#620</a></p></li>
+<li><p>Removal of <code class="docutils literal notranslate"><span class="pre">ipython_genutils</span></code> as a dependency. It was implicit
+before; but required by at least traitlets thus avoiding issues. We
+are working on completely removing it from all jupyter dependencies;
+as it might lead to issues packaging for Python 3.10, and was mostly
+used for compatibility with python 2. (<a class="reference external" href="https://github.com/jupyter/jupyter_client/pull/620">#620</a>, <a class="reference external" href="https://github.com/jupyter/jupyter_client/pull/605">#605</a>)</p></li>
+<li><p>Address a race condition between <code class="docutils literal notranslate"><span class="pre">shutdown_kernel</span></code> and restarter.
+(<a class="reference external" href="https://github.com/jupyter/jupyter_client/pull/607">#607</a>.)</p></li>
+</ul>
+<p>See the <a class="reference external" href="https://github.com/jupyter/jupyter_client/milestone/27?closed=1">full list of
+pull-requests</a></p>
+</section>
+<section id="id29">
+<h2>6.1.11<a class="headerlink" href="#id29" title="永久链接至标题">¶</a></h2>
+<ul class="simple">
+<li><p>Move jedi pinning to test requirements <a class="reference external" href="https://github.com/jupyter/jupyter_client/pull/599">#599</a></p></li>
+</ul>
+</section>
+<section id="id30">
+<h2>6.1.10<a class="headerlink" href="#id30" title="永久链接至标题">¶</a></h2>
+<ul class="simple">
+<li><p>Add change parameter needed for observer method of
+kernel_spec_manager trait <a class="reference external" href="https://github.com/jupyter/jupyter_client/pull/598">#598</a></p></li>
+</ul>
+</section>
+<section id="id31">
+<h2>6.1.9<a class="headerlink" href="#id31" title="永久链接至标题">¶</a></h2>
+<ul class="simple">
+<li><p>Pin jedi&lt;=0.17.2 <a class="reference external" href="https://github.com/jupyter/jupyter_client/pull/596">#596</a></p></li>
+</ul>
+</section>
+<section id="id32">
+<h2>6.1.8<a class="headerlink" href="#id32" title="永久链接至标题">¶</a></h2>
+<ul class="simple">
+<li><p>Doc updates (<a class="reference external" href="https://github.com/jupyter/jupyter_client/pull/563">#563</a>,
+<a class="reference external" href="https://github.com/jupyter/jupyter_client/pull/564">#564</a>, <a class="reference external" href="https://github.com/jupyter/jupyter_client/pull/587">#587</a>)</p></li>
+<li><p>Fix path to the connection file <a class="reference external" href="https://github.com/jupyter/jupyter_client/pull/568">#568</a></p></li>
+<li><p>Code cleanup (<a class="reference external" href="https://github.com/jupyter/jupyter_client/pull/574">#574</a>,
+<a class="reference external" href="https://github.com/jupyter/jupyter_client/pull/579">#579</a>)</p></li>
+<li><p>Silence kill_kernel when no process is present
+<a class="reference external" href="https://github.com/jupyter/jupyter_client/pull/576">#576</a></p></li>
+<li><p>Remove extra_env and corresponding test <a class="reference external" href="https://github.com/jupyter/jupyter_client/pull/581">#581</a></p></li>
+<li><p>Add documentation dependencies to setup.py <a class="reference external" href="https://github.com/jupyter/jupyter_client/pull/582">#582</a></p></li>
+<li><p>Fix for Windows localhost IP addresses <a class="reference external" href="https://github.com/jupyter/jupyter_client/pull/584">#584</a></p></li>
+<li><p>Drop Travis CI, add GitHub Actions <a class="reference external" href="https://github.com/jupyter/jupyter_client/pull/586">#586</a></p></li>
+<li><p>Adapt KernelManager._kernel_spec_manager_changed to observe
+<a class="reference external" href="https://github.com/jupyter/jupyter_client/pull/588">#588</a></p></li>
+<li><p>Allow use ~/ in the kernel’s command or its arguments
+<a class="reference external" href="https://github.com/jupyter/jupyter_client/pull/589">#589</a></p></li>
+<li><p>Change wait_for_ready logic <a class="reference external" href="https://github.com/jupyter/jupyter_client/pull/592">#592</a></p></li>
+<li><p>Fix test_session with msgpack v1 <a class="reference external" href="https://github.com/jupyter/jupyter_client/pull/594">#594</a></p></li>
+</ul>
+</section>
+<section id="id33">
+<h2>6.1.6<a class="headerlink" href="#id33" title="永久链接至标题">¶</a></h2>
+<ul class="simple">
+<li><p>Removed warnings in more cases for KernelManagers that use new
+cleanup method <a class="reference external" href="https://github.com/jupyter/jupyter_client/pull/560">#560</a></p></li>
+<li><p>Some improved tests with a conversion to pytest pattern
+<a class="reference external" href="https://github.com/jupyter/jupyter_client/pull/561">#561</a></p></li>
+</ul>
+</section>
+<section id="id34">
+<h2>6.1.5<a class="headerlink" href="#id34" title="永久链接至标题">¶</a></h2>
+<ul class="simple">
+<li><p>Gracefully Close ZMQ Context upon kernel shutdown to fix memory leak
+<a class="reference external" href="https://github.com/jupyter/jupyter_client/pull/548">#548</a></p></li>
+<li><p>Fix for chained exceptions to preserve stacks
+(<a class="reference external" href="https://github.com/jupyter/jupyter_client/pull/552">#552</a>, <a class="reference external" href="https://github.com/jupyter/jupyter_client/pull/554">#554</a>)</p></li>
+<li><p>Fix start_kernel error when passing kernel_id
+<a class="reference external" href="https://github.com/jupyter/jupyter_client/pull/547">#547</a></p></li>
+<li><p>Update to releasing docs <a class="reference external" href="https://github.com/jupyter/jupyter_client/pull/543">#543</a></p></li>
+</ul>
+</section>
+<section id="id35">
+<h2>6.1.4<a class="headerlink" href="#id35" title="永久链接至标题">¶</a></h2>
+<p>(Deleted release with incorrect local files)</p>
+</section>
+<section id="id36">
+<h2>6.1.3<a class="headerlink" href="#id36" title="永久链接至标题">¶</a></h2>
+<ul class="simple">
+<li><p>Add AsyncKernelClient client_class to AsyncKernelManager
+<a class="reference external" href="https://github.com/jupyter/jupyter_client/pull/542">#542</a></p></li>
+<li><p>Doc fix for xeus hyperlinks <a class="reference external" href="https://github.com/jupyter/jupyter_client/pull/540">#540</a></p></li>
+<li><p>Doc typo fix <a class="reference external" href="https://github.com/jupyter/jupyter_client/pull/539">#539</a></p></li>
+</ul>
+</section>
+<section id="id37">
+<h2>6.1.2<a class="headerlink" href="#id37" title="永久链接至标题">¶</a></h2>
+<ul class="simple">
+<li><p>Fixed a bug causing clients to sometimes hang after a stop call was
+made <a class="reference external" href="https://github.com/jupyter/jupyter_client/pull/536">#536</a></p></li>
+</ul>
+</section>
+<section id="id38">
+<h2>6.1.1<a class="headerlink" href="#id38" title="永久链接至标题">¶</a></h2>
+<ul class="simple">
+<li><p>Subprocess kill action fix for async execution
+<a class="reference external" href="https://github.com/jupyter/jupyter_client/pull/535">#535</a></p></li>
+<li><p>Doc fix for xeus kernel list <a class="reference external" href="https://github.com/jupyter/jupyter_client/pull/534">#534</a></p></li>
+</ul>
+</section>
+<section id="id39">
+<h2>6.1.0<a class="headerlink" href="#id39" title="永久链接至标题">¶</a></h2>
+<p>This release includes support for asyncio patterns! Downstream tools
+should soon have releases to additionally support async patterns.</p>
+<ul class="simple">
+<li><p>AsyncKernelManager and AsyncMultiKernelManager are now available for
+async jupyter_client interactions (<a class="reference external" href="https://github.com/jupyter/jupyter_client/pull/528">#528</a>, <a class="reference external" href="https://github.com/jupyter/jupyter_client/pull/529">#529</a>)</p></li>
+<li><p>Removed unused sphinx dependency (<a class="reference external" href="https://github.com/jupyter/jupyter_client/pull/518">#518</a>, <a class="reference external" href="https://github.com/jupyter/jupyter_client/pull/518">#518</a>).</p></li>
+<li><p>Added install instructions for pip to documentation
+<a class="reference external" href="https://github.com/jupyter/jupyter_client/pull/521">#521</a></p></li>
+<li><p>Improved docs around version protocol and messaging
+(<a class="reference external" href="https://github.com/jupyter/jupyter_client/pull/522">#522</a>, <a class="reference external" href="https://github.com/jupyter/jupyter_client/pull/526">#526</a>)</p></li>
+</ul>
+</section>
+<section id="id40">
+<h2>6.0.0<a class="headerlink" href="#id40" title="永久链接至标题">¶</a></h2>
+<p>The git history had to be reworked heavily in merging 5.x and master, so
+a link to all the changes at once in github had been left out as it’s
+just confusing.</p>
+<p>An exciting change in this release is some async support (huge thanks to
+&#64;davidbrochart for doing most of the work)! See linked PR below for
+more details, we’re working on integrating this into nbclient as well
+in the near future.</p>
+<p>New Features:</p>
+<ul class="simple">
+<li><p>Added async API <a class="reference external" href="https://github.com/jupyter/jupyter_client/pull/506">#506</a></p></li>
+</ul>
+<p>Changes:</p>
+<ul class="simple">
+<li><p>Python 3.8 testing and support added <a class="reference external" href="https://github.com/jupyter/jupyter_client/pull/509">#509</a></p></li>
+<li><p>Session.msg_id optimization <a class="reference external" href="https://github.com/jupyter/jupyter_client/pull/493">#493</a></p></li>
+<li><p>Only cache ports if the cache_ports flag is set to True
+<a class="reference external" href="https://github.com/jupyter/jupyter_client/pull/492">#492</a></p></li>
+<li><p>Removed direct dependency on pywin32 as this is now in jupyter core
+<a class="reference external" href="https://github.com/jupyter/jupyter_client/pull/489">#489</a></p></li>
+</ul>
+<p>Fixes:</p>
+<ul class="simple">
+<li><p>Prevent two kernels to have the same ports <a class="reference external" href="https://github.com/jupyter/jupyter_client/pull/490">#490</a></p></li>
+</ul>
+<p>Docs:</p>
+<ul class="simple">
+<li><p>Document the handling of error in do_execute
+<a class="reference external" href="https://github.com/jupyter/jupyter_client/pull/500">#500</a></p></li>
+</ul>
+<p>Breaking changes:</p>
+<ul class="simple">
+<li><p>Dropped support for Python 2.7!</p></li>
+</ul>
+</section>
+<section id="id41">
+<h2>5.3.5<a class="headerlink" href="#id41" title="永久链接至标题">¶</a></h2>
+<ul class="simple">
+<li><p>Backported memory leak fix <a class="reference external" href="https://github.com/jupyter/jupyter_client/pull/548">#548</a>
+<a class="reference external" href="https://github.com/jupyter/jupyter_client/pull/555">#555</a>.</p></li>
+</ul>
+</section>
+<section id="id42">
+<h2>5.3.4<a class="headerlink" href="#id42" title="永久链接至标题">¶</a></h2>
+<ul class="simple">
+<li><p>Changed secure_write to be imported from jupyter_core with fix for
+extended usernames in Windows <a class="reference external" href="https://github.com/jupyter/jupyter_client/pull/483">#483</a>.</p></li>
+</ul>
+</section>
+<section id="id43">
+<h2>5.3.3<a class="headerlink" href="#id43" title="永久链接至标题">¶</a></h2>
+<ul class="simple">
+<li><p>Fixed issue with non-english windows permissions
+<a class="reference external" href="https://github.com/jupyter/jupyter_client/pull/478">#478</a>. Potential issue still open
+in use with jupyerlab.</p></li>
+</ul>
+</section>
+<section id="id44">
+<h2>5.3.2<a class="headerlink" href="#id44" title="永久链接至标题">¶</a></h2>
+<ul class="simple">
+<li><p>Important files creation now checks umask permissions
+<a class="reference external" href="https://github.com/jupyter/jupyter_client/pull/469">#469</a>.</p></li>
+</ul>
+</section>
+<section id="id45">
+<h2>5.3.1<a class="headerlink" href="#id45" title="永久链接至标题">¶</a></h2>
+<ul class="simple">
+<li><p>Fix bug with control channel socket introduced in 5.3.0
+<a class="reference external" href="https://github.com/jupyter/jupyter_client/pull/456">#456</a>.</p></li>
+</ul>
+</section>
+<section id="id46">
+<h2>5.3.0<a class="headerlink" href="#id46" title="永久链接至标题">¶</a></h2>
+<p><a class="reference external" href="https://github.com/jupyter/jupyter_client/milestones/5.3.0">5.3.0 on
+GitHub</a></p>
+<p>New Features:</p>
+<ul class="simple">
+<li><p>Multiprocessing and Threading support <a class="reference external" href="https://github.com/jupyter/jupyter_client/pull/437">#437</a> and <a class="reference external" href="https://github.com/jupyter/jupyter_client/pull/450">#450</a></p></li>
+<li><p>Setup package long_description <a class="reference external" href="https://github.com/jupyter/jupyter_client/pull/411">#411</a></p></li>
+</ul>
+<p>Changes:</p>
+<ul class="simple">
+<li><p>Control channel now in the public API <a class="reference external" href="https://github.com/jupyter/jupyter_client/pull/447">#447</a></p></li>
+<li><p>Closing Jupyter Client is now faster <a class="reference external" href="https://github.com/jupyter/jupyter_client/pull/420">#420</a></p></li>
+<li><p>Pip support improvements <a class="reference external" href="https://github.com/jupyter/jupyter_client/pull/421">#421</a></p></li>
+</ul>
+<p>Breaking changes:</p>
+<ul class="simple">
+<li><p>Dropped support for Python 3.3 and 3.4 (upstream packages dropped
+support already)</p></li>
+</ul>
+</section>
+<section id="id47">
+<h2>5.2.4<a class="headerlink" href="#id47" title="永久链接至标题">¶</a></h2>
+<p><a class="reference external" href="https://github.com/jupyter/jupyter_client/milestones/5.2.4">5.2.4 on
+GitHub</a></p>
+<ul class="simple">
+<li><p>Prevent creating new console windows on Windows
+<a class="reference external" href="https://github.com/jupyter/jupyter_client/pull/346">#346</a></p></li>
+<li><p>Fix interrupts on Python 3.7 on Windows <a class="reference external" href="https://github.com/jupyter/jupyter_client/pull/408">#408</a></p></li>
+</ul>
+</section>
+<section id="id48">
+<h2>5.2.3<a class="headerlink" href="#id48" title="永久链接至标题">¶</a></h2>
+<p><a class="reference external" href="https://github.com/jupyter/jupyter_client/milestones/5.2.3">5.2.3 on
+GitHub</a></p>
+<ul class="simple">
+<li><p>Fix hang on close in <code class="docutils literal notranslate"><span class="pre">.ThreadedKernelClient</span></code> (used in QtConsole) when using tornado with asyncio
+(default behavior of tornado 5, see <a class="reference external" href="https://github.com/jupyter/jupyter_client/pull/352">#352</a>).</p></li>
+<li><p>Fix errors when using deprecated
+<code class="docutils literal notranslate"><span class="pre">.KernelManager.kernel_cmd</span></code>
+(<a class="reference external" href="https://github.com/jupyter/jupyter_client/pull/343">#343</a>, <a class="reference external" href="https://github.com/jupyter/jupyter_client/pull/344">#344</a>).</p></li>
+</ul>
+</section>
+<section id="id49">
+<h2>5.2.2<a class="headerlink" href="#id49" title="永久链接至标题">¶</a></h2>
+<p><a class="reference external" href="https://github.com/jupyter/jupyter_client/milestones/5.2.2">5.2.2 on
+GitHub</a></p>
+<ul class="simple">
+<li><p>Fix <code class="docutils literal notranslate"><span class="pre">.KernelSpecManager.get_all_specs</span></code> method in subclasses that only override
+<code class="docutils literal notranslate"><span class="pre">.KernelSpecManager.find_kernel_specs</span></code> and
+<code class="docutils literal notranslate"><span class="pre">.KernelSpecManager.get_kernel_spec</span></code>.
+See <a class="reference external" href="https://github.com/jupyter/jupyter_client/issues/338">#338</a> and
+<a class="reference external" href="https://github.com/jupyter/jupyter_client/pull/339">#339</a>.</p></li>
+<li><p>Eliminate occasional error messages during process exit
+<a class="reference external" href="https://github.com/jupyter/jupyter_client/pull/336">#336</a>.</p></li>
+<li><p>Improve error message when attempting to bind on invalid address
+<a class="reference external" href="https://github.com/jupyter/jupyter_client/pull/330">#330</a>.</p></li>
+<li><p>Add missing direct dependency on tornado <a class="reference external" href="https://github.com/jupyter/jupyter_client/pull/323">#323</a>.</p></li>
+</ul>
+</section>
+<section id="id50">
+<h2>5.2.1<a class="headerlink" href="#id50" title="永久链接至标题">¶</a></h2>
+<p><a class="reference external" href="https://github.com/jupyter/jupyter_client/milestones/5.2.1">5.2.1 on
+GitHub</a></p>
+<ul class="simple">
+<li><p>Add parenthesis to conditional pytest requirement to work around a
+bug in the <code class="docutils literal notranslate"><span class="pre">wheel</span></code> package, that generate a <code class="docutils literal notranslate"><span class="pre">.whl</span></code> which otherwise
+always depends on <code class="docutils literal notranslate"><span class="pre">pytest</span></code> see <a class="reference external" href="https://github.com/jupyter/jupyter_client/issues/324">#324</a>and <a class="reference external" href="https://github.com/jupyter/jupyter_client/pull/325">#325</a>.</p></li>
+</ul>
+</section>
+<section id="id51">
+<h2>5.2<a class="headerlink" href="#id51" title="永久链接至标题">¶</a></h2>
+<p><a class="reference external" href="https://github.com/jupyter/jupyter_client/milestones/5.2">5.2 on
+GitHub</a></p>
+<ul class="simple">
+<li><p>Define Jupyter protocol version 5.3:</p>
+<ul>
+<li><p>Kernels can now opt to be interrupted by a message sent on the
+control channel instead of a system signal. See
+<code class="docutils literal notranslate"><span class="pre">kernelspecs</span></code> and
+<code class="docutils literal notranslate"><span class="pre">msging_interrupt</span></code>
+<a class="reference external" href="https://github.com/jupyter/jupyter_client/pull/294">#294</a>.</p></li>
+</ul>
+</li>
+<li><p>New <code class="docutils literal notranslate"><span class="pre">jupyter</span> <span class="pre">kernel</span></code> command to launch an installed kernel by name
+<a class="reference external" href="https://github.com/jupyter/jupyter_client/pull/240">#240</a>.</p></li>
+<li><p>Kernelspecs where the command starts with e.g. <code class="docutils literal notranslate"><span class="pre">python3</span></code> or
+<code class="docutils literal notranslate"><span class="pre">python3.6</span></code>—matching the version <code class="docutils literal notranslate"><span class="pre">jupyter_client</span></code> is running
+on—are now launched with the same Python executable as the
+launching process <a class="reference external" href="https://github.com/jupyter/jupyter_client/pull/306">#306</a>. This
+extends the special handling of <code class="docutils literal notranslate"><span class="pre">python</span></code> added in 5.0.</p></li>
+<li><p>Command line arguments specified by a kernelspec can now include
+<code class="docutils literal notranslate"><span class="pre">{resource_dir}</span></code>, which will be substituted with the kernelspec
+resource directory path when the kernel is launched
+<a class="reference external" href="https://github.com/jupyter/jupyter_client/pull/289">#289</a>.</p></li>
+<li><p>Kernelspecs now have an optional <code class="docutils literal notranslate"><span class="pre">metadata</span></code> field to hold arbitrary
+metadata about kernels—see <code class="docutils literal notranslate"><span class="pre">kernelspecs</span></code> <a class="reference external" href="https://github.com/jupyter/jupyter_client/pull/274">#274</a>.</p></li>
+<li><p>Make the <code class="docutils literal notranslate"><span class="pre">KernelRestarter</span></code> class used by a <code class="docutils literal notranslate"><span class="pre">KernelManager</span></code>
+configurable <a class="reference external" href="https://github.com/jupyter/jupyter_client/pull/290">#290</a>.</p></li>
+<li><p>When killing a kernel on Unix, kill its process group
+<a class="reference external" href="https://github.com/jupyter/jupyter_client/pull/314">#314</a>.</p></li>
+<li><p>If a kernel dies soon after starting, reassign random ports before
+restarting it, in case one of the previously chosen ports has been
+bound by another process <a class="reference external" href="https://github.com/jupyter/jupyter_client/pull/279">#279</a>.</p></li>
+<li><p>Avoid unnecessary filesystem operations when finding a kernelspec
+with <code class="docutils literal notranslate"><span class="pre">.KernelSpecManager.get_kernel_spec</span></code> <a class="reference external" href="https://github.com/jupyter/jupyter_client/pull/311">#311</a>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">.KernelSpecManager.get_all_specs</span></code>
+will no longer raise an exception on encountering an invalid
+<code class="docutils literal notranslate"><span class="pre">kernel.json</span></code> file. It will raise a warning and continue
+<a class="reference external" href="https://github.com/jupyter/jupyter_client/pull/310">#310</a>.</p></li>
+<li><p>Check for non-contiguous buffers before trying to send them through
+ZMQ <a class="reference external" href="https://github.com/jupyter/jupyter_client/pull/258">#258</a>.</p></li>
+<li><p>Compatibility with upcoming Tornado version 5.0
+<a class="reference external" href="https://github.com/jupyter/jupyter_client/pull/304">#304</a>.</p></li>
+<li><p>Simplify setup code by always using setuptools
+<a class="reference external" href="https://github.com/jupyter/jupyter_client/pull/284">#284</a>.</p></li>
+<li><p>Soften warnings when setting the sticky bit on runtime files fails
+<a class="reference external" href="https://github.com/jupyter/jupyter_client/pull/286">#286</a>.</p></li>
+<li><p>Various corrections and improvements to documentation.</p></li>
+</ul>
+</section>
+<section id="id52">
+<h2>5.1<a class="headerlink" href="#id52" title="永久链接至标题">¶</a></h2>
+<p><a class="reference external" href="https://github.com/jupyter/jupyter_client/milestones/5.1">5.1 on
+GitHub</a></p>
+<ul>
+<li><p>Define Jupyter protocol version 5.2, resolving ambiguity of
+<code class="docutils literal notranslate"><span class="pre">cursor_pos</span></code> field in the presence of unicode surrogate pairs.</p>
+<p>::: {.seealso}
+<code class="docutils literal notranslate"><span class="pre">cursor_pos_unicode_note</span></code>
+:::</p>
+</li>
+<li><p>Add <code class="docutils literal notranslate"><span class="pre">Session.clone</span></code> for making a copy
+of a Session object without sharing the digest history. Reusing a
+single Session object to connect multiple sockets to the same IOPub
+peer can cause digest collisions.</p></li>
+<li><p>Avoid global references preventing garbage collection of background
+threads.</p></li>
+</ul>
+</section>
+<section id="id53">
+<h2>5.0<a class="headerlink" href="#id53" title="永久链接至标题">¶</a></h2>
+<section id="id54">
+<h3>5.0.1<a class="headerlink" href="#id54" title="永久链接至标题">¶</a></h3>
+<p><a class="reference external" href="https://github.com/jupyter/jupyter_client/milestones/5.0.1">5.0.1 on
+GitHub</a></p>
+<ul class="simple">
+<li><p>Update internal protocol version number to 5.1, which should have
+been done in 5.0.0.</p></li>
+</ul>
+</section>
+<section id="id55">
+<h3>5.0.0<a class="headerlink" href="#id55" title="永久链接至标题">¶</a></h3>
+<p><a class="reference external" href="https://github.com/jupyter/jupyter_client/milestones/5.0">5.0.0 on
+GitHub</a></p>
+<p>New features:</p>
+<ul>
+<li><p>Implement Jupyter protocol version 5.1.</p></li>
+<li><p>Introduce <code class="docutils literal notranslate"><span class="pre">jupyter</span> <span class="pre">run</span></code> command
+for running scripts with a kernel, for instance:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>jupyter run --kernel python3 myscript.py
+</pre></div>
+</div>
+</li>
+<li><p>New method
+<code class="docutils literal notranslate"><span class="pre">.BlockingKernelClient.execute_interactive</span></code> for running code and capturing or redisplaying its
+output.</p></li>
+<li><p>New <code class="docutils literal notranslate"><span class="pre">KernelManager.shutdown_wait_time</span></code> configurable for adjusting
+the time for a kernel manager to wait after politely requesting
+shutdown before it resorts to forceful termination.</p></li>
+</ul>
+<p>Fixes:</p>
+<ul class="simple">
+<li><p>Set sticky bit on connection-file directory to avoid getting cleaned
+up.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">jupyter_client.launcher.launch_kernel</span></code> passes through additional options to the underlying
+Popen, matching <code class="docutils literal notranslate"><span class="pre">KernelManager.start_kernel</span></code>.</p></li>
+<li><p>Check types of <code class="docutils literal notranslate"><span class="pre">buffers</span></code> argument in
+<code class="docutils literal notranslate"><span class="pre">.Session.send</span></code>, so that TypeErrors
+are raised immediately, rather than in the eventloop.</p></li>
+</ul>
+<p>Changes:</p>
+<ul class="simple">
+<li><p>In kernelspecs, if the executable is the string <code class="docutils literal notranslate"><span class="pre">python</span></code> (as opposed
+to an absolute path), <code class="docutils literal notranslate"><span class="pre">sys.executable</span></code> will be used rather than
+resolving <code class="docutils literal notranslate"><span class="pre">python</span></code> on PATH. This should enable Python-based kernels
+to install kernelspecs as part of wheels.</p></li>
+<li><p>kernelspec names are now validated. They should only include ascii
+letters and numbers, plus period, hyphen, and underscore.</p></li>
+</ul>
+<p>Backward-incompatible changes:</p>
+<ul class="simple">
+<li><p>:py<code class="docutils literal notranslate"><span class="pre">.datetime</span></code> objects returned in
+parsed messages are now always timezone-aware. Timestamps in
+messages without timezone info are interpreted as the local
+timezone, as this was the behavior in earlier versions.</p></li>
+</ul>
+</section>
+</section>
+<section id="id56">
+<h2>4.4<a class="headerlink" href="#id56" title="永久链接至标题">¶</a></h2>
+<section id="id57">
+<h3>4.4.0<a class="headerlink" href="#id57" title="永久链接至标题">¶</a></h3>
+<p><a class="reference external" href="https://github.com/jupyter/jupyter_client/milestones/4.4">4.4 on
+GitHub</a></p>
+<ul class="simple">
+<li><p>Add <code class="docutils literal notranslate"><span class="pre">.KernelClient.load_connection_info</span></code> on KernelClient, etc. for loading connection info
+directly from a dict, not just from files.</p></li>
+<li><p>Include parent headers when adapting messages from older protocol
+implementations (treats parent headers the same as headers).</p></li>
+<li><p>Compatibility fixes in tests for recent changes in ipykernel.</p></li>
+</ul>
+</section>
+</section>
+<section id="id58">
+<h2>4.3<a class="headerlink" href="#id58" title="永久链接至标题">¶</a></h2>
+<section id="id59">
+<h3>4.3.0<a class="headerlink" href="#id59" title="永久链接至标题">¶</a></h3>
+<p><a class="reference external" href="https://github.com/jupyter/jupyter_client/milestones/4.3">4.3 on
+GitHub</a></p>
+<ul class="simple">
+<li><p>Adds <code class="docutils literal notranslate"><span class="pre">--sys-prefix</span></code> argument to
+<code class="docutils literal notranslate"><span class="pre">jupyter</span> <span class="pre">kernelspec</span> <span class="pre">install</span></code>, for
+better symmetry with <code class="docutils literal notranslate"><span class="pre">jupyter</span> <span class="pre">nbextension</span> <span class="pre">install</span></code>, etc.</p></li>
+</ul>
+</section>
+</section>
+<section id="id60">
+<h2>4.2<a class="headerlink" href="#id60" title="永久链接至标题">¶</a></h2>
+<section id="id61">
+<h3>4.2.2<a class="headerlink" href="#id61" title="永久链接至标题">¶</a></h3>
+<p><a class="reference external" href="https://github.com/jupyter/jupyter_client/milestones/4.2.2">4.2.2 on
+GitHub</a></p>
+<ul class="simple">
+<li><p>Another fix for the <code class="docutils literal notranslate"><span class="pre">start_new_kernel</span></code> issue in 4.2.1 affecting slow-starting kernels.</p></li>
+</ul>
+</section>
+<section id="id62">
+<h3>4.2.1<a class="headerlink" href="#id62" title="永久链接至标题">¶</a></h3>
+<p><a class="reference external" href="https://github.com/jupyter/jupyter_client/milestones/4.2.1">4.2.1 on
+GitHub</a></p>
+<ul class="simple">
+<li><p>Fix regression in 4.2 causing <code class="docutils literal notranslate"><span class="pre">start_new_kernel</span></code> to fail while waiting for kernels to become available.</p></li>
+</ul>
+</section>
+<section id="id63">
+<h3>4.2.0<a class="headerlink" href="#id63" title="永久链接至标题">¶</a></h3>
+<p><a class="reference external" href="https://github.com/jupyter/jupyter_client/milestones/4.2">4.2.0 on
+GitHub</a></p>
+<ul class="simple">
+<li><p>added <code class="docutils literal notranslate"><span class="pre">jupyter</span> <span class="pre">kernelspec</span> <span class="pre">remove</span></code>
+for removing kernelspecs</p></li>
+<li><p>allow specifying the environment for kernel processes via the <code class="docutils literal notranslate"><span class="pre">env</span></code>
+argument</p></li>
+<li><p>added <code class="docutils literal notranslate"><span class="pre">name</span></code> field to connection files identifying the kernelspec
+name, so that consumers of connection files (alternate frontends)
+can identify the kernelspec in use</p></li>
+<li><p>added <code class="docutils literal notranslate"><span class="pre">KernelSpecManager.get_all_specs</span></code> for getting all kernelspecs more efficiently</p></li>
+<li><p>various improvements to error messages and documentation</p></li>
+</ul>
+</section>
+</section>
+<section id="id64">
+<h2>4.1<a class="headerlink" href="#id64" title="永久链接至标题">¶</a></h2>
+<section id="id65">
+<h3>4.1.0<a class="headerlink" href="#id65" title="永久链接至标题">¶</a></h3>
+<p><a class="reference external" href="https://github.com/jupyter/jupyter_client/milestones/4.1">4.1.0 on
+GitHub</a></p>
+<p>Highlights:</p>
+<ul class="simple">
+<li><p>Setuptools fixes for <code class="docutils literal notranslate"><span class="pre">jupyter</span> <span class="pre">kernelspec</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">jupyter</span> <span class="pre">kernelspec</span> <span class="pre">list</span></code> includes paths</p></li>
+<li><p>add <code class="docutils literal notranslate"><span class="pre">KernelManager.blocking_client</span></code></p></li>
+<li><p>provisional implementation of <code class="docutils literal notranslate"><span class="pre">comm_info</span></code> requests from upcoming 5.1
+release of the protocol</p></li>
+</ul>
+</section>
+</section>
+<section id="id66">
+<h2>4.0<a class="headerlink" href="#id66" title="永久链接至标题">¶</a></h2>
+<p>The first release of Jupyter Client as its own package.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="api/provisioners.html" class="btn btn-neutral float-left" title="kernel provisioner apis" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="migration.html" class="btn btn-neutral float-right" title="Migration Guide" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; 版权所有 2015, Jupyter Development Team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="zh-CN" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Making kernels for Jupyter &mdash; jupyter_client 7.1.0 文档</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/translations.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="索引" href="genindex.html" />
+    <link rel="search" title="搜索" href="search.html" />
+    <link rel="next" title="Making simple Python wrapper kernels" href="wrapperkernels.html" />
+    <link rel="prev" title="Jupyter 中的消息传递" href="messaging.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="index.html" class="icon icon-home"> jupyter_client
+          </a>
+              <div class="version">
+                7.1
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">用户文档</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="messaging.html">Jupyter 中的消息传递</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">开发者文档</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Making kernels for Jupyter</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#connection-files">Connection files</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#handling-messages">Handling messages</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#kernel-specs">Kernel specs</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="wrapperkernels.html">Making simple Python wrapper kernels</a></li>
+<li class="toctree-l1"><a class="reference internal" href="provisioning.html">Customizing the kernel’s runtime environment</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="api/index.html">jupyter_client API</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">变更</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="changelog.html">Changes in Jupyter Client {#changelog}</a></li>
+<li class="toctree-l1"><a class="reference internal" href="migration.html">Migration Guide</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">jupyter_client</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+      <li>Making kernels for Jupyter</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/kernels.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="making-kernels-for-jupyter">
+<span id="kernels"></span><h1>Making kernels for Jupyter<a class="headerlink" href="#making-kernels-for-jupyter" title="永久链接至标题">¶</a></h1>
+<p>A ‘kernel’ is a program that runs and introspects the user’s code. IPython
+includes a kernel for Python code, and people have written kernels for
+<a class="reference external" href="https://github.com/jupyter/jupyter/wiki/Jupyter-kernels">several other languages</a>.</p>
+<p>At kernel startup, Jupyter passes the kernel a connection file. This specifies
+how to set up communications with the frontend.</p>
+<p>There are three options for writing a kernel:</p>
+<ol class="arabic simple">
+<li><p>You can reuse the IPython kernel machinery to handle the communications, and
+just describe how to execute your code. This is much simpler if the target
+language can be driven from Python. See <a class="reference internal" href="wrapperkernels.html"><span class="doc">Making simple Python wrapper kernels</span></a> for details.</p></li>
+<li><p>You can implement the kernel machinery in your target language. This is more
+work initially, but the people using your kernel might be more likely to
+contribute to it if it’s in the language they know.</p></li>
+<li><p>You can use the <a class="reference external" href="https://github.com/jupyter-xeus/xeus">xeus</a> library that is
+a C++ implementation of the Jupyter kernel protocol. Kernel authors only need to
+implement the language-specific logic in their implementation
+(execute code, auto-completion…). This is the simplest
+solution if your target language can be driven from C or C++: e.g. if it has
+a C-API like most scripting languages. Check out the
+<a class="reference external" href="https://xeus.readthedocs.io/">xeus documentation</a> for more details.
+Examples of kernels based on xeus include:</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://github.com/jupyter-xeus/xeus-cling">xeus-cling</a></p></li>
+<li><p><a class="reference external" href="https://github.com/jupyter-xeus/xeus-python">xeus-python</a></p></li>
+<li><p><a class="reference external" href="https://github.com/JuniperKernel/JuniperKernel">JuniperKernel</a></p></li>
+</ul>
+</li>
+</ol>
+<section id="connection-files">
+<h2>Connection files<a class="headerlink" href="#connection-files" title="永久链接至标题">¶</a></h2>
+<p>Your kernel will be given the path to a connection file when it starts (see
+<a class="reference internal" href="#kernelspecs"><span class="std std-ref">Kernel specs</span></a> for how to specify the command line arguments for your kernel).
+This file, which is accessible only to the current user, will contain a JSON
+dictionary looking something like this:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+  <span class="s2">&quot;control_port&quot;</span><span class="p">:</span> <span class="mi">50160</span><span class="p">,</span>
+  <span class="s2">&quot;shell_port&quot;</span><span class="p">:</span> <span class="mi">57503</span><span class="p">,</span>
+  <span class="s2">&quot;transport&quot;</span><span class="p">:</span> <span class="s2">&quot;tcp&quot;</span><span class="p">,</span>
+  <span class="s2">&quot;signature_scheme&quot;</span><span class="p">:</span> <span class="s2">&quot;hmac-sha256&quot;</span><span class="p">,</span>
+  <span class="s2">&quot;stdin_port&quot;</span><span class="p">:</span> <span class="mi">52597</span><span class="p">,</span>
+  <span class="s2">&quot;hb_port&quot;</span><span class="p">:</span> <span class="mi">42540</span><span class="p">,</span>
+  <span class="s2">&quot;ip&quot;</span><span class="p">:</span> <span class="s2">&quot;127.0.0.1&quot;</span><span class="p">,</span>
+  <span class="s2">&quot;iopub_port&quot;</span><span class="p">:</span> <span class="mi">40885</span><span class="p">,</span>
+  <span class="s2">&quot;key&quot;</span><span class="p">:</span> <span class="s2">&quot;a0436f6c-1916-498b-8eb9-e81ab9368e84&quot;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">transport</span></code>, <code class="docutils literal notranslate"><span class="pre">ip</span></code> and five <code class="docutils literal notranslate"><span class="pre">_port</span></code> fields specify five ports which the
+kernel should bind to using <a class="reference external" href="http://zeromq.org/">ZeroMQ</a>. For instance, the
+address of the shell socket in the example above would be:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">tcp</span><span class="p">:</span><span class="o">//</span><span class="mf">127.0.0.1</span><span class="p">:</span><span class="mi">57503</span>
+</pre></div>
+</div>
+<p>New ports are chosen at random for each kernel started.</p>
+<p><code class="docutils literal notranslate"><span class="pre">signature_scheme</span></code> and <code class="docutils literal notranslate"><span class="pre">key</span></code> are used to cryptographically sign messages, so
+that other users on the system can’t send code to run in this kernel. See
+<a class="reference internal" href="messaging.html#wire-protocol"><span class="std std-ref">The Wire Protocol</span></a> for the details of how this signature is calculated.</p>
+</section>
+<section id="handling-messages">
+<h2>Handling messages<a class="headerlink" href="#handling-messages" title="永久链接至标题">¶</a></h2>
+<p>After reading the connection file and binding to the necessary sockets, the
+kernel should go into an event loop, listening on the hb (heartbeat), control
+and shell sockets.</p>
+<p><a class="reference internal" href="messaging.html#kernel-heartbeat"><span class="std std-ref">Heartbeat</span></a> messages should be echoed back immediately
+on the same socket - the frontend uses this to check that the kernel is still
+alive.</p>
+<p>Messages on the control and shell sockets should be parsed, and their signature
+validated. See <a class="reference internal" href="messaging.html#wire-protocol"><span class="std std-ref">The Wire Protocol</span></a> for how to do this.</p>
+<p>The kernel will send messages on the iopub socket to display output, and on the
+stdin socket to prompt the user for textual input.</p>
+<div class="admonition seealso">
+<p class="admonition-title">参见</p>
+<dl class="simple">
+<dt><a class="reference internal" href="messaging.html"><span class="doc">Jupyter 中的消息传递</span></a></dt><dd><p>Details of the different sockets and the messages that come over them</p>
+</dd>
+<dt><a class="reference external" href="http://andrew.gibiansky.com/blog/ipython/ipython-kernels/">Creating Language Kernels for IPython</a></dt><dd><p>A blog post by the author of <a class="reference external" href="https://github.com/gibiansky/IHaskell">IHaskell</a>,
+a Haskell kernel</p>
+</dd>
+<dt><a class="reference external" href="https://github.com/dsblank/simple_kernel">simple_kernel</a></dt><dd><p>A simple example implementation of the kernel machinery in Python</p>
+</dd>
+</dl>
+</div>
+</section>
+<section id="kernel-specs">
+<span id="kernelspecs"></span><h2>Kernel specs<a class="headerlink" href="#kernel-specs" title="永久链接至标题">¶</a></h2>
+<p>A kernel identifies itself to IPython by creating a directory, the name of which
+is used as an identifier for the kernel. These may be created in a number of
+locations:</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 9%" />
+<col style="width: 51%" />
+<col style="width: 40%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"></th>
+<th class="head"><p>Unix</p></th>
+<th class="head"><p>Windows</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>System</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">/usr/share/jupyter/kernels</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">/usr/local/share/jupyter/kernels</span></code></p>
+</td>
+<td><p><code class="docutils literal notranslate"><span class="pre">%PROGRAMDATA%\jupyter\kernels</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p>Env</p></td>
+<td colspan="2"><p><code class="docutils literal notranslate"><span class="pre">{sys.prefix}/share/jupyter/kernels</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p>User</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">~/.local/share/jupyter/kernels</span></code> (Linux)</p>
+<p><code class="docutils literal notranslate"><span class="pre">~/Library/Jupyter/kernels</span></code> (Mac)</p>
+</td>
+<td><p><code class="docutils literal notranslate"><span class="pre">%APPDATA%\jupyter\kernels</span></code></p></td>
+</tr>
+</tbody>
+</table>
+<p>The user location takes priority over the system locations, and the case of the
+names is ignored, so selecting kernels works the same way whether or not the
+filesystem is case sensitive.
+Since kernelspecs show up in URLs and other places,
+a kernelspec is required to have a simple name, only containing ASCII letters, ASCII numbers, and the simple separators: <code class="docutils literal notranslate"><span class="pre">-</span></code> hyphen, <code class="docutils literal notranslate"><span class="pre">.</span></code> period, <code class="docutils literal notranslate"><span class="pre">_</span></code> underscore.</p>
+<p>Other locations may also be searched if the <span class="target" id="index-0"></span><code class="xref std std-envvar docutils literal notranslate"><span class="pre">JUPYTER_PATH</span></code> environment
+variable is set.</p>
+<p>Inside the kernel directory, three types of files are presently used:
+<code class="docutils literal notranslate"><span class="pre">kernel.json</span></code>, <code class="docutils literal notranslate"><span class="pre">kernel.js</span></code>, and logo image files. Currently, no other
+files are used, but this may change in the future.</p>
+<p>Inside the directory, the most important file is <em>kernel.json</em>. This should be a
+JSON serialised dictionary containing the following keys and values:</p>
+<ul class="simple">
+<li><p><strong>argv</strong>: A list of command line arguments used to start the kernel. The text
+<code class="docutils literal notranslate"><span class="pre">{connection_file}</span></code> in any argument will be replaced with the path to the
+connection file.</p></li>
+<li><p><strong>display_name</strong>: The kernel’s name as it should be displayed in the UI.
+Unlike the kernel name used in the API, this can contain arbitrary unicode
+characters.</p></li>
+<li><p><strong>language</strong>: The name of the language of the kernel.
+When loading notebooks, if no matching kernelspec key (may differ across machines)
+is found, a kernel with a matching <cite>language</cite> will be used.
+This allows a notebook written on any Python or Julia kernel to be properly associated
+with the user’s Python or Julia kernel, even if they aren’t listed under the same name as the author’s.</p></li>
+<li><p><strong>interrupt_mode</strong> (optional): May be either <code class="docutils literal notranslate"><span class="pre">signal</span></code> or <code class="docutils literal notranslate"><span class="pre">message</span></code> and
+specifies how a client is supposed to interrupt cell execution on this kernel,
+either by sending an interrupt <code class="docutils literal notranslate"><span class="pre">signal</span></code> via the operating system’s
+signalling facilities (e.g. <cite>SIGINT</cite> on POSIX systems), or by sending an
+<code class="docutils literal notranslate"><span class="pre">interrupt_request</span></code> message on the control channel (see
+<a class="reference internal" href="messaging.html#msging-interrupt"><span class="std std-ref">Kernel interrupt</span></a>). If this is not specified
+the client will default to <code class="docutils literal notranslate"><span class="pre">signal</span></code> mode.</p></li>
+<li><p><strong>env</strong> (optional): A dictionary of environment variables to set for the kernel.
+These will be added to the current environment variables before the kernel is
+started.  Existing environment variables can be referenced using <code class="docutils literal notranslate"><span class="pre">${&lt;ENV_VAR&gt;}</span></code> and
+will be substituted with the corresponding value.  Administrators should note that use
+of <code class="docutils literal notranslate"><span class="pre">${&lt;ENV_VAR&gt;}</span></code> can expose sensitive variables and should use only in controlled
+circumstances.</p></li>
+<li><p><strong>metadata</strong> (optional): A dictionary of additional attributes about this
+kernel; used by clients to aid in kernel selection. Metadata added
+here should be namespaced for the tool reading and writing that metadata.</p></li>
+</ul>
+<p>For example, the kernel.json file for IPython looks like this:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+ <span class="s2">&quot;argv&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;python3&quot;</span><span class="p">,</span> <span class="s2">&quot;-m&quot;</span><span class="p">,</span> <span class="s2">&quot;IPython.kernel&quot;</span><span class="p">,</span>
+          <span class="s2">&quot;-f&quot;</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">{connection_file}</span><span class="s2">&quot;</span><span class="p">],</span>
+ <span class="s2">&quot;display_name&quot;</span><span class="p">:</span> <span class="s2">&quot;Python 3&quot;</span><span class="p">,</span>
+ <span class="s2">&quot;language&quot;</span><span class="p">:</span> <span class="s2">&quot;python&quot;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>To see the available kernel specs, run:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">jupyter</span> <span class="n">kernelspec</span> <span class="nb">list</span>
+</pre></div>
+</div>
+<p>To start the terminal console or the Qt console with a specific kernel:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">jupyter</span> <span class="n">console</span> <span class="o">--</span><span class="n">kernel</span> <span class="n">bash</span>
+<span class="n">jupyter</span> <span class="n">qtconsole</span> <span class="o">--</span><span class="n">kernel</span> <span class="n">bash</span>
+</pre></div>
+</div>
+<p>The notebook offers you the available kernels in a dropdown menu from the ‘New’
+button.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="messaging.html" class="btn btn-neutral float-left" title="Jupyter 中的消息传递" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="wrapperkernels.html" class="btn btn-neutral float-right" title="Making simple Python wrapper kernels" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; 版权所有 2015, Jupyter Development Team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="zh-CN" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Customizing the kernel’s runtime environment &mdash; jupyter_client 7.1.0 文档</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/translations.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="索引" href="genindex.html" />
+    <link rel="search" title="搜索" href="search.html" />
+    <link rel="next" title="jupyter_client API" href="api/index.html" />
+    <link rel="prev" title="Making simple Python wrapper kernels" href="wrapperkernels.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="index.html" class="icon icon-home"> jupyter_client
+          </a>
+              <div class="version">
+                7.1
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">用户文档</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="messaging.html">Jupyter 中的消息传递</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">开发者文档</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="kernels.html">Making kernels for Jupyter</a></li>
+<li class="toctree-l1"><a class="reference internal" href="wrapperkernels.html">Making simple Python wrapper kernels</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Customizing the kernel’s runtime environment</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#kernel-provisioning">Kernel Provisioning</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#the-kernel-manager-and-kernel-provisioner-relationship">The kernel manager and kernel provisioner relationship</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#discovery">Discovery</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#backwards-compatibility">Backwards Compatibility</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#implementing-a-custom-provisioner">Implementing a custom provisioner</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#extending-localprovisioner">Extending <code class="docutils literal notranslate"><span class="pre">LocalProvisioner</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#extending-kernelprovisionerbase">Extending <code class="docutils literal notranslate"><span class="pre">KernelProvisionerBase</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#registering-your-custom-provisioner">Registering your custom provisioner</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#deploying-your-custom-provisioner">Deploying your custom provisioner</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#listing-available-kernel-provisioners">Listing available kernel provisioners</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="api/index.html">jupyter_client API</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">变更</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="changelog.html">Changes in Jupyter Client {#changelog}</a></li>
+<li class="toctree-l1"><a class="reference internal" href="migration.html">Migration Guide</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">jupyter_client</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+      <li>Customizing the kernel’s runtime environment</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/provisioning.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="customizing-the-kernel-s-runtime-environment">
+<h1>Customizing the kernel’s runtime environment<a class="headerlink" href="#customizing-the-kernel-s-runtime-environment" title="永久链接至标题">¶</a></h1>
+<section id="kernel-provisioning">
+<h2>Kernel Provisioning<a class="headerlink" href="#kernel-provisioning" title="永久链接至标题">¶</a></h2>
+<p>Introduced in the 7.0 release, Kernel Provisioning enables the ability
+for third parties to manage the lifecycle of a kernel’s runtime
+environment. By implementing and configuring a <em>kernel provisioner</em>,
+third parties now have the ability to provision kernels for different
+environments, typically managed by resource managers like Kubernetes,
+Hadoop YARN, Slurm, etc. For example, a <em>Kubernetes Provisioner</em> would
+be responsible for launching a kernel within its own Kubernetes pod,
+communicating the kernel’s connection information back to the
+application (residing in a separate pod), and terminating the pod upon
+the kernel’s termination. In essence, a kernel provisioner is an
+<em>abstraction layer</em> between the <code class="docutils literal notranslate"><span class="pre">KernelManager</span></code> and today’s kernel
+<em>process</em> (i.e., <code class="docutils literal notranslate"><span class="pre">Popen</span></code>).</p>
+</section>
+<section id="the-kernel-manager-and-kernel-provisioner-relationship">
+<h2>The kernel manager and kernel provisioner relationship<a class="headerlink" href="#the-kernel-manager-and-kernel-provisioner-relationship" title="永久链接至标题">¶</a></h2>
+<p>Prior to this enhancement, the only extension point for customizing a
+kernel’s behavior could occur by subclassing <code class="docutils literal notranslate"><span class="pre">KernelManager</span></code>. This
+proved to be a limitation because the Jupyter framework allows for a
+single <code class="docutils literal notranslate"><span class="pre">KernelManager</span></code> class at any time. While applications could
+introduce a <code class="docutils literal notranslate"><span class="pre">KernelManager</span></code> subclass of their own, that
+<code class="docutils literal notranslate"><span class="pre">KernelManager</span></code> was then tied directly to <em>that</em> application and
+thereby not usable as a <code class="docutils literal notranslate"><span class="pre">KernelManager</span></code> in another application. As a
+result, we consider the <code class="docutils literal notranslate"><span class="pre">KernelManager</span></code> class to be an
+<em>application-owned entity</em> upon which application-specific behaviors can
+be implemented.</p>
+<p>Kernel provisioners, on the other hand, are contained within the
+<code class="docutils literal notranslate"><span class="pre">KernelManager</span></code> (i.e., a <em>has-a</em> relationship) and applications are
+agnostic as to what <em>kind</em> of provisioner is in use other than what is
+conveyed via the kernel’s specification (kernelspec). All kernel
+interactions still occur via the <code class="docutils literal notranslate"><span class="pre">KernelManager</span></code> and <code class="docutils literal notranslate"><span class="pre">KernelClient</span></code>
+classes within <code class="docutils literal notranslate"><span class="pre">jupyter_client</span></code> and potentially subclassed by the
+application.</p>
+<p>Kernel provisioners are not related in any way to the <code class="docutils literal notranslate"><span class="pre">KernelManager</span></code>
+instance that controls their lifecycle, nor do they have any affinity to
+the application within which they are used. They merely provide a
+vehicle by which authors can extend the landscape in which a kernel can
+reside, while not side-effecting the application. That said, some kernel
+provisioners may introduce requirements on the application. For example
+(and completely hypothetically speaking), a <code class="docutils literal notranslate"><span class="pre">SlurmProvisioner</span></code> may
+impose the constraint that the server (<code class="docutils literal notranslate"><span class="pre">jupyter_client</span></code>) resides on an
+edge node of the Slurm cluster. These kinds of requirements can be
+mitigated by leveraging applications like <a class="reference external" href="https://github.com/jupyter/kernel_gateway">Jupyter Kernel Gateway</a> or
+<a class="reference external" href="https://github.com/jupyter/enterprise_gateway">Jupyter Enterprise Gateway</a>
+where the gateway server resides on the edge
+node of (or within) the cluster, etc.</p>
+</section>
+<section id="discovery">
+<h2>Discovery<a class="headerlink" href="#discovery" title="永久链接至标题">¶</a></h2>
+<p>Kernel provisioning does not alter today’s kernel discovery mechanism
+that utilizes well-known directories of <code class="docutils literal notranslate"><span class="pre">kernel.json</span></code> files. Instead,
+it optionally extends the current <code class="docutils literal notranslate"><span class="pre">metadata</span></code> stanza within the
+<code class="docutils literal notranslate"><span class="pre">kernel.json</span></code> to include the specification of the kernel provisioner
+name, along with an optional <code class="docutils literal notranslate"><span class="pre">config</span></code> stanza, consisting of
+provisioner-specific configuration items. For example, a container-based
+provisioner will likely need to specify the image name in this section.
+The important point is that the content of this section is
+provisioner-specific.</p>
+<div class="highlight-JSON notranslate"><div class="highlight"><pre><span></span><span class="nt">&quot;metadata&quot;</span><span class="p">:</span> <span class="p">{</span>
+  <span class="nt">&quot;kernel_provisioner&quot;</span><span class="p">:</span> <span class="p">{</span>
+    <span class="nt">&quot;provisioner_name&quot;</span><span class="p">:</span> <span class="s2">&quot;k8s-provisioner&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;config&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&quot;image_name&quot;</span><span class="p">:</span> <span class="s2">&quot;my_docker_org/kernel:2.1.5&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;max_cpus&quot;</span><span class="p">:</span> <span class="mi">4</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+<span class="p">},</span>
+</pre></div>
+</div>
+<p>Kernel provisioner authors implement their provisioners by deriving from
+<code class="xref py py-class docutils literal notranslate"><span class="pre">KernelProvisionerBase</span></code> and expose their provisioner for consumption
+via entry-points:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="s1">&#39;jupyter_client.kernel_provisioners&#39;</span><span class="p">:</span> <span class="p">[</span>
+            <span class="s1">&#39;k8s-provisioner = my_package:K8sProvisioner&#39;</span><span class="p">,</span>
+        <span class="p">],</span>
+</pre></div>
+</div>
+</section>
+<section id="backwards-compatibility">
+<h2>Backwards Compatibility<a class="headerlink" href="#backwards-compatibility" title="永久链接至标题">¶</a></h2>
+<p>Prior to this release, no <code class="docutils literal notranslate"><span class="pre">kernel.json</span></code> (kernelspec) will contain a
+provisioner entry, yet the framework is now based on using provisioners.
+As a result, when a <code class="docutils literal notranslate"><span class="pre">kernel_provisioner</span></code> stanza is <strong>not</strong> present in
+a selected kernelspec, jupyter client will, by default, use the built-in
+<code class="docutils literal notranslate"><span class="pre">LocalProvisioner</span></code> implementation as its provisioner. This provisioner
+retains today’s local kernel functionality. It can also be subclassed
+for those provisioner authors wanting to extend the functionality of
+local kernels. The result of launching a kernel in this manner is
+equivalent to the following stanza existing in the <code class="docutils literal notranslate"><span class="pre">kernel.json</span></code> file:</p>
+<div class="highlight-JSON notranslate"><div class="highlight"><pre><span></span><span class="nt">&quot;metadata&quot;</span><span class="p">:</span> <span class="p">{</span>
+  <span class="nt">&quot;kernel_provisioner&quot;</span><span class="p">:</span> <span class="p">{</span>
+    <span class="nt">&quot;provisioner_name&quot;</span><span class="p">:</span> <span class="s2">&quot;local-provisioner&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;config&quot;</span><span class="p">:</span> <span class="p">{</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+<span class="p">},</span>
+</pre></div>
+</div>
+<p>Should a given installation wish to use a <em>different</em> provisioner as
+their “default provisioner” (including subclasses of
+<code class="docutils literal notranslate"><span class="pre">LocalProvisioner</span></code>), they can do so by specifying a value for
+<code class="docutils literal notranslate"><span class="pre">KernelProvisionerFactory.default_provisioner_name</span></code>.</p>
+</section>
+<section id="implementing-a-custom-provisioner">
+<h2>Implementing a custom provisioner<a class="headerlink" href="#implementing-a-custom-provisioner" title="永久链接至标题">¶</a></h2>
+<p>The impact of Kernel Provisioning is that it enables the ability to
+implement custom kernel provisioners to manage a kernel’s lifecycle
+within any runtime environment. There are currently two approaches by
+which that can be accomplished, extending the <code class="docutils literal notranslate"><span class="pre">KernelProvisionerBase</span></code>
+class or extending the built-in class - <code class="docutils literal notranslate"><span class="pre">LocalProvisioner</span></code>. As more
+provisioners are introduced, some may be implemented in an abstract
+sense, from which specific implementations can be authored.</p>
+<section id="extending-localprovisioner">
+<h3>Extending <code class="docutils literal notranslate"><span class="pre">LocalProvisioner</span></code><a class="headerlink" href="#extending-localprovisioner" title="永久链接至标题">¶</a></h3>
+<p>If you’re interested in running kernels locally and yet adjust their
+behavior, there’s a good chance you can simply extend
+<code class="docutils literal notranslate"><span class="pre">LocalProvisioner</span></code> via subclassing. This amounts to deriving from
+<code class="docutils literal notranslate"><span class="pre">LocalProvisioner</span></code> and overriding appropriate methods to provide your
+custom functionality.</p>
+<p>In this example, RBACProvisioner will verify whether the current user is
+in the role meant for this kernel by calling a method implemented within <em>this</em> provisioner. If the user is not in the role, an exception will be thrown.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">RBACProvisioner</span><span class="p">(</span><span class="n">LocalProvisioner</span><span class="p">):</span>
+
+    <span class="n">role</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Unicode</span><span class="p">(</span><span class="n">config</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="k">async</span> <span class="k">def</span> <span class="nf">pre_launch</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">user_in_role</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">role</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">PermissionError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;User is not in role </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">role</span><span class="si">}</span><span class="s2"> and &quot;</span>
+                                  <span class="sa">f</span><span class="s2">&quot;cannot launch this kernel.&quot;</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">pre_launch</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>It is important to note <em>when</em> it’s necessary to call the superclass in
+a given method - since the operations it performs may be critical to the
+kernel’s management. As a result, you’ll likely need to become familiar
+with how <code class="docutils literal notranslate"><span class="pre">LocalProvisioner</span></code> operates.</p>
+</section>
+<section id="extending-kernelprovisionerbase">
+<h3>Extending <code class="docutils literal notranslate"><span class="pre">KernelProvisionerBase</span></code><a class="headerlink" href="#extending-kernelprovisionerbase" title="永久链接至标题">¶</a></h3>
+<p>If you’d like to launch your kernel in an environment other than the
+local server, then you will need to consider subclassing <code class="xref py py-class docutils literal notranslate"><span class="pre">KernelProvisionerBase</span></code>
+directly.  This will allow you to implement the various kernel process
+controls relative to your target environment.  For instance, if you
+wanted to have your kernel hosted in a Hadoop YARN cluster, you will
+need to implement process-control methods like <code class="xref py py-meth docutils literal notranslate"><span class="pre">poll()</span></code> and <code class="xref py py-meth docutils literal notranslate"><span class="pre">wait()</span></code>
+to use the YARN REST API.  Or, similarly, a Kubernetes-based provisioner
+would need to implement the process-control methods using the Kubernetes client
+API, etc.</p>
+<p>By modeling the <code class="xref py py-class docutils literal notranslate"><span class="pre">KernelProvisionerBase</span></code> methods after <code class="xref py py-class docutils literal notranslate"><span class="pre">subprocess.Popen</span></code>
+a natural mapping between today’s kernel lifecycle management takes place.  This,
+coupled with the ability to add configuration directly into the <code class="docutils literal notranslate"><span class="pre">config:</span></code> stanza
+of the <code class="docutils literal notranslate"><span class="pre">kernel_provisioner</span></code> metadata, allows for things like endpoint address,
+image names, namespaces, hosts lists, etc. to be specified relative to your
+kernel provisioner implementation.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">kernel_id</span></code> corresponding to the launched kernel and used by the
+kernel manager is now available <em>prior</em> to the kernel’s launch.  This
+enables provisioners with a unique <em>key</em> they can use to discover and
+control their kernel when launched into resource-managed clusters such
+as Hadoop YARN or Kubernetes.</p>
+<div class="admonition tip">
+<p class="admonition-title">小技巧</p>
+<p>Use <code class="docutils literal notranslate"><span class="pre">kernel_id</span></code> as a discovery mechanism from your provisioner!</p>
+</div>
+<p>Here’s a prototyped implementation of a couple of the abstract methods
+of <code class="xref py py-class docutils literal notranslate"><span class="pre">KernelProvisionerBase</span></code> for use in an Hadoop YARN cluster to
+help illustrate a provisioner’s implementation.  Note that the built-in
+implementation of <code class="xref py py-class docutils literal notranslate"><span class="pre">LocalProvisioner</span></code> can also be used as a reference.</p>
+<p>Notice the internal method <code class="docutils literal notranslate"><span class="pre">_get_application_id()</span></code>.  This method is
+what the provisioner uses to determine if the YARN application (i.e.,
+the kernel) is still running within te cluster.  Although the provisioner
+doesn’t dictate the application id, the application id is
+discovered via the application <em>name</em> which is a function of <code class="docutils literal notranslate"><span class="pre">kernel_id</span></code>.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">async</span> <span class="k">def</span> <span class="nf">poll</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]:</span>
+    <span class="sd">&quot;&quot;&quot;Submitting a new kernel/app to YARN will take a while to be ACCEPTED.</span>
+<span class="sd">    Thus application ID will probably not be available immediately for poll.</span>
+<span class="sd">    So will regard the application as RUNNING when application ID still in</span>
+<span class="sd">    ACCEPTED or SUBMITTED state.</span>
+
+<span class="sd">    :return: None if the application&#39;s ID is available and state is</span>
+<span class="sd">             ACCEPTED/SUBMITTED/RUNNING. Otherwise 0.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_application_id</span><span class="p">():</span>
+        <span class="n">state</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_query_app_state_by_id</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">application_id</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">state</span> <span class="ow">in</span> <span class="n">YarnProvisioner</span><span class="o">.</span><span class="n">initial_states</span><span class="p">:</span>
+            <span class="n">result</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="k">return</span> <span class="n">result</span>
+
+
+<span class="k">async</span> <span class="k">def</span> <span class="nf">send_signal</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">signum</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Currently only support 0 as poll and other as kill.</span>
+
+<span class="sd">    :param signum</span>
+<span class="sd">    :return:</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">signum</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">poll</span><span class="p">()</span>
+    <span class="k">elif</span> <span class="n">signum</span> <span class="o">==</span> <span class="n">signal</span><span class="o">.</span><span class="n">SIGKILL</span><span class="p">:</span>
+        <span class="k">return</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">kill</span><span class="p">()</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="k">await</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">send_signal</span><span class="p">(</span><span class="n">signum</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Notice how in some cases we can compose provisioner methods to implement others.  For
+example, since sending a signal number of 0 is tantamount to polling the process, we
+go ahead and call <code class="xref py py-meth docutils literal notranslate"><span class="pre">poll()</span></code> to handle <cite>signum</cite> of 0 and <code class="xref py py-meth docutils literal notranslate"><span class="pre">kill()</span></code> to handle
+<cite>SIGKILL</cite> requests.</p>
+<p>Here we see how <code class="docutils literal notranslate"><span class="pre">_get_application_id</span></code> uses the <code class="docutils literal notranslate"><span class="pre">kernel_id</span></code> to acquire the application
+id - which is the <em>primary id</em> for controlling YARN application lifecycles. Since startup
+in resource-managed clusters can tend to take much longer than local kernels, you’ll typically
+need a polling or notification mechanism within your provisioner.  In addition, your
+provisioner will be asked by the <code class="docutils literal notranslate"><span class="pre">KernelManager</span></code> what is an acceptable startup time.
+This answer is implemented in the provisioner via the <code class="xref py py-meth docutils literal notranslate"><span class="pre">get_shutdown_wait_time()</span></code> method.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">_get_application_id</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ignore_final_states</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">application_id</span><span class="p">:</span>
+        <span class="n">app</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_query_app_by_name</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">kernel_id</span><span class="p">)</span>
+        <span class="n">state_condition</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">app</span><span class="p">)</span> <span class="ow">is</span> <span class="nb">dict</span><span class="p">:</span>
+            <span class="n">state</span> <span class="o">=</span> <span class="n">app</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;state&#39;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">last_known_state</span> <span class="o">=</span> <span class="n">state</span>
+
+            <span class="k">if</span> <span class="n">ignore_final_states</span><span class="p">:</span>
+                <span class="n">state_condition</span> <span class="o">=</span> <span class="n">state</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">YarnProvisioner</span><span class="o">.</span><span class="n">final_states</span>
+
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">app</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;id&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">))</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">state_condition</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">application_id</span> <span class="o">=</span> <span class="n">app</span><span class="p">[</span><span class="s1">&#39;id&#39;</span><span class="p">]</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;ApplicationID: &#39;</span><span class="si">{</span><span class="n">app</span><span class="p">[</span><span class="s1">&#39;id&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&#39; assigned for &quot;</span>
+                              <span class="sa">f</span><span class="s2">&quot;KernelID: &#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">kernel_id</span><span class="si">}</span><span class="s2">&#39;, state: </span><span class="si">{</span><span class="n">state</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">application_id</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;ApplicationID not yet assigned for KernelID: &quot;</span>
+                           <span class="sa">f</span><span class="s2">&quot;&#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">kernel_id</span><span class="si">}</span><span class="s2">&#39; - retrying...&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">application_id</span>
+
+
+<span class="k">def</span> <span class="nf">get_shutdown_wait_time</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">recommended</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="mf">5.0</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+
+    <span class="k">if</span> <span class="n">recommended</span> <span class="o">&lt;</span> <span class="n">yarn_shutdown_wait_time</span><span class="p">:</span>
+        <span class="n">recommended</span> <span class="o">=</span> <span class="n">yarn_shutdown_wait_time</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2"> shutdown wait time adjusted to &quot;</span>
+                       <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">recommended</span><span class="si">}</span><span class="s2"> seconds.&quot;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">recommended</span>
+</pre></div>
+</div>
+</section>
+<section id="registering-your-custom-provisioner">
+<h3>Registering your custom provisioner<a class="headerlink" href="#registering-your-custom-provisioner" title="永久链接至标题">¶</a></h3>
+<p>Once your custom provisioner has been authored, it needs to be exposed
+as an
+<a class="reference external" href="https://packaging.python.org/specifications/entry-points/">entry point</a>.
+To do this add the following to your <code class="docutils literal notranslate"><span class="pre">setup.py</span></code> (or equivalent) in its
+<code class="docutils literal notranslate"><span class="pre">entry_points</span></code> stanza using the group name
+<code class="docutils literal notranslate"><span class="pre">jupyter_client.kernel_provisioners</span></code>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="s1">&#39;jupyter_client.kernel_provisioners&#39;</span><span class="p">:</span> <span class="p">[</span>
+    <span class="s1">&#39;rbac-provisioner = acme.rbac.provisioner:RBACProvisioner&#39;</span><span class="p">,</span>
+<span class="p">],</span>
+</pre></div>
+</div>
+<p>where:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">rbac-provisioner</span></code> is the <em>name</em> of your provisioner and what will
+be referenced within the <code class="docutils literal notranslate"><span class="pre">kernel.json</span></code> file</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">acme.rbac.provisioner</span></code> identifies the provisioner module name, and</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">RBACProvisioner</span></code> is custom provisioner object name
+(implementation) that (directly or indirectly) derives from
+<code class="docutils literal notranslate"><span class="pre">KernelProvisionerBase</span></code></p></li>
+</ul>
+</section>
+<section id="deploying-your-custom-provisioner">
+<h3>Deploying your custom provisioner<a class="headerlink" href="#deploying-your-custom-provisioner" title="永久链接至标题">¶</a></h3>
+<p>The final step in getting your custom provisioner deployed is to add a
+<code class="docutils literal notranslate"><span class="pre">kernel_provisioner</span></code> stanza to the appropriate <code class="docutils literal notranslate"><span class="pre">kernel.json</span></code> files.
+This can be accomplished manually or programmatically (in which some
+tooling is implemented to create the appropriate <code class="docutils literal notranslate"><span class="pre">kernel.json</span></code> file).
+In either case, the end result is the same - a <code class="docutils literal notranslate"><span class="pre">kernel.json</span></code> file with
+the appropriate stanza within <code class="docutils literal notranslate"><span class="pre">metadata</span></code>. The <em>vision</em> is that kernel
+provisioner packages will include an application that creates kernel
+specifications (i.e., <code class="docutils literal notranslate"><span class="pre">kernel.json</span></code> et. al.) pertaining to that
+provisioner.</p>
+<p>Following on the previous example of <code class="docutils literal notranslate"><span class="pre">RBACProvisioner</span></code>, one would find
+the following <code class="docutils literal notranslate"><span class="pre">kernel.json</span></code> file in directory
+<code class="docutils literal notranslate"><span class="pre">/usr/local/share/jupyter/kernels/rbac_kernel</span></code>:</p>
+<div class="highlight-JSON notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+  <span class="nt">&quot;argv&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;python&quot;</span><span class="p">,</span> <span class="s2">&quot;-m&quot;</span><span class="p">,</span> <span class="s2">&quot;ipykernel_launcher&quot;</span><span class="p">,</span> <span class="s2">&quot;-f&quot;</span><span class="p">,</span> <span class="s2">&quot;{connection_file}&quot;</span><span class="p">],</span>
+  <span class="nt">&quot;env&quot;</span><span class="p">:</span> <span class="p">{},</span>
+  <span class="nt">&quot;display_name&quot;</span><span class="p">:</span> <span class="s2">&quot;RBAC Kernel&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;language&quot;</span><span class="p">:</span> <span class="s2">&quot;python&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;interrupt_mode&quot;</span><span class="p">:</span> <span class="s2">&quot;signal&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;metadata&quot;</span><span class="p">:</span> <span class="p">{</span>
+    <span class="nt">&quot;kernel_provisioner&quot;</span><span class="p">:</span> <span class="p">{</span>
+      <span class="nt">&quot;provisioner_name&quot;</span><span class="p">:</span> <span class="s2">&quot;rbac-provisioner&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;config&quot;</span><span class="p">:</span> <span class="p">{</span>
+          <span class="nt">&quot;role&quot;</span><span class="p">:</span> <span class="s2">&quot;data_scientist&quot;</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="listing-available-kernel-provisioners">
+<h3>Listing available kernel provisioners<a class="headerlink" href="#listing-available-kernel-provisioners" title="永久链接至标题">¶</a></h3>
+<p>To confirm that your custom provisioner is available for use,
+the <code class="docutils literal notranslate"><span class="pre">jupyter</span> <span class="pre">kernelspec</span></code> command has been extended to include
+a <cite>provisioners</cite> sub-command.  As a result, running <code class="docutils literal notranslate"><span class="pre">jupyter</span> <span class="pre">kernelspec</span> <span class="pre">provisioners</span></code>
+will list the available provisioners by name followed by their module and object
+names (colon-separated):</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ jupyter kernelspec provisioners
+
+Available kernel provisioners:
+  local-provisioner    jupyter_client.provisioning:LocalProvisioner
+  rbac-provisioner     acme.rbac.provisioner:RBACProvisioner
+</pre></div>
+</div>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="wrapperkernels.html" class="btn btn-neutral float-left" title="Making simple Python wrapper kernels" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="api/index.html" class="btn btn-neutral float-right" title="jupyter_client API" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; 版权所有 2015, Jupyter Development Team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
