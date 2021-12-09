@@ -2,7 +2,7 @@
 # Copyright (C) 2015, Jupyter Development Team
 # This file is distributed under the same license as the jupyter_client
 # package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, 2021.
+# xinetzone <735613050@qq.com>, 2021.
 #
 #, fuzzy
 msgid ""
@@ -11,7 +11,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-12-09 21:30+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Last-Translator: xinetzone <735613050@qq.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
@@ -20,7 +20,7 @@ msgstr ""
 
 #: ../../wrapperkernels.rst:2
 msgid "Making simple Python wrapper kernels"
-msgstr ""
+msgstr "制作简单的 Python 包装器内核"
 
 #: ../../wrapperkernels.rst:4
 msgid ""
@@ -31,6 +31,10 @@ msgid ""
 " can be controlled in a tty using `pexpect "
 "<https://pexpect.readthedocs.io/en/latest/>`_, such as bash."
 msgstr ""
+"你可以复用 IPython 的内核机制来轻松制作新的内核。"
+"这对有 Python 绑定的语言很有用，比如 `Hy <https://github.com/hylang/hy/>`_ "
+"（见 `Calysto Hy <https://github.com/Calysto/calysto_hy/#>`_），"
+"或者可以在 tty 中使用 `pexpect <https://pexpect.readthedocs.io/en/latest/>`_ 控制 REPL 的语言，如 bash。"
 
 #: ../../wrapperkernels.rst:13
 msgid "`bash_kernel <https://github.com/takluyver/bash_kernel>`_"
@@ -38,7 +42,7 @@ msgstr ""
 
 #: ../../wrapperkernels.rst:14
 msgid "A simple kernel for bash, written using this machinery"
-msgstr ""
+msgstr "一个简单的 bash 的内核，用这个机器写的"
 
 #: ../../wrapperkernels.rst:16
 msgid ""
@@ -48,16 +52,21 @@ msgid ""
 "easy to write kernels that use ``pexpect``. See `Octave Kernel "
 "<https://github.com/Calysto/octave_kernel>`_ as an example."
 msgstr ""
+"`Metakernel <https://github.com/Calysto/metakernel/#>`_ 库使编写一个封装的内核更容易，"
+"其中包括一套基本的行和单元格魔法。"
+"它还有一个 ``ProcessKernel`` 子类，使得编写使用 ``pexpect`` 的内核变得容易。"
+"请看 `Octave 内核 <https://github.com/Calysto/octave_kernel>`_ 作为一个例子。"
 
 #: ../../wrapperkernels.rst:22
 msgid "Required steps"
-msgstr ""
+msgstr "所需步骤"
 
 #: ../../wrapperkernels.rst:24
 msgid ""
 "Subclass :class:`ipykernel.kernelbase.Kernel`, and implement the "
 "following methods and attributes:"
 msgstr ""
+"子类 :class:`ipykernel.kernelbase.Kernel`，并实现以下方法和属性："
 
 #: ../../wrapperkernels.rst:33
 msgid ""
@@ -66,6 +75,8 @@ msgid ""
 "Python). The 'banner' is displayed to the user in console UIs before the "
 "first prompt. All of these values are strings."
 msgstr ""
+":ref:`msging_kernel_info` 回复的信息。'Implementation' 指的是内核（如 IPython），而不是语言（如 Python）。"
+"'banner' 是在控制台 UI 中在第一个提示前显示给用户的。所有这些值都是字符串。"
 
 #: ../../wrapperkernels.rst:40
 msgid ""
@@ -77,14 +88,18 @@ msgid ""
 "``codemirror_mode`` and ``pygments_lexer`` if they need to differ from "
 ":attr:`language`."
 msgstr ""
+":ref:`msging_kernel_info` 回复的语言信息，在一个字典中。"
+"这应该包含键 ``mimetype`` 和目标语言的代码 mimetype（例如：``'text/x-python'``），"
+"正在实现的语言的 ``name`` （例如： ``'python'``）和 ``file_extension`` （例如： ``'.py'``）。"
+"如果需要与 :attr:`language` 不同，它也可以包含键 ``codemirror_mode`` 和 ``pygments_lexer``。"
 
 #: ../../wrapperkernels.rst:48
 msgid "Other keys may be added to this later."
-msgstr ""
+msgstr "以后还可以在此基础上增加其他键。"
 
 #: ../../wrapperkernels.rst:52
 msgid "Execute user code."
-msgstr ""
+msgstr "执行用户代码。"
 
 #: ../../wrapperkernels.rst
 msgid "参数"
@@ -92,29 +107,33 @@ msgstr ""
 
 #: ../../wrapperkernels.rst:54
 msgid "The code to be executed."
-msgstr ""
+msgstr "要执行的代码。"
 
 #: ../../wrapperkernels.rst:55
 msgid "Whether to display output."
-msgstr ""
+msgstr "是否显示输出。"
 
 #: ../../wrapperkernels.rst:56
 msgid ""
 "Whether to record this code in history and increase the execution count. "
 "If silent is True, this is implicitly False."
 msgstr ""
+"是否在历史中记录这段代码并增加执行次数。"
+"如果 silent 为 True，则隐含为 False。"
 
 #: ../../wrapperkernels.rst:59
 msgid ""
 "Mapping of names to expressions to evaluate after the code has run. You "
 "can ignore this if you need to."
 msgstr ""
+"名称与表达式的映射，以便在代码运行后进行评估。如果你需要，你可以忽略这一点。"
 
 #: ../../wrapperkernels.rst:61
 msgid ""
 "Whether the frontend can provide input on request (e.g. for Python's "
 ":func:`raw_input`)."
 msgstr ""
+"前端是否可以按要求提供输入（例如对于 Python 的 :func:`raw_input`）。"
 
 #: ../../wrapperkernels.rst:64
 msgid ""
@@ -126,26 +145,33 @@ msgid ""
 ":ref:`execution_results` with an `status` of `error`. See "
 ":doc:`messaging` for details of the different message types."
 msgstr ""
+"你的方法应该返回一个包含 :ref:`execution_results` 中描述的字段的 dict。"
+"为了显示输出，它可以使用 :meth:`~ipykernel.kernelbase.Kernel.send_response` 来发送消息。"
+"如果在执行过程中发生了错误，除了 :meth:`~ipykernel.kernelbase.Kernel.send_response` 之外，"
+"还应该通过 :ref:`execution_results` 发送一个 `error` 类型的消息，其 `status` 为 `error`。"
+"参见 :doc:`messaging` 了解不同消息类型的细节。"
 
 #: ipykernel.kernelbase.Kernel.send_response:1 of
 msgid "Send a response to the message we're currently processing."
-msgstr ""
+msgstr "对我们目前正在处理的信息发送一个响应。"
 
 #: ipykernel.kernelbase.Kernel.send_response:3 of
 msgid ""
 "This accepts all the parameters of "
 ":meth:`jupyter_client.session.Session.send` except ``parent``."
 msgstr ""
+"接受 :meth:`jupyter_client.session.Session.send` 的所有参数，除了 ``parent``。"
 
 #: ipykernel.kernelbase.Kernel.send_response:6 of
 msgid ""
 "This relies on :meth:`set_parent` having been called for the current "
 "message."
 msgstr ""
+"这依赖于 :meth:`set_parent` 已经为当前消息调用。"
 
 #: ../../wrapperkernels.rst:74
 msgid "To launch your kernel, add this at the end of your module::"
-msgstr ""
+msgstr "为了启动你的内核，在你的模块末尾添加以下内容 ::"
 
 #: ../../wrapperkernels.rst:80
 msgid ""
@@ -157,10 +183,16 @@ msgid ""
 "--kernel <mykernelname>``. Note that ``<mykernelname>`` in the below "
 "example is ``echo``."
 msgstr ""
+"现在创建一个 `JSON 内核规格文件 "
+"<https://jupyter-client.readthedocs.io/en/latest/kernels.html#kernel-specs>`_，"
+"并使用 ``jupyter kernelspec install </path/to/kernel>`` 安装它。"
+"将你的内核模块放置在 Python 可以导入的任何地方(测试时试试当前目录)。"
+"最后，你可以使用 ``jupyter console --kernel <mykernelname>`` 来运行你的内核。"
+"注意，在下面的例子中 ``<mykernelname>`` 是 ``echo``。"
 
 #: ../../wrapperkernels.rst:83
 msgid "Example"
-msgstr ""
+msgstr "例子"
 
 #: ../../wrapperkernels.rst:87
 msgid "`echo_kernel <https://github.com/jupyter/echo_kernel>`__"
@@ -168,19 +200,19 @@ msgstr ""
 
 #: ../../wrapperkernels.rst:88
 msgid "A packaged, installable version of the condensed example below."
-msgstr ""
+msgstr "下面是一个打包的、可安装的浓缩例子的版本。"
 
 #: ../../wrapperkernels.rst:90
 msgid "``echokernel.py`` will simply echo any input it's given to stdout::"
-msgstr ""
+msgstr "``echokernel.py`` 会简单地将任何输入的信息回传到 stdout ::"
 
 #: ../../wrapperkernels.rst:123
 msgid "Here's the Kernel spec ``kernel.json`` file for this::"
-msgstr ""
+msgstr "这是内核规格 ``kernel.json`` 文件，用于此 ::"
 
 #: ../../wrapperkernels.rst:131
 msgid "Optional steps"
-msgstr ""
+msgstr "可选步骤"
 
 #: ../../wrapperkernels.rst:133
 msgid ""
@@ -189,42 +221,44 @@ msgid ""
 "described in the relevant section of the :doc:`messaging spec "
 "<messaging>`."
 msgstr ""
+"你可以覆盖一些其他的方法来改善你的内核的功能。"
+"所有这些方法都应该返回一个字典，如 :doc:`messaging spec <messaging>` 的相关部分所描述的。"
 
 #: ../../wrapperkernels.rst:141
 msgid "Code completion"
-msgstr ""
+msgstr "代码自动补全"
 
 #: ../../wrapperkernels.rst:143
 msgid "The code already present"
-msgstr ""
+msgstr "已经存在的代码"
 
 #: ../../wrapperkernels.rst:144
 msgid "The position in the code where completion is requested"
-msgstr ""
+msgstr "要求补全的代码中的位置"
 
 #: ../../wrapperkernels.rst:148
 msgid ":ref:`msging_completion` messages"
-msgstr ""
+msgstr ":ref:`msging_completion` 消息"
 
 #: ../../wrapperkernels.rst:152
 msgid "Object introspection"
-msgstr ""
+msgstr "对象自省"
 
 #: ../../wrapperkernels.rst:154
 msgid "The code"
-msgstr ""
+msgstr "代码"
 
 #: ../../wrapperkernels.rst:155
 msgid "The position in the code where introspection is requested"
-msgstr ""
+msgstr "代码中要求自省的位置"
 
 #: ../../wrapperkernels.rst:156
 msgid "0 or 1 for more or less detail. In IPython, 1 gets the source code."
-msgstr ""
+msgstr "0 或 1 代表更多或更少的细节。在 IPython 中，1 得到的是源代码。"
 
 #: ../../wrapperkernels.rst:161
 msgid ":ref:`msging_inspection` messages"
-msgstr ""
+msgstr ":ref:`msging_inspection` 消息"
 
 #: ../../wrapperkernels.rst:165
 msgid ""
@@ -232,24 +266,26 @@ msgid ""
 "request concerned will be passed, so your method definition must have "
 "defaults for all the arguments shown with defaults here."
 msgstr ""
+"历史访问。只有相关的历史请求类型的相关参数才会被传递，所以你的方法定义必须有这里显示的所有参数的默认值。"
 
 #: ../../wrapperkernels.rst:171
 msgid ":ref:`msging_history` messages"
-msgstr ""
+msgstr ":ref:`msging_history` 消息"
 
 #: ../../wrapperkernels.rst:175
 msgid ""
 "Is code entered in a console-like interface complete and ready to "
 "execute, or should a continuation prompt be shown?"
 msgstr ""
+"在类似于控制台的界面中输入的代码是否已经完成并准备执行，还是应该显示一个继续提示？"
 
 #: ../../wrapperkernels.rst:178
 msgid "The code entered so far - possibly multiple lines"
-msgstr ""
+msgstr "到目前为止输入的代码 —— 可能有多行"
 
 #: ../../wrapperkernels.rst:182
 msgid ":ref:`msging_is_complete` messages"
-msgstr ""
+msgstr ":ref:`msging_is_complete` 消息"
 
 #: ../../wrapperkernels.rst:186
 msgid ""
@@ -257,12 +293,12 @@ msgid ""
 "kernel machinery will take care of cleaning up its own things before "
 "stopping."
 msgstr ""
+"关闭内核。你只需要处理你自己的清理工作 ——— 内核机器会在停止前处理好自己的事情。"
 
 #: ../../wrapperkernels.rst:189
 msgid "Whether the kernel will be started again afterwards"
-msgstr ""
+msgstr "事后是否会再次启动内核"
 
 #: ../../wrapperkernels.rst:193
 msgid ":ref:`msging_shutdown` messages"
-msgstr ""
-
+msgstr ":ref:`msging_shutdown` 消息"

@@ -2,7 +2,7 @@
 # Copyright (C) 2015, Jupyter Development Team
 # This file is distributed under the same license as the jupyter_client
 # package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, 2021.
+# xinetzone <735613050@qq.com>, 2021.
 #
 #, fuzzy
 msgid ""
@@ -11,7 +11,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-12-09 21:30+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Last-Translator: xinetzone <735613050@qq.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
@@ -20,7 +20,7 @@ msgstr ""
 
 #: ../../kernels.rst:5
 msgid "Making kernels for Jupyter"
-msgstr ""
+msgstr "为 Jupyter 制作内核"
 
 #: ../../kernels.rst:7
 msgid ""
@@ -29,16 +29,20 @@ msgid ""
 "kernels for `several other languages "
 "<https://github.com/jupyter/jupyter/wiki/Jupyter-kernels>`_."
 msgstr ""
+"'内核' 是一个运行并反省用户代码的程序。"
+"IPython 包括一个用于 Python 代码的内核，人们已经为 "
+"`其他几种语言编写了内核 <https://github.com/jupyter/jupyter/wiki/Jupyter-kernels>`_。"
 
 #: ../../kernels.rst:11
 msgid ""
 "At kernel startup, Jupyter passes the kernel a connection file. This "
 "specifies how to set up communications with the frontend."
 msgstr ""
+"在内核启动时，Jupyter 向内核传递一个连接文件。这指定了如何设置与前端的通信。"
 
 #: ../../kernels.rst:14
 msgid "There are three options for writing a kernel:"
-msgstr ""
+msgstr "编写内核有三种选择："
 
 #: ../../kernels.rst:16
 msgid ""
@@ -47,6 +51,9 @@ msgid ""
 "target language can be driven from Python. See :doc:`wrapperkernels` for "
 "details."
 msgstr ""
+"你可以重用 IPython 内核机制来处理通信，而只需描述如何执行你的代码。"
+"如果目标语言可以由 Python 驱动，这就简单多了。"
+"详情见 :doc:`wrapperkernels`。"
 
 #: ../../kernels.rst:19
 msgid ""
@@ -54,6 +61,9 @@ msgid ""
 "more work initially, but the people using your kernel might be more "
 "likely to contribute to it if it's in the language they know."
 msgstr ""
+"你可以用你的目标语言实现内核机制。"
+"这在最初是比较麻烦的，但是如果使用你的内核的人是用他们熟悉的语言的话，"
+"他们可能会更愿意为你的内核做出贡献。"
 
 #: ../../kernels.rst:22
 msgid ""
@@ -66,6 +76,13 @@ msgid ""
 "documentation <https://xeus.readthedocs.io/>`_ for more details. Examples"
 " of kernels based on xeus include:"
 msgstr ""
+"你可以使用 `xeus <https://github.com/jupyter-xeus/xeus>`_ 库，"
+"它是 Jupyter 内核协议的 C++ 实现。"
+"内核作者只需要在他们的实现中实现特定语言的逻辑（执行代码、自动补全 。。。。。。）。"
+"如果你的目标语言可以从 C 或 C++ 驱动，这是最简单的解决方案： "
+"例如，如果它像大多数脚本语言一样有一个 C-API。"
+"请查看 `xeus 文档 <https://xeus.readthedocs.io/>`_ 以了解更多细节。"
+"基于 xeus 的内核的例子包括："
 
 #: ../../kernels.rst:31
 msgid "`xeus-cling <https://github.com/jupyter-xeus/xeus-cling>`_"
@@ -81,7 +98,7 @@ msgstr ""
 
 #: ../../kernels.rst:36
 msgid "Connection files"
-msgstr ""
+msgstr "连接文件"
 
 #: ../../kernels.rst:38
 msgid ""
@@ -90,6 +107,8 @@ msgid ""
 " your kernel). This file, which is accessible only to the current user, "
 "will contain a JSON dictionary looking something like this::"
 msgstr ""
+"你的内核在启动时将得到一个连接文件的路径（参见 :ref:`kernelspecs` 了解如何为你的内核指定命令行参数）。"
+"这个文件只有当前用户可以访问，它将包含一个 JSON 字典，看起来像这样 ::"
 
 #: ../../kernels.rst:55
 msgid ""
@@ -98,10 +117,12 @@ msgid ""
 " instance, the address of the shell socket in the example above would "
 "be::"
 msgstr ""
+"``transport``、``ip`` 和五个 ``_port`` 字段指定了五个端口，"
+"内核应该使用 `ZeroMQ <http://zeromq.org/>`_ 绑定。例如，在上面的例子中，shell 套接字的地址是 ::"
 
 #: ../../kernels.rst:61
 msgid "New ports are chosen at random for each kernel started."
-msgstr ""
+msgstr "对于每个启动的内核，新的端口是随机选择的。"
 
 #: ../../kernels.rst:63
 msgid ""
@@ -110,10 +131,12 @@ msgid ""
 "this kernel. See :ref:`wire_protocol` for the details of how this "
 "signature is calculated."
 msgstr ""
+"``signature_scheme`` 和 ``key`` 是用来对信息进行加密签名的，这样系统中的其他用户就不能发送代码到这个内核中运行。"
+"请参阅 :ref:`wire_protocol`，了解如何计算这个签名的细节。"
 
 #: ../../kernels.rst:68
 msgid "Handling messages"
-msgstr ""
+msgstr "处理消息"
 
 #: ../../kernels.rst:70
 msgid ""
@@ -121,6 +144,7 @@ msgid ""
 "the kernel should go into an event loop, listening on the hb (heartbeat),"
 " control and shell sockets."
 msgstr ""
+"在读取连接文件并绑定到必要的套接字之后，内核应该进入一个事件循环，监听 hb（heartbeat）、control 和 shell 套接字。"
 
 #: ../../kernels.rst:74
 msgid ""
@@ -128,18 +152,22 @@ msgid ""
 "immediately on the same socket - the frontend uses this to check that the"
 " kernel is still alive."
 msgstr ""
+":ref:`Heartbeat <kernel_heartbeat>` 消息应立即在同一套接字上回显 —— 前端使用它来检查内核是否仍然存在。"
 
 #: ../../kernels.rst:78
 msgid ""
 "Messages on the control and shell sockets should be parsed, and their "
 "signature validated. See :ref:`wire_protocol` for how to do this."
 msgstr ""
+"control 和 shell 套接字上的信息应该被解析，并验证其签名。"
+"请参阅 :ref:`wire_protocol` 了解如何做到这一点。"
 
 #: ../../kernels.rst:81
 msgid ""
 "The kernel will send messages on the iopub socket to display output, and "
 "on the stdin socket to prompt the user for textual input."
 msgstr ""
+"内核将在 iopub 套接字上发送消息以显示输出，并在 stdin 套接字上发送消息以提示用户输入文本。"
 
 #: ../../kernels.rst:87
 msgid ":doc:`messaging`"
@@ -147,19 +175,22 @@ msgstr ""
 
 #: ../../kernels.rst:87
 msgid "Details of the different sockets and the messages that come over them"
-msgstr ""
+msgstr "不同的套接字和通过它们传递的消息的细节"
 
 #: ../../kernels.rst:91
 msgid ""
 "`Creating Language Kernels for IPython "
 "<http://andrew.gibiansky.com/blog/ipython/ipython-kernels/>`_"
 msgstr ""
+"`为 IPython 创建语言内核 "
+"<http://andrew.gibiansky.com/blog/ipython/ipython-kernels/>`_"
 
 #: ../../kernels.rst:90
 msgid ""
 "A blog post by the author of `IHaskell "
 "<https://github.com/gibiansky/IHaskell>`_, a Haskell kernel"
 msgstr ""
+"`IHaskell <https://github.com/gibiansky/IHaskell>`_ 的作者的博文，一个 Haskell 内核"
 
 #: ../../kernels.rst:93
 msgid "`simple_kernel <https://github.com/dsblank/simple_kernel>`_"
@@ -167,11 +198,11 @@ msgstr ""
 
 #: ../../kernels.rst:94
 msgid "A simple example implementation of the kernel machinery in Python"
-msgstr ""
+msgstr "用 Python 实现内核机制的一个简单例子"
 
 #: ../../kernels.rst:100
 msgid "Kernel specs"
-msgstr ""
+msgstr "内核规范"
 
 #: ../../kernels.rst:102
 msgid ""
@@ -179,6 +210,8 @@ msgid ""
 "of which is used as an identifier for the kernel. These may be created in"
 " a number of locations:"
 msgstr ""
+"一个内核通过创建一个目录来向 IPython 识别自己，该目录的名称被用作内核的标识。"
+"这些目录可以在很多地方创建："
 
 #: ../../kernels.rst:107
 msgid "Unix"
@@ -190,7 +223,7 @@ msgstr ""
 
 #: ../../kernels.rst:109
 msgid "System"
-msgstr ""
+msgstr "系统"
 
 #: ../../kernels.rst:109
 msgid "``/usr/share/jupyter/kernels``"
@@ -206,7 +239,7 @@ msgstr ""
 
 #: ../../kernels.rst:113
 msgid "Env"
-msgstr ""
+msgstr "环境"
 
 #: ../../kernels.rst:113
 msgid "``{sys.prefix}/share/jupyter/kernels``"
@@ -214,7 +247,7 @@ msgstr ""
 
 #: ../../kernels.rst:115
 msgid "User"
-msgstr ""
+msgstr "用户"
 
 #: ../../kernels.rst:115
 msgid "``~/.local/share/jupyter/kernels`` (Linux)"
@@ -237,12 +270,16 @@ msgid ""
 "only containing ASCII letters, ASCII numbers, and the simple separators: "
 "``-`` hyphen, ``.`` period, ``_`` underscore."
 msgstr ""
+"用户位置优先于系统位置，名字的大小写被忽略，所以无论文件系统是否区分大小写，选择内核的方式都是一样的。"
+"由于 kernelspecs 出现在 URL 和其他地方，kernelspec 被要求有一个简单的名字，"
+"只包含 ASCII 字母、ASCII 数字和简单的分隔符。``-`` 连字符，``.`` 句点，``_`` 下划线。"
 
 #: ../../kernels.rst:126
 msgid ""
 "Other locations may also be searched if the :envvar:`JUPYTER_PATH` "
 "environment variable is set."
 msgstr ""
+"如果设置了 :envvar:`JUPYTER_PATH` 环境变量，也可以搜索其他位置。"
 
 #: ../../kernels.rst:129
 msgid ""
@@ -250,6 +287,9 @@ msgid ""
 "``kernel.json``, ``kernel.js``, and logo image files. Currently, no other"
 " files are used, but this may change in the future."
 msgstr ""
+"在内核目录内，目前有三种类型的文件被使用： "
+"``kernel.json``、``kernel.js`` 和 logo 图片文件。"
+"目前，没有使用其他文件，但将来可能会改变。"
 
 #: ../../kernels.rst:133
 msgid ""
@@ -257,6 +297,7 @@ msgid ""
 "should be a JSON serialised dictionary containing the following keys and "
 "values:"
 msgstr ""
+"在该目录内，最重要的文件是 *kernel.json*。这应该是一个 JSON 序列化的字典，包含以下键和值："
 
 #: ../../kernels.rst:136
 msgid ""
@@ -264,6 +305,8 @@ msgid ""
 "text ``{connection_file}`` in any argument will be replaced with the path"
 " to the connection file."
 msgstr ""
+"**argv**：一个用于启动内核的命令行参数列表。"
+"任何参数中的文字 ``{connection_file}`` 将被替换成连接文件的路径。"
 
 #: ../../kernels.rst:139
 msgid ""
@@ -271,6 +314,8 @@ msgid ""
 "Unlike the kernel name used in the API, this can contain arbitrary "
 "unicode characters."
 msgstr ""
+"**display_name**: 内核的名字，它理应显示在 UI 上。"
+"与 API 中使用的内核名称不同，它可以包含任意的 unicode 字符。"
 
 #: ../../kernels.rst:142
 msgid ""
@@ -281,6 +326,9 @@ msgid ""
 "with the user's Python or Julia kernel, even if they aren't listed under "
 "the same name as the author's."
 msgstr ""
+"**language**：内核的语言名称。"
+"当加载笔记本时，如果没有找到匹配的 kernelspec 键（可能在不同的机器上有所不同），将使用具有匹配的 ``language`` 的内核。"
+"这允许在任何 Python 或 Julia 内核上编写的笔记本与用户的 Python 或 Julia 内核正确关联，即使它们与作者的内核不在同一名称下。"
 
 #: ../../kernels.rst:147
 msgid ""
@@ -292,6 +340,10 @@ msgid ""
 ":ref:`msging_interrupt`). If this is not specified the client will "
 "default to ``signal`` mode."
 msgstr ""
+"**interrupt_mode** （可选）：可以是 ``signal`` 或 ``message``，"
+"指定客户如何中断该内核上的单元执行，可以通过操作系统的信号设施（例如 POSIX 系统上的 `SIGINT`）"
+"发送一个中断 ``signal``，或者在控制通道上发送一个 ``interrupt_request`` 消息（见 :ref:`msging_interrupt`）。"
+"如果没有指定，客户端将默认为 ``signal`` 模式"。
 
 #: ../../kernels.rst:154
 msgid ""
@@ -303,6 +355,9 @@ msgid ""
 "expose sensitive variables and should use only in controlled "
 "circumstances."
 msgstr ""
+"**env** （可选）：一个为内核设置的环境变量字典。这些将在内核启动前被添加到当前的环境变量中。"
+"现有的环境变量可以用 ``${<ENV_VAR>}`` 来引用，并将被替换成相应的值。"
+"管理员应该注意，使用 ``${<ENV_VAR>}`` 可能会暴露敏感变量，应该只在受控情况下使用。"
 
 #: ../../kernels.rst:160
 msgid ""
@@ -310,22 +365,24 @@ msgid ""
 " kernel; used by clients to aid in kernel selection. Metadata added here "
 "should be namespaced for the tool reading and writing that metadata."
 msgstr ""
+"**metadata** （可选）：关于这个内核的额外属性的字典；被客户用来帮助选择内核。"
+"在这里添加的元数据应该为读取和写入该元数据的工具命名。"
 
 #: ../../kernels.rst:164
 msgid "For example, the kernel.json file for IPython looks like this::"
-msgstr ""
+msgstr "例如，IPython 的 kernel.json 文件是这样的 ::"
 
 #: ../../kernels.rst:173
 msgid "To see the available kernel specs, run::"
-msgstr ""
+msgstr "要查看可用的内核规格，运行 ::"
 
 #: ../../kernels.rst:177
 msgid "To start the terminal console or the Qt console with a specific kernel::"
-msgstr ""
+msgstr "用一个特定的内核来启动终端控制台或 Qt 控制台 ::"
 
 #: ../../kernels.rst:182
 msgid ""
 "The notebook offers you the available kernels in a dropdown menu from the"
 " 'New' button."
 msgstr ""
-
+"notebook 在 'New' 按钮的下拉菜单中为你提供可用的内核。"
