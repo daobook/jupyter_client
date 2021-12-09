@@ -71,13 +71,15 @@ msgid "The basic design is explained in the following diagram:"
 msgstr "基本设计在下图中得到了解释："
 
 msgid "IPython kernel/frontend messaging architecture."
-msgstr ""
+msgstr "IPython 内核/前端信息传递架构。"
 
 #: ../../messaging.rst:41
 msgid ""
 "A single kernel can be simultaneously connected to one or more frontends."
 "  The kernel has dedicated sockets for the following functions:"
 msgstr ""
+"一个内核可以同时连接到一个或多个前端。"
+"内核有专门的套接字，用于以下功能："
 
 #: ../../messaging.rst:44
 msgid ""
@@ -87,6 +89,9 @@ msgid ""
 "any frontend.  The communication on this socket is a sequence of "
 "request/reply actions from each frontend and the kernel."
 msgstr ""
+"**Shell**：这个单一的 ROUTER 套接字允许来自前端的多个传入连接，"
+"这是任何前端向内核提出的代码执行、对象信息、提示等请求的套接字。"
+"这个套接字上的通信是每个前端和内核的一连串请求/回复动作。"
 
 #: ../../messaging.rst:50
 msgid ""
@@ -102,6 +107,13 @@ msgid ""
 "information about communications taking place with one client over the "
 "shell channel to be made available to all clients in a uniform manner."
 msgstr ""
+"**IOPub**：这个套接字是 'broadcast channel'，"
+"内核在这里发布所有的副作用（stdout, stderr, 调试事件等），"
+"以及来自任何客户端在 shell 套接字上的请求和它自己在 stdin 套接字的请求。"
+"在 Python 中，有许多动作会产生副作用：:func:`print` 会写到 `sys.stdout`，错误会产生追踪，等等。"
+"此外，在多客户端的情况下，我们希望所有前端都能知道彼此向内核发送了什么"
+"（例如，这在协作的情况下很有用）。"
+"这个套接字允许副作用和通过 shell 通道与一个客户进行通信的信息以统一的方式提供给所有客户。"
 
 #: ../../messaging.rst:61
 msgid ""
@@ -115,6 +127,12 @@ msgid ""
 "indicating that the user is to type input for the kernel instead of "
 "normal commands in the frontend."
 msgstr ""
+"**stdin**：这个 ROUTER 套接字与所有前端相连，"
+"当 :func:`raw_input` 被调用时，它允许内核从活动的前端请求输入。"
+"执行代码的前端有一个 DEALER 套接字，当这种通信发生时，它充当内核的 '虚拟键盘' "
+"（图中中央键盘周围的黑色轮廓表示）。"
+"在实践中，前端可以使用一个特殊的输入部件来显示这样的内核请求，"
+"或者以其他方式表明用户要为内核键入输入，而不是在前端的正常命令。"
 
 #: ../../messaging.rst:70
 msgid ""
@@ -123,6 +141,9 @@ msgid ""
 "kernel and which ones are from other clients, so they can display each "
 "type appropriately."
 msgstr ""
+"所有的消息都被标记了足够的信息（详见下文），"
+"以便客户知道哪些消息来自他们自己与内核的互动，哪些来自其他客户，"
+"这样他们就可以适当地显示每种类型的消息。"
 
 #: ../../messaging.rst:75
 msgid ""
@@ -131,6 +152,8 @@ msgid ""
 "channel is used for shutdown and restart messages, as well as for "
 "debugging messages."
 msgstr ""
+"**Control**：这个通道与 Shell 相同，但在一个单独的套接字上操作，以避免在执行请求后面排队。"
+"控制通道用于关机和重启信息，以及调试信息。"
 
 #: ../../messaging.rst:79
 msgid ""
@@ -140,6 +163,9 @@ msgid ""
 "running shell message to be finished processing (such as an expensive "
 "execute request)."
 msgstr ""
+"为了获得更顺畅的用户体验，我们建议在与 shell 通道分开的线程中运行控制通道，"
+"这样，例如关机或调试信息可以立即得到处理，"
+"而不必等待一个长期运行的 shell 信息处理完毕（例如一个昂贵的执行请求）。"
 
 #: ../../messaging.rst:84
 msgid ""
@@ -147,6 +173,7 @@ msgid ""
 "sent between the frontend and the kernel to ensure that they are still "
 "connected."
 msgstr ""
+"**Heartbeat**：这个套接字允许在前端和内核之间发送简单的字节字符串信息，以确保它们仍然是连接的。"
 
 #: ../../messaging.rst:87
 msgid ""
@@ -154,14 +181,15 @@ msgid ""
 "specified below.  Messages are dicts of dicts with string keys and values"
 " that are reasonably representable in JSON."
 msgstr ""
+"每个通道上允许的消息的实际格式在下面规定。消息是具有字符串键和值的 dicts 的 dicts，可以合理地用 JSON 表示。"
 
 #: ../../messaging.rst:92
 msgid "General Message Format"
-msgstr ""
+msgstr "通用信息格式"
 
 #: ../../messaging.rst:94
 msgid "A message is composed of five dictionaries."
-msgstr ""
+msgstr "一条信息是由五个字典组成的。"
 
 #: ../../messaging.rst:97
 msgid "Message Header"
