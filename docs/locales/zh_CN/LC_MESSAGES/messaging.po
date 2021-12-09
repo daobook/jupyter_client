@@ -20,7 +20,7 @@ msgstr ""
 
 #: ../../messaging.rst:5
 msgid "Messaging in Jupyter"
-msgstr ""
+msgstr "Jupyter 中的消息传递"
 
 #: ../../messaging.rst:7
 msgid ""
@@ -29,6 +29,8 @@ msgid ""
 "ZeroMQ_ library provides the low-level transport layer over which these "
 "messages are sent."
 msgstr ""
+"这份文档解释了 Jupyter 前端和内核如何通信的基本通信设计和消息传递规范。"
+"ZeroMQ_ 库提供了低级别的传输层，这些消息是通过它来发送的。"
 
 #: ../../messaging.rst:13
 msgid ""
@@ -37,16 +39,19 @@ msgid ""
 "updated as the implementation evolves, so that we have a single common "
 "reference for all protocol details."
 msgstr ""
+"本文档包含了 IPython 消息传输协议的权威描述。"
+"我们强烈鼓励所有的开发者随着实现的发展而不断地更新它，以便我们对所有的协议细节有一个统一的参考。"
 
 #: ../../messaging.rst:20
 msgid "Versioning"
-msgstr ""
+msgstr "版本管理"
 
 #: ../../messaging.rst:22
 msgid ""
 "The Jupyter message specification is versioned independently of the "
 "packages that use it. The current version of the specification is 5.3."
 msgstr ""
+"Jupyter 消息规范是独立于使用它的软件包的版本。目前该规范的版本是 5.3。"
 
 #: ../../messaging.rst:27
 msgid ""
@@ -54,14 +59,16 @@ msgid ""
 "the **Jupyter message specification**, not versions of "
 ":mod:`jupyter_client`."
 msgstr ""
+"本文档中的 *New in* 和 *Changed in* 信息指的是 **Jupyter 信息规范** 的版本，"
+"而不是 :mod:`jupyter_client` 的版本。"
 
 #: ../../messaging.rst:31
 msgid "Introduction"
-msgstr ""
+msgstr "介绍"
 
 #: ../../messaging.rst:33
 msgid "The basic design is explained in the following diagram:"
-msgstr ""
+msgstr "基本设计在下图中得到了解释："
 
 msgid "IPython kernel/frontend messaging architecture."
 msgstr ""
