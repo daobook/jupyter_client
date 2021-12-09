@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Making simple Python wrapper kernels &mdash; jupyter_client 7.1.0 文档</title>
+  <title>制作简单的 Python 包装器内核 &mdash; jupyter_client 7.1.0 文档</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -20,7 +20,7 @@
     <link rel="index" title="索引" href="genindex.html" />
     <link rel="search" title="搜索" href="search.html" />
     <link rel="next" title="Customizing the kernel’s runtime environment" href="provisioning.html" />
-    <link rel="prev" title="Making kernels for Jupyter" href="kernels.html" /> 
+    <link rel="prev" title="为 Jupyter 制作内核" href="kernels.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -47,11 +47,11 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">开发者文档</span></p>
 <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="kernels.html">Making kernels for Jupyter</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Making simple Python wrapper kernels</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#required-steps">Required steps</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#example">Example</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#optional-steps">Optional steps</a></li>
+<li class="toctree-l1"><a class="reference internal" href="kernels.html">为 Jupyter 制作内核</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">制作简单的 Python 包装器内核</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#required-steps">所需步骤</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#example">例子</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#optional-steps">可选步骤</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="provisioning.html">Customizing the kernel’s runtime environment</a></li>
@@ -80,7 +80,7 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
-      <li>Making simple Python wrapper kernels</li>
+      <li>制作简单的 Python 包装器内核</li>
       <li class="wy-breadcrumbs-aside">
             <a href="_sources/wrapperkernels.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -91,26 +91,19 @@
            <div itemprop="articleBody">
              
   <section id="making-simple-python-wrapper-kernels">
-<h1>Making simple Python wrapper kernels<a class="headerlink" href="#making-simple-python-wrapper-kernels" title="永久链接至标题">¶</a></h1>
-<p>You can re-use IPython’s kernel machinery to easily make new kernels.
-This is useful for languages that have Python bindings, such as <a class="reference external" href="https://github.com/hylang/hy/">Hy</a> (see
-<a class="reference external" href="https://github.com/Calysto/calysto_hy/#">Calysto Hy</a>), or languages
-where the REPL can be controlled in a tty using <a class="reference external" href="https://pexpect.readthedocs.io/en/latest/">pexpect</a>,
-such as bash.</p>
+<h1>制作简单的 Python 包装器内核<a class="headerlink" href="#making-simple-python-wrapper-kernels" title="永久链接至标题">¶</a></h1>
+<p>你可以复用 IPython 的内核机制来轻松制作新的内核。这对有 Python 绑定的语言很有用，比如 <a class="reference external" href="https://github.com/hylang/hy/">Hy</a> （见 <a class="reference external" href="https://github.com/Calysto/calysto_hy/#">Calysto Hy</a>），或者可以在 tty 中使用 <a class="reference external" href="https://pexpect.readthedocs.io/en/latest/">pexpect</a> 控制 REPL 的语言，如 bash。</p>
 <div class="admonition seealso">
 <p class="admonition-title">参见</p>
 <dl class="simple">
-<dt><a class="reference external" href="https://github.com/takluyver/bash_kernel">bash_kernel</a></dt><dd><p>A simple kernel for bash, written using this machinery</p>
+<dt><a class="reference external" href="https://github.com/takluyver/bash_kernel">bash_kernel</a></dt><dd><p>一个简单的 bash 的内核，用这个机器写的</p>
 </dd>
 </dl>
 </div>
-<p>The <a class="reference external" href="https://github.com/Calysto/metakernel/#">Metakernel</a> library makes it easier to
-write a wrapper kernel that includes a base set of line and cell magics.  It also has a <code class="docutils literal notranslate"><span class="pre">ProcessKernel</span></code> subclass that makes it easy to write kernels that use <code class="docutils literal notranslate"><span class="pre">pexpect</span></code>.
-See <a class="reference external" href="https://github.com/Calysto/octave_kernel">Octave Kernel</a> as an example.</p>
+<p><a class="reference external" href="https://github.com/Calysto/metakernel/#">Metakernel</a> 库使编写一个封装的内核更容易，其中包括一套基本的行和单元格魔法。它还有一个 <code class="docutils literal notranslate"><span class="pre">ProcessKernel</span></code> 子类，使得编写使用 <code class="docutils literal notranslate"><span class="pre">pexpect</span></code> 的内核变得容易。请看 <a class="reference external" href="https://github.com/Calysto/octave_kernel">Octave 内核</a> 作为一个例子。</p>
 <section id="required-steps">
-<h2>Required steps<a class="headerlink" href="#required-steps" title="永久链接至标题">¶</a></h2>
-<p>Subclass <code class="xref py py-class docutils literal notranslate"><span class="pre">ipykernel.kernelbase.Kernel</span></code>, and implement the
-following methods and attributes:</p>
+<h2>所需步骤<a class="headerlink" href="#required-steps" title="永久链接至标题">¶</a></h2>
+<p>子类 <code class="xref py py-class docutils literal notranslate"><span class="pre">ipykernel.kernelbase.Kernel</span></code>，并实现以下方法和属性：</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="MyKernel">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">MyKernel</span></span><a class="headerlink" href="#MyKernel" title="永久链接至目标">¶</a></dt>
@@ -121,73 +114,54 @@ following methods and attributes:</p>
 <span class="sig-name descname"><span class="pre">implementation_version</span></span><a class="headerlink" href="#MyKernel.implementation_version" title="永久链接至目标">¶</a></dt>
 <dt class="sig sig-object py" id="MyKernel.banner">
 <span class="sig-name descname"><span class="pre">banner</span></span><a class="headerlink" href="#MyKernel.banner" title="永久链接至目标">¶</a></dt>
-<dd><p>Information for <a class="reference internal" href="messaging.html#msging-kernel-info"><span class="std std-ref">Kernel info</span></a> replies. ‘Implementation’ refers
-to the kernel (e.g. IPython), rather than the language (e.g. Python).
-The ‘banner’ is displayed to the user in console
-UIs before the first prompt. All of these values are strings.</p>
+<dd><p><a class="reference internal" href="messaging.html#msging-kernel-info"><span class="std std-ref">Kernel info</span></a> 回复的信息。’Implementation’ 指的是内核（如 IPython），而不是语言（如 Python）。’banner’ 是在控制台 UI 中在第一个提示前显示给用户的。所有这些值都是字符串。</p>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="MyKernel.language_info">
 <span class="sig-name descname"><span class="pre">language_info</span></span><a class="headerlink" href="#MyKernel.language_info" title="永久链接至目标">¶</a></dt>
-<dd><p>Language information for <a class="reference internal" href="messaging.html#msging-kernel-info"><span class="std std-ref">Kernel info</span></a> replies, in a dictionary.
-This should contain the key <code class="docutils literal notranslate"><span class="pre">mimetype</span></code> with the mimetype of code in the
-target language (e.g. <code class="docutils literal notranslate"><span class="pre">'text/x-python'</span></code>), the <code class="docutils literal notranslate"><span class="pre">name</span></code> of the language
-being implemented (e.g. <code class="docutils literal notranslate"><span class="pre">'python'</span></code>), and <code class="docutils literal notranslate"><span class="pre">file_extension</span></code> (e.g.
-<code class="docutils literal notranslate"><span class="pre">'.py'</span></code>).
-It may also contain keys <code class="docutils literal notranslate"><span class="pre">codemirror_mode</span></code> and <code class="docutils literal notranslate"><span class="pre">pygments_lexer</span></code> if they
-need to differ from <a class="reference external" href="https://ipython.readthedocs.io/en/stable/development/wrapperkernels.html#MyKernel.language" title="(在 IPython v7.30.1)"><code class="xref py py-attr docutils literal notranslate"><span class="pre">language</span></code></a>.</p>
-<p>Other keys may be added to this later.</p>
+<dd><p><a class="reference internal" href="messaging.html#msging-kernel-info"><span class="std std-ref">Kernel info</span></a> 回复的语言信息，在一个字典中。这应该包含键 <code class="docutils literal notranslate"><span class="pre">mimetype</span></code> 和目标语言的代码 mimetype（例如：<code class="docutils literal notranslate"><span class="pre">'text/x-python'</span></code>），正在实现的语言的 <code class="docutils literal notranslate"><span class="pre">name</span></code> （例如： <code class="docutils literal notranslate"><span class="pre">'python'</span></code>）和 <code class="docutils literal notranslate"><span class="pre">file_extension</span></code> （例如： <code class="docutils literal notranslate"><span class="pre">'.py'</span></code>）。如果需要与 <a class="reference external" href="https://ipython.readthedocs.io/en/stable/development/wrapperkernels.html#MyKernel.language" title="(在 IPython v7.30.1)"><code class="xref py py-attr docutils literal notranslate"><span class="pre">language</span></code></a> 不同，它也可以包含键 <code class="docutils literal notranslate"><span class="pre">codemirror_mode</span></code> 和 <code class="docutils literal notranslate"><span class="pre">pygments_lexer</span></code>。</p>
+<p>以后还可以在此基础上增加其他键。</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="MyKernel.do_execute">
 <span class="sig-name descname"><span class="pre">do_execute</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">code</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">silent</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">store_history</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">user_expressions</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">allow_stdin</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#MyKernel.do_execute" title="永久链接至目标">¶</a></dt>
-<dd><p>Execute user code.</p>
+<dd><p>执行用户代码。</p>
 <dl class="field-list simple">
 <dt class="field-odd">参数</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>code</strong> (<em>str</em>) – The code to be executed.</p></li>
-<li><p><strong>silent</strong> (<em>bool</em>) – Whether to display output.</p></li>
-<li><p><strong>store_history</strong> (<em>bool</em>) – Whether to record this code in history and
-increase the execution count. If silent is True, this is implicitly
-False.</p></li>
-<li><p><strong>user_expressions</strong> (<em>dict</em>) – Mapping of names to expressions to evaluate
-after the code has run. You can ignore this if you need to.</p></li>
-<li><p><strong>allow_stdin</strong> (<em>bool</em>) – Whether the frontend can provide input on request
-(e.g. for Python’s <code class="xref py py-func docutils literal notranslate"><span class="pre">raw_input()</span></code>).</p></li>
+<li><p><strong>code</strong> (<em>str</em>) – 要执行的代码。</p></li>
+<li><p><strong>silent</strong> (<em>bool</em>) – 是否显示输出。</p></li>
+<li><p><strong>store_history</strong> (<em>bool</em>) – 是否在历史中记录这段代码并增加执行次数。如果 silent 为 True，则隐含为 False。</p></li>
+<li><p><strong>user_expressions</strong> (<em>dict</em>) – 名称与表达式的映射，以便在代码运行后进行评估。如果你需要，你可以忽略这一点。</p></li>
+<li><p><strong>allow_stdin</strong> (<em>bool</em>) – 前端是否可以按要求提供输入（例如对于 Python 的 <code class="xref py py-func docutils literal notranslate"><span class="pre">raw_input()</span></code>）。</p></li>
 </ul>
 </dd>
 </dl>
-<p>Your method should return a dict containing the fields described in
-<a class="reference internal" href="messaging.html#execution-results"><span class="std std-ref">Execution results</span></a>. To display output, it can send messages
-using <code class="xref py py-meth docutils literal notranslate"><span class="pre">send_response()</span></code>. If an error
-occurs during execution, an message of type <cite>error</cite> should be sent
-through <code class="xref py py-meth docutils literal notranslate"><span class="pre">send_response()</span></code>
-in addition to an <a class="reference internal" href="messaging.html#execution-results"><span class="std std-ref">Execution results</span></a> with an <cite>status</cite> of <cite>error</cite>.
-See <a class="reference internal" href="messaging.html"><span class="doc">Jupyter 中的消息传递</span></a> for details of the different message types.</p>
+<p>你的方法应该返回一个包含 <a class="reference internal" href="messaging.html#execution-results"><span class="std std-ref">Execution results</span></a> 中描述的字段的 dict。为了显示输出，它可以使用 <code class="xref py py-meth docutils literal notranslate"><span class="pre">send_response()</span></code> 来发送消息。如果在执行过程中发生了错误，除了 <code class="xref py py-meth docutils literal notranslate"><span class="pre">send_response()</span></code> 之外，还应该通过 <a class="reference internal" href="messaging.html#execution-results"><span class="std std-ref">Execution results</span></a> 发送一个 <cite>error</cite> 类型的消息，其 <cite>status</cite> 为 <cite>error</cite>。参见 <a class="reference internal" href="messaging.html"><span class="doc">Jupyter 中的消息传递</span></a> 了解不同消息类型的细节。</p>
 </dd></dl>
 
 </dd></dl>
 
-<p>To launch your kernel, add this at the end of your module:</p>
+<p>为了启动你的内核，在你的模块末尾添加以下内容</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
     <span class="kn">from</span> <span class="nn">ipykernel.kernelapp</span> <span class="kn">import</span> <span class="n">IPKernelApp</span>
     <span class="n">IPKernelApp</span><span class="o">.</span><span class="n">launch_instance</span><span class="p">(</span><span class="n">kernel_class</span><span class="o">=</span><span class="n">MyKernel</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>Now create a <a class="reference external" href="https://jupyter-client.readthedocs.io/en/latest/kernels.html#kernel-specs">JSON kernel spec file</a> and install it using <code class="docutils literal notranslate"><span class="pre">jupyter</span> <span class="pre">kernelspec</span> <span class="pre">install</span> <span class="pre">&lt;/path/to/kernel&gt;</span></code>. Place your kernel module anywhere Python can import it (try current directory for testing). Finally, you can run your kernel using <code class="docutils literal notranslate"><span class="pre">jupyter</span> <span class="pre">console</span> <span class="pre">--kernel</span> <span class="pre">&lt;mykernelname&gt;</span></code>. Note that <code class="docutils literal notranslate"><span class="pre">&lt;mykernelname&gt;</span></code> in the below example is <code class="docutils literal notranslate"><span class="pre">echo</span></code>.</p>
+<p>现在创建一个 <a class="reference external" href="https://jupyter-client.readthedocs.io/en/latest/kernels.html#kernel-specs">JSON 内核规格文件</a>，并使用 <code class="docutils literal notranslate"><span class="pre">jupyter</span> <span class="pre">kernelspec</span> <span class="pre">install</span> <span class="pre">&lt;/path/to/kernel&gt;</span></code> 安装它。将你的内核模块放置在 Python 可以导入的任何地方(测试时试试当前目录)。最后，你可以使用 <code class="docutils literal notranslate"><span class="pre">jupyter</span> <span class="pre">console</span> <span class="pre">--kernel</span> <span class="pre">&lt;mykernelname&gt;</span></code> 来运行你的内核。注意，在下面的例子中 <code class="docutils literal notranslate"><span class="pre">&lt;mykernelname&gt;</span></code> 是 <code class="docutils literal notranslate"><span class="pre">echo</span></code>。</p>
 </section>
 <section id="example">
-<h2>Example<a class="headerlink" href="#example" title="永久链接至标题">¶</a></h2>
+<h2>例子<a class="headerlink" href="#example" title="永久链接至标题">¶</a></h2>
 <div class="admonition seealso">
 <p class="admonition-title">参见</p>
 <dl class="simple">
-<dt><a class="reference external" href="https://github.com/jupyter/echo_kernel">echo_kernel</a></dt><dd><p>A packaged, installable version of the condensed example below.</p>
+<dt><a class="reference external" href="https://github.com/jupyter/echo_kernel">echo_kernel</a></dt><dd><p>下面是一个打包的、可安装的浓缩例子的版本。</p>
 </dd>
 </dl>
 </div>
-<p><code class="docutils literal notranslate"><span class="pre">echokernel.py</span></code> will simply echo any input it’s given to stdout:</p>
+<p><code class="docutils literal notranslate"><span class="pre">echokernel.py</span></code> 会简单地将任何输入的信息回传到 stdout</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">ipykernel.kernelbase</span> <span class="kn">import</span> <span class="n">Kernel</span>
 
 <span class="k">class</span> <span class="nc">EchoKernel</span><span class="p">(</span><span class="n">Kernel</span><span class="p">):</span>
@@ -220,7 +194,7 @@ See <a class="reference internal" href="messaging.html"><span class="doc">Jupyte
     <span class="n">IPKernelApp</span><span class="o">.</span><span class="n">launch_instance</span><span class="p">(</span><span class="n">kernel_class</span><span class="o">=</span><span class="n">EchoKernel</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>Here’s the Kernel spec <code class="docutils literal notranslate"><span class="pre">kernel.json</span></code> file for this:</p>
+<p>这是内核规格 <code class="docutils literal notranslate"><span class="pre">kernel.json</span></code> 文件，用于此</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span><span class="s2">&quot;argv&quot;</span><span class="p">:[</span><span class="s2">&quot;python&quot;</span><span class="p">,</span><span class="s2">&quot;-m&quot;</span><span class="p">,</span><span class="s2">&quot;echokernel&quot;</span><span class="p">,</span> <span class="s2">&quot;-f&quot;</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">{connection_file}</span><span class="s2">&quot;</span><span class="p">],</span>
  <span class="s2">&quot;display_name&quot;</span><span class="p">:</span><span class="s2">&quot;Echo&quot;</span>
 <span class="p">}</span>
@@ -228,92 +202,85 @@ See <a class="reference internal" href="messaging.html"><span class="doc">Jupyte
 </div>
 </section>
 <section id="optional-steps">
-<h2>Optional steps<a class="headerlink" href="#optional-steps" title="永久链接至标题">¶</a></h2>
-<p>You can override a number of other methods to improve the functionality of your
-kernel. All of these methods should return a dictionary as described in the
-relevant section of the <a class="reference internal" href="messaging.html"><span class="doc">messaging spec</span></a>.</p>
+<h2>可选步骤<a class="headerlink" href="#optional-steps" title="永久链接至标题">¶</a></h2>
+<p>你可以覆盖一些其他的方法来改善你的内核的功能。所有这些方法都应该返回一个字典，如 <a class="reference internal" href="messaging.html"><span class="doc">messaging spec</span></a> 的相关部分所描述的。</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="id0">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">MyKernel</span></span><a class="headerlink" href="#id0" title="永久链接至目标">¶</a></dt>
 <dd><dl class="py method">
 <dt class="sig sig-object py" id="MyKernel.do_complete">
 <span class="sig-name descname"><span class="pre">do_complete</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">code</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cursor_pos</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#MyKernel.do_complete" title="永久链接至目标">¶</a></dt>
-<dd><p>Code completion</p>
+<dd><p>代码自动补全</p>
 <dl class="field-list simple">
 <dt class="field-odd">参数</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>code</strong> (<em>str</em>) – The code already present</p></li>
-<li><p><strong>cursor_pos</strong> (<em>int</em>) – The position in the code where completion is requested</p></li>
+<li><p><strong>code</strong> (<em>str</em>) – 已经存在的代码</p></li>
+<li><p><strong>cursor_pos</strong> (<em>int</em>) – 要求补全的代码中的位置</p></li>
 </ul>
 </dd>
 </dl>
 <div class="admonition seealso">
 <p class="admonition-title">参见</p>
-<p><a class="reference internal" href="messaging.html#msging-completion"><span class="std std-ref">Completion</span></a> messages</p>
+<p><a class="reference internal" href="messaging.html#msging-completion"><span class="std std-ref">Completion</span></a> 消息</p>
 </div>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="MyKernel.do_inspect">
 <span class="sig-name descname"><span class="pre">do_inspect</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">code</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cursor_pos</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">detail_level</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#MyKernel.do_inspect" title="永久链接至目标">¶</a></dt>
-<dd><p>Object introspection</p>
+<dd><p>对象自省</p>
 <dl class="field-list simple">
 <dt class="field-odd">参数</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>code</strong> (<em>str</em>) – The code</p></li>
-<li><p><strong>cursor_pos</strong> (<em>int</em>) – The position in the code where introspection is requested</p></li>
-<li><p><strong>detail_level</strong> (<em>int</em>) – 0 or 1 for more or less detail. In IPython, 1 gets
-the source code.</p></li>
+<li><p><strong>code</strong> (<em>str</em>) – 代码</p></li>
+<li><p><strong>cursor_pos</strong> (<em>int</em>) – 代码中要求自省的位置</p></li>
+<li><p><strong>detail_level</strong> (<em>int</em>) – 0 或 1 代表更多或更少的细节。在 IPython 中，1 得到的是源代码。</p></li>
 </ul>
 </dd>
 </dl>
 <div class="admonition seealso">
 <p class="admonition-title">参见</p>
-<p><a class="reference internal" href="messaging.html#msging-inspection"><span class="std std-ref">Introspection</span></a> messages</p>
+<p><a class="reference internal" href="messaging.html#msging-inspection"><span class="std std-ref">Introspection</span></a> 消息</p>
 </div>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="MyKernel.do_history">
 <span class="sig-name descname"><span class="pre">do_history</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">hist_access_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">raw</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">session</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stop</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pattern</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">unique</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#MyKernel.do_history" title="永久链接至目标">¶</a></dt>
-<dd><p>History access. Only the relevant parameters for the type of history
-request concerned will be passed, so your method definition must have defaults
-for all the arguments shown with defaults here.</p>
+<dd><p>历史访问。只有相关的历史请求类型的相关参数才会被传递，所以你的方法定义必须有这里显示的所有参数的默认值。</p>
 <div class="admonition seealso">
 <p class="admonition-title">参见</p>
-<p><a class="reference internal" href="messaging.html#msging-history"><span class="std std-ref">History</span></a> messages</p>
+<p><a class="reference internal" href="messaging.html#msging-history"><span class="std std-ref">History</span></a> 消息</p>
 </div>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="MyKernel.do_is_complete">
 <span class="sig-name descname"><span class="pre">do_is_complete</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">code</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#MyKernel.do_is_complete" title="永久链接至目标">¶</a></dt>
-<dd><p>Is code entered in a console-like interface complete and ready to execute,
-or should a continuation prompt be shown?</p>
+<dd><p>在类似于控制台的界面中输入的代码是否已经完成并准备执行，还是应该显示一个继续提示？</p>
 <dl class="field-list simple">
 <dt class="field-odd">参数</dt>
-<dd class="field-odd"><p><strong>code</strong> (<em>str</em>) – The code entered so far - possibly multiple lines</p>
+<dd class="field-odd"><p><strong>code</strong> (<em>str</em>) – 到目前为止输入的代码 —— 可能有多行</p>
 </dd>
 </dl>
 <div class="admonition seealso">
 <p class="admonition-title">参见</p>
-<p><a class="reference internal" href="messaging.html#msging-is-complete"><span class="std std-ref">Code completeness</span></a> messages</p>
+<p><a class="reference internal" href="messaging.html#msging-is-complete"><span class="std std-ref">Code completeness</span></a> 消息</p>
 </div>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="MyKernel.do_shutdown">
 <span class="sig-name descname"><span class="pre">do_shutdown</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">restart</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#MyKernel.do_shutdown" title="永久链接至目标">¶</a></dt>
-<dd><p>Shutdown the kernel. You only need to handle your own clean up - the kernel
-machinery will take care of cleaning up its own things before stopping.</p>
+<dd><p>关闭内核。你只需要处理你自己的清理工作 ——— 内核机器会在停止前处理好自己的事情。</p>
 <dl class="field-list simple">
 <dt class="field-odd">参数</dt>
-<dd class="field-odd"><p><strong>restart</strong> (<em>bool</em>) – Whether the kernel will be started again afterwards</p>
+<dd class="field-odd"><p><strong>restart</strong> (<em>bool</em>) – 事后是否会再次启动内核</p>
 </dd>
 </dl>
 <div class="admonition seealso">
 <p class="admonition-title">参见</p>
-<p><a class="reference internal" href="messaging.html#msging-shutdown"><span class="std std-ref">Kernel shutdown</span></a> messages</p>
+<p><a class="reference internal" href="messaging.html#msging-shutdown"><span class="std std-ref">Kernel shutdown</span></a> 消息</p>
 </div>
 </dd></dl>
 
@@ -326,7 +293,7 @@ machinery will take care of cleaning up its own things before stopping.</p>
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="kernels.html" class="btn btn-neutral float-left" title="Making kernels for Jupyter" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="kernels.html" class="btn btn-neutral float-left" title="为 Jupyter 制作内核" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
         <a href="provisioning.html" class="btn btn-neutral float-right" title="Customizing the kernel’s runtime environment" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 

@@ -19,7 +19,7 @@
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="索引" href="genindex.html" />
     <link rel="search" title="搜索" href="search.html" />
-    <link rel="next" title="Making kernels for Jupyter" href="kernels.html" />
+    <link rel="next" title="为 Jupyter 制作内核" href="kernels.html" />
     <link rel="prev" title="Jupyter Client 7.1" href="index.html" /> 
 </head>
 
@@ -114,8 +114,8 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">开发者文档</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="kernels.html">Making kernels for Jupyter</a></li>
-<li class="toctree-l1"><a class="reference internal" href="wrapperkernels.html">Making simple Python wrapper kernels</a></li>
+<li class="toctree-l1"><a class="reference internal" href="kernels.html">为 Jupyter 制作内核</a></li>
+<li class="toctree-l1"><a class="reference internal" href="wrapperkernels.html">制作简单的 Python 包装器内核</a></li>
 <li class="toctree-l1"><a class="reference internal" href="provisioning.html">Customizing the kernel’s runtime environment</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">API</span></p>
@@ -209,19 +209,13 @@
 <p>消息头中的 <code class="docutils literal notranslate"><span class="pre">session</span></code> ID 确定了一个具有状态的独特实体，如内核进程或客户进程。</p>
 <p>来自客户端的消息头中的客户端会话 ID，在连接到一个内核的所有客户端中应该是唯一的。当一个客户重新连接到一个内核时，它应该在其消息头中使用相同的客户会话 ID。当客户端重新启动时，它应该产生一个新的客户端会话 ID。</p>
 <p>内核会话 ID，在来自内核的消息头中，应该识别一个特定的内核进程。如果一个内核被重新启动，内核会话 ID 应该被重新生成。</p>
-<p>The session id in a message header can be used to identify the sending entity.
-For example, if a client disconnects and reconnects to a kernel, and messages
-from the kernel have a different kernel session id than prior to the disconnect,
-the client should assume that the kernel was restarted.</p>
+<p>消息头中的会话 ID 可以用来识别发送实体。例如，如果客户端断开连接并重新连接到一个内核，而来自该内核的消息有一个与断开连接前不同的内核会话 ID，客户端应该认为该内核被重新启动。</p>
 </div>
 <div class="versionchanged">
-<p><span class="versionmodified changed">在 5.0 版更改: </span><code class="docutils literal notranslate"><span class="pre">version</span></code> key added to the header.</p>
+<p><span class="versionmodified changed">在 5.0 版更改: </span><code class="docutils literal notranslate"><span class="pre">version</span></code> 关键字被添加到消息头</p>
 </div>
 <div class="versionchanged">
-<p><span class="versionmodified changed">在 5.1 版更改: </span><code class="docutils literal notranslate"><span class="pre">date</span></code> in the header was accidentally omitted from the spec prior to 5.1,
-but it has always been in the canonical implementation,
-so implementers are strongly encouraged to include it.
-It will be mandatory in 5.1.</p>
+<p><span class="versionmodified changed">在 5.1 版更改: </span>头中的 <code class="docutils literal notranslate"><span class="pre">date</span></code> 在 5.1 之前的规范中被意外地省略了，但它一直在规范的实现中，所以强烈鼓励实现者包括它。在 5.1 中，它将是强制性的。</p>
 </div>
 </section>
 <section id="parent-header">
@@ -1630,7 +1624,7 @@ But they should know that doing so <em>introduces</em> the inverse bug for the f
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="index.html" class="btn btn-neutral float-left" title="Jupyter Client 7.1" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="kernels.html" class="btn btn-neutral float-right" title="Making kernels for Jupyter" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="kernels.html" class="btn btn-neutral float-right" title="为 Jupyter 制作内核" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
