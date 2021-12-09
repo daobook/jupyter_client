@@ -1,0 +1,268 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2015, Jupyter Development Team
+# This file is distributed under the same license as the jupyter_client
+# package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2021.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: jupyter_client 7.1\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2021-12-09 21:30+0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.9.1\n"
+
+#: ../../wrapperkernels.rst:2
+msgid "Making simple Python wrapper kernels"
+msgstr ""
+
+#: ../../wrapperkernels.rst:4
+msgid ""
+"You can re-use IPython's kernel machinery to easily make new kernels. "
+"This is useful for languages that have Python bindings, such as `Hy "
+"<https://github.com/hylang/hy/>`_ (see `Calysto Hy "
+"<https://github.com/Calysto/calysto_hy/#>`_), or languages where the REPL"
+" can be controlled in a tty using `pexpect "
+"<https://pexpect.readthedocs.io/en/latest/>`_, such as bash."
+msgstr ""
+
+#: ../../wrapperkernels.rst:13
+msgid "`bash_kernel <https://github.com/takluyver/bash_kernel>`_"
+msgstr ""
+
+#: ../../wrapperkernels.rst:14
+msgid "A simple kernel for bash, written using this machinery"
+msgstr ""
+
+#: ../../wrapperkernels.rst:16
+msgid ""
+"The `Metakernel <https://github.com/Calysto/metakernel/#>`_ library makes"
+" it easier to write a wrapper kernel that includes a base set of line and"
+" cell magics.  It also has a ``ProcessKernel`` subclass that makes it "
+"easy to write kernels that use ``pexpect``. See `Octave Kernel "
+"<https://github.com/Calysto/octave_kernel>`_ as an example."
+msgstr ""
+
+#: ../../wrapperkernels.rst:22
+msgid "Required steps"
+msgstr ""
+
+#: ../../wrapperkernels.rst:24
+msgid ""
+"Subclass :class:`ipykernel.kernelbase.Kernel`, and implement the "
+"following methods and attributes:"
+msgstr ""
+
+#: ../../wrapperkernels.rst:33
+msgid ""
+"Information for :ref:`msging_kernel_info` replies. 'Implementation' "
+"refers to the kernel (e.g. IPython), rather than the language (e.g. "
+"Python). The 'banner' is displayed to the user in console UIs before the "
+"first prompt. All of these values are strings."
+msgstr ""
+
+#: ../../wrapperkernels.rst:40
+msgid ""
+"Language information for :ref:`msging_kernel_info` replies, in a "
+"dictionary. This should contain the key ``mimetype`` with the mimetype of"
+" code in the target language (e.g. ``'text/x-python'``), the ``name`` of "
+"the language being implemented (e.g. ``'python'``), and "
+"``file_extension`` (e.g. ``'.py'``). It may also contain keys "
+"``codemirror_mode`` and ``pygments_lexer`` if they need to differ from "
+":attr:`language`."
+msgstr ""
+
+#: ../../wrapperkernels.rst:48
+msgid "Other keys may be added to this later."
+msgstr ""
+
+#: ../../wrapperkernels.rst:52
+msgid "Execute user code."
+msgstr ""
+
+#: ../../wrapperkernels.rst
+msgid "参数"
+msgstr ""
+
+#: ../../wrapperkernels.rst:54
+msgid "The code to be executed."
+msgstr ""
+
+#: ../../wrapperkernels.rst:55
+msgid "Whether to display output."
+msgstr ""
+
+#: ../../wrapperkernels.rst:56
+msgid ""
+"Whether to record this code in history and increase the execution count. "
+"If silent is True, this is implicitly False."
+msgstr ""
+
+#: ../../wrapperkernels.rst:59
+msgid ""
+"Mapping of names to expressions to evaluate after the code has run. You "
+"can ignore this if you need to."
+msgstr ""
+
+#: ../../wrapperkernels.rst:61
+msgid ""
+"Whether the frontend can provide input on request (e.g. for Python's "
+":func:`raw_input`)."
+msgstr ""
+
+#: ../../wrapperkernels.rst:64
+msgid ""
+"Your method should return a dict containing the fields described in "
+":ref:`execution_results`. To display output, it can send messages using "
+":meth:`~ipykernel.kernelbase.Kernel.send_response`. If an error occurs "
+"during execution, an message of type `error` should be sent through "
+":meth:`~ipykernel.kernelbase.Kernel.send_response` in addition to an "
+":ref:`execution_results` with an `status` of `error`. See "
+":doc:`messaging` for details of the different message types."
+msgstr ""
+
+#: ipykernel.kernelbase.Kernel.send_response:1 of
+msgid "Send a response to the message we're currently processing."
+msgstr ""
+
+#: ipykernel.kernelbase.Kernel.send_response:3 of
+msgid ""
+"This accepts all the parameters of "
+":meth:`jupyter_client.session.Session.send` except ``parent``."
+msgstr ""
+
+#: ipykernel.kernelbase.Kernel.send_response:6 of
+msgid ""
+"This relies on :meth:`set_parent` having been called for the current "
+"message."
+msgstr ""
+
+#: ../../wrapperkernels.rst:74
+msgid "To launch your kernel, add this at the end of your module::"
+msgstr ""
+
+#: ../../wrapperkernels.rst:80
+msgid ""
+"Now create a `JSON kernel spec file <https://jupyter-"
+"client.readthedocs.io/en/latest/kernels.html#kernel-specs>`_ and install "
+"it using ``jupyter kernelspec install </path/to/kernel>``. Place your "
+"kernel module anywhere Python can import it (try current directory for "
+"testing). Finally, you can run your kernel using ``jupyter console "
+"--kernel <mykernelname>``. Note that ``<mykernelname>`` in the below "
+"example is ``echo``."
+msgstr ""
+
+#: ../../wrapperkernels.rst:83
+msgid "Example"
+msgstr ""
+
+#: ../../wrapperkernels.rst:87
+msgid "`echo_kernel <https://github.com/jupyter/echo_kernel>`__"
+msgstr ""
+
+#: ../../wrapperkernels.rst:88
+msgid "A packaged, installable version of the condensed example below."
+msgstr ""
+
+#: ../../wrapperkernels.rst:90
+msgid "``echokernel.py`` will simply echo any input it's given to stdout::"
+msgstr ""
+
+#: ../../wrapperkernels.rst:123
+msgid "Here's the Kernel spec ``kernel.json`` file for this::"
+msgstr ""
+
+#: ../../wrapperkernels.rst:131
+msgid "Optional steps"
+msgstr ""
+
+#: ../../wrapperkernels.rst:133
+msgid ""
+"You can override a number of other methods to improve the functionality "
+"of your kernel. All of these methods should return a dictionary as "
+"described in the relevant section of the :doc:`messaging spec "
+"<messaging>`."
+msgstr ""
+
+#: ../../wrapperkernels.rst:141
+msgid "Code completion"
+msgstr ""
+
+#: ../../wrapperkernels.rst:143
+msgid "The code already present"
+msgstr ""
+
+#: ../../wrapperkernels.rst:144
+msgid "The position in the code where completion is requested"
+msgstr ""
+
+#: ../../wrapperkernels.rst:148
+msgid ":ref:`msging_completion` messages"
+msgstr ""
+
+#: ../../wrapperkernels.rst:152
+msgid "Object introspection"
+msgstr ""
+
+#: ../../wrapperkernels.rst:154
+msgid "The code"
+msgstr ""
+
+#: ../../wrapperkernels.rst:155
+msgid "The position in the code where introspection is requested"
+msgstr ""
+
+#: ../../wrapperkernels.rst:156
+msgid "0 or 1 for more or less detail. In IPython, 1 gets the source code."
+msgstr ""
+
+#: ../../wrapperkernels.rst:161
+msgid ":ref:`msging_inspection` messages"
+msgstr ""
+
+#: ../../wrapperkernels.rst:165
+msgid ""
+"History access. Only the relevant parameters for the type of history "
+"request concerned will be passed, so your method definition must have "
+"defaults for all the arguments shown with defaults here."
+msgstr ""
+
+#: ../../wrapperkernels.rst:171
+msgid ":ref:`msging_history` messages"
+msgstr ""
+
+#: ../../wrapperkernels.rst:175
+msgid ""
+"Is code entered in a console-like interface complete and ready to "
+"execute, or should a continuation prompt be shown?"
+msgstr ""
+
+#: ../../wrapperkernels.rst:178
+msgid "The code entered so far - possibly multiple lines"
+msgstr ""
+
+#: ../../wrapperkernels.rst:182
+msgid ":ref:`msging_is_complete` messages"
+msgstr ""
+
+#: ../../wrapperkernels.rst:186
+msgid ""
+"Shutdown the kernel. You only need to handle your own clean up - the "
+"kernel machinery will take care of cleaning up its own things before "
+"stopping."
+msgstr ""
+
+#: ../../wrapperkernels.rst:189
+msgid "Whether the kernel will be started again afterwards"
+msgstr ""
+
+#: ../../wrapperkernels.rst:193
+msgid ":ref:`msging_shutdown` messages"
+msgstr ""
+

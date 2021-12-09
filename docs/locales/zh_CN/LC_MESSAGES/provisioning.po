@@ -1,0 +1,332 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2015, Jupyter Development Team
+# This file is distributed under the same license as the jupyter_client
+# package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2021.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: jupyter_client 7.1\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2021-12-09 21:30+0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.9.1\n"
+
+#: ../../provisioning.rst:4
+msgid "Customizing the kernel's runtime environment"
+msgstr ""
+
+#: ../../provisioning.rst:7
+msgid "Kernel Provisioning"
+msgstr ""
+
+#: ../../provisioning.rst:9
+msgid ""
+"Introduced in the 7.0 release, Kernel Provisioning enables the ability "
+"for third parties to manage the lifecycle of a kernel's runtime "
+"environment. By implementing and configuring a *kernel provisioner*, "
+"third parties now have the ability to provision kernels for different "
+"environments, typically managed by resource managers like Kubernetes, "
+"Hadoop YARN, Slurm, etc. For example, a *Kubernetes Provisioner* would be"
+" responsible for launching a kernel within its own Kubernetes pod, "
+"communicating the kernel's connection information back to the application"
+" (residing in a separate pod), and terminating the pod upon the kernel's "
+"termination. In essence, a kernel provisioner is an *abstraction layer* "
+"between the ``KernelManager`` and today's kernel *process* (i.e., "
+"``Popen``)."
+msgstr ""
+
+#: ../../provisioning.rst:23
+msgid "The kernel manager and kernel provisioner relationship"
+msgstr ""
+
+#: ../../provisioning.rst:25
+msgid ""
+"Prior to this enhancement, the only extension point for customizing a "
+"kernel's behavior could occur by subclassing ``KernelManager``. This "
+"proved to be a limitation because the Jupyter framework allows for a "
+"single ``KernelManager`` class at any time. While applications could "
+"introduce a ``KernelManager`` subclass of their own, that "
+"``KernelManager`` was then tied directly to *that* application and "
+"thereby not usable as a ``KernelManager`` in another application. As a "
+"result, we consider the ``KernelManager`` class to be an *application-"
+"owned entity* upon which application-specific behaviors can be "
+"implemented."
+msgstr ""
+
+#: ../../provisioning.rst:36
+msgid ""
+"Kernel provisioners, on the other hand, are contained within the "
+"``KernelManager`` (i.e., a *has-a* relationship) and applications are "
+"agnostic as to what *kind* of provisioner is in use other than what is "
+"conveyed via the kernel's specification (kernelspec). All kernel "
+"interactions still occur via the ``KernelManager`` and ``KernelClient`` "
+"classes within ``jupyter_client`` and potentially subclassed by the "
+"application."
+msgstr ""
+
+#: ../../provisioning.rst:44
+msgid ""
+"Kernel provisioners are not related in any way to the ``KernelManager`` "
+"instance that controls their lifecycle, nor do they have any affinity to "
+"the application within which they are used. They merely provide a vehicle"
+" by which authors can extend the landscape in which a kernel can reside, "
+"while not side-effecting the application. That said, some kernel "
+"provisioners may introduce requirements on the application. For example "
+"(and completely hypothetically speaking), a ``SlurmProvisioner`` may "
+"impose the constraint that the server (``jupyter_client``) resides on an "
+"edge node of the Slurm cluster. These kinds of requirements can be "
+"mitigated by leveraging applications like `Jupyter Kernel Gateway "
+"<https://github.com/jupyter/kernel_gateway>`_ or `Jupyter Enterprise "
+"Gateway <https://github.com/jupyter/enterprise_gateway>`_ where the "
+"gateway server resides on the edge node of (or within) the cluster, etc."
+msgstr ""
+
+#: ../../provisioning.rst:59
+msgid "Discovery"
+msgstr ""
+
+#: ../../provisioning.rst:61
+msgid ""
+"Kernel provisioning does not alter today's kernel discovery mechanism "
+"that utilizes well-known directories of ``kernel.json`` files. Instead, "
+"it optionally extends the current ``metadata`` stanza within the "
+"``kernel.json`` to include the specification of the kernel provisioner "
+"name, along with an optional ``config`` stanza, consisting of "
+"provisioner-specific configuration items. For example, a container-based "
+"provisioner will likely need to specify the image name in this section. "
+"The important point is that the content of this section is provisioner-"
+"specific."
+msgstr ""
+
+#: ../../provisioning.rst:83
+msgid ""
+"Kernel provisioner authors implement their provisioners by deriving from "
+":class:`KernelProvisionerBase` and expose their provisioner for "
+"consumption via entry-points:"
+msgstr ""
+
+#: ../../provisioning.rst:94
+msgid "Backwards Compatibility"
+msgstr ""
+
+#: ../../provisioning.rst:96
+msgid ""
+"Prior to this release, no ``kernel.json`` (kernelspec) will contain a "
+"provisioner entry, yet the framework is now based on using provisioners. "
+"As a result, when a ``kernel_provisioner`` stanza is **not** present in a"
+" selected kernelspec, jupyter client will, by default, use the built-in "
+"``LocalProvisioner`` implementation as its provisioner. This provisioner "
+"retains today's local kernel functionality. It can also be subclassed for"
+" those provisioner authors wanting to extend the functionality of local "
+"kernels. The result of launching a kernel in this manner is equivalent to"
+" the following stanza existing in the ``kernel.json`` file:"
+msgstr ""
+
+#: ../../provisioning.rst:116
+msgid ""
+"Should a given installation wish to use a *different* provisioner as "
+"their \"default provisioner\" (including subclasses of "
+"``LocalProvisioner``), they can do so by specifying a value for "
+"``KernelProvisionerFactory.default_provisioner_name``."
+msgstr ""
+
+#: ../../provisioning.rst:122
+msgid "Implementing a custom provisioner"
+msgstr ""
+
+#: ../../provisioning.rst:124
+msgid ""
+"The impact of Kernel Provisioning is that it enables the ability to "
+"implement custom kernel provisioners to manage a kernel's lifecycle "
+"within any runtime environment. There are currently two approaches by "
+"which that can be accomplished, extending the ``KernelProvisionerBase`` "
+"class or extending the built-in class - ``LocalProvisioner``. As more "
+"provisioners are introduced, some may be implemented in an abstract "
+"sense, from which specific implementations can be authored."
+msgstr ""
+
+#: ../../provisioning.rst:133
+msgid "Extending ``LocalProvisioner``"
+msgstr ""
+
+#: ../../provisioning.rst:135
+msgid ""
+"If you're interested in running kernels locally and yet adjust their "
+"behavior, there's a good chance you can simply extend "
+"``LocalProvisioner`` via subclassing. This amounts to deriving from "
+"``LocalProvisioner`` and overriding appropriate methods to provide your "
+"custom functionality."
+msgstr ""
+
+#: ../../provisioning.rst:141
+msgid ""
+"In this example, RBACProvisioner will verify whether the current user is "
+"in the role meant for this kernel by calling a method implemented within "
+"*this* provisioner. If the user is not in the role, an exception will be "
+"thrown."
+msgstr ""
+
+#: ../../provisioning.rst:158
+msgid ""
+"It is important to note *when* it's necessary to call the superclass in a"
+" given method - since the operations it performs may be critical to the "
+"kernel's management. As a result, you'll likely need to become familiar "
+"with how ``LocalProvisioner`` operates."
+msgstr ""
+
+#: ../../provisioning.rst:164
+msgid "Extending ``KernelProvisionerBase``"
+msgstr ""
+
+#: ../../provisioning.rst:166
+msgid ""
+"If you'd like to launch your kernel in an environment other than the "
+"local server, then you will need to consider subclassing "
+":class:`KernelProvisionerBase` directly.  This will allow you to "
+"implement the various kernel process controls relative to your target "
+"environment.  For instance, if you wanted to have your kernel hosted in a"
+" Hadoop YARN cluster, you will need to implement process-control methods "
+"like :meth:`poll` and :meth:`wait` to use the YARN REST API.  Or, "
+"similarly, a Kubernetes-based provisioner would need to implement the "
+"process-control methods using the Kubernetes client API, etc."
+msgstr ""
+
+#: ../../provisioning.rst:176
+msgid ""
+"By modeling the :class:`KernelProvisionerBase` methods after "
+":class:`subprocess.Popen` a natural mapping between today's kernel "
+"lifecycle management takes place.  This, coupled with the ability to add "
+"configuration directly into the ``config:`` stanza of the "
+"``kernel_provisioner`` metadata, allows for things like endpoint address,"
+" image names, namespaces, hosts lists, etc. to be specified relative to "
+"your kernel provisioner implementation."
+msgstr ""
+
+#: ../../provisioning.rst:183
+msgid ""
+"The ``kernel_id`` corresponding to the launched kernel and used by the "
+"kernel manager is now available *prior* to the kernel's launch.  This "
+"enables provisioners with a unique *key* they can use to discover and "
+"control their kernel when launched into resource-managed clusters such as"
+" Hadoop YARN or Kubernetes."
+msgstr ""
+
+#: ../../provisioning.rst:190
+msgid "Use ``kernel_id`` as a discovery mechanism from your provisioner!"
+msgstr ""
+
+#: ../../provisioning.rst:192
+msgid ""
+"Here's a prototyped implementation of a couple of the abstract methods of"
+" :class:`KernelProvisionerBase` for use in an Hadoop YARN cluster to help"
+" illustrate a provisioner's implementation.  Note that the built-in "
+"implementation of :class:`LocalProvisioner` can also be used as a "
+"reference."
+msgstr ""
+
+#: ../../provisioning.rst:197
+msgid ""
+"Notice the internal method ``_get_application_id()``.  This method is "
+"what the provisioner uses to determine if the YARN application (i.e., the"
+" kernel) is still running within te cluster.  Although the provisioner "
+"doesn't dictate the application id, the application id is discovered via "
+"the application *name* which is a function of ``kernel_id``."
+msgstr ""
+
+#: ../../provisioning.rst:236
+msgid ""
+"Notice how in some cases we can compose provisioner methods to implement "
+"others.  For example, since sending a signal number of 0 is tantamount to"
+" polling the process, we go ahead and call :meth:`poll` to handle "
+"`signum` of 0 and :meth:`kill` to handle `SIGKILL` requests."
+msgstr ""
+
+#: ../../provisioning.rst:241
+msgid ""
+"Here we see how ``_get_application_id`` uses the ``kernel_id`` to acquire"
+" the application id - which is the *primary id* for controlling YARN "
+"application lifecycles. Since startup in resource-managed clusters can "
+"tend to take much longer than local kernels, you'll typically need a "
+"polling or notification mechanism within your provisioner.  In addition, "
+"your provisioner will be asked by the ``KernelManager`` what is an "
+"acceptable startup time. This answer is implemented in the provisioner "
+"via the :meth:`get_shutdown_wait_time` method."
+msgstr ""
+
+#: ../../provisioning.rst:282
+msgid "Registering your custom provisioner"
+msgstr ""
+
+#: ../../provisioning.rst:284
+msgid ""
+"Once your custom provisioner has been authored, it needs to be exposed as"
+" an `entry point <https://packaging.python.org/specifications/entry-"
+"points/>`_. To do this add the following to your ``setup.py`` (or "
+"equivalent) in its ``entry_points`` stanza using the group name "
+"``jupyter_client.kernel_provisioners``:"
+msgstr ""
+
+#: ../../provisioning.rst:297
+msgid "where:"
+msgstr ""
+
+#: ../../provisioning.rst:299
+msgid ""
+"``rbac-provisioner`` is the *name* of your provisioner and what will be "
+"referenced within the ``kernel.json`` file"
+msgstr ""
+
+#: ../../provisioning.rst:301
+msgid "``acme.rbac.provisioner`` identifies the provisioner module name, and"
+msgstr ""
+
+#: ../../provisioning.rst:302
+msgid ""
+"``RBACProvisioner`` is custom provisioner object name (implementation) "
+"that (directly or indirectly) derives from ``KernelProvisionerBase``"
+msgstr ""
+
+#: ../../provisioning.rst:307
+msgid "Deploying your custom provisioner"
+msgstr ""
+
+#: ../../provisioning.rst:309
+msgid ""
+"The final step in getting your custom provisioner deployed is to add a "
+"``kernel_provisioner`` stanza to the appropriate ``kernel.json`` files. "
+"This can be accomplished manually or programmatically (in which some "
+"tooling is implemented to create the appropriate ``kernel.json`` file). "
+"In either case, the end result is the same - a ``kernel.json`` file with "
+"the appropriate stanza within ``metadata``. The *vision* is that kernel "
+"provisioner packages will include an application that creates kernel "
+"specifications (i.e., ``kernel.json`` et. al.) pertaining to that "
+"provisioner."
+msgstr ""
+
+#: ../../provisioning.rst:319
+msgid ""
+"Following on the previous example of ``RBACProvisioner``, one would find "
+"the following ``kernel.json`` file in directory "
+"``/usr/local/share/jupyter/kernels/rbac_kernel``:"
+msgstr ""
+
+#: ../../provisioning.rst:342
+msgid "Listing available kernel provisioners"
+msgstr ""
+
+#: ../../provisioning.rst:343
+msgid ""
+"To confirm that your custom provisioner is available for use, the "
+"``jupyter kernelspec`` command has been extended to include a "
+"`provisioners` sub-command.  As a result, running ``jupyter kernelspec "
+"provisioners`` will list the available provisioners by name followed by "
+"their module and object names (colon-separated):"
+msgstr ""
+

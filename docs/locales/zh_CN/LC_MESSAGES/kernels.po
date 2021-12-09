@@ -1,0 +1,331 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2015, Jupyter Development Team
+# This file is distributed under the same license as the jupyter_client
+# package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2021.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: jupyter_client 7.1\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2021-12-09 21:30+0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.9.1\n"
+
+#: ../../kernels.rst:5
+msgid "Making kernels for Jupyter"
+msgstr ""
+
+#: ../../kernels.rst:7
+msgid ""
+"A 'kernel' is a program that runs and introspects the user's code. "
+"IPython includes a kernel for Python code, and people have written "
+"kernels for `several other languages "
+"<https://github.com/jupyter/jupyter/wiki/Jupyter-kernels>`_."
+msgstr ""
+
+#: ../../kernels.rst:11
+msgid ""
+"At kernel startup, Jupyter passes the kernel a connection file. This "
+"specifies how to set up communications with the frontend."
+msgstr ""
+
+#: ../../kernels.rst:14
+msgid "There are three options for writing a kernel:"
+msgstr ""
+
+#: ../../kernels.rst:16
+msgid ""
+"You can reuse the IPython kernel machinery to handle the communications, "
+"and just describe how to execute your code. This is much simpler if the "
+"target language can be driven from Python. See :doc:`wrapperkernels` for "
+"details."
+msgstr ""
+
+#: ../../kernels.rst:19
+msgid ""
+"You can implement the kernel machinery in your target language. This is "
+"more work initially, but the people using your kernel might be more "
+"likely to contribute to it if it's in the language they know."
+msgstr ""
+
+#: ../../kernels.rst:22
+msgid ""
+"You can use the `xeus <https://github.com/jupyter-xeus/xeus>`_ library "
+"that is a C++ implementation of the Jupyter kernel protocol. Kernel "
+"authors only need to implement the language-specific logic in their "
+"implementation (execute code, auto-completion...). This is the simplest "
+"solution if your target language can be driven from C or C++: e.g. if it "
+"has a C-API like most scripting languages. Check out the `xeus "
+"documentation <https://xeus.readthedocs.io/>`_ for more details. Examples"
+" of kernels based on xeus include:"
+msgstr ""
+
+#: ../../kernels.rst:31
+msgid "`xeus-cling <https://github.com/jupyter-xeus/xeus-cling>`_"
+msgstr ""
+
+#: ../../kernels.rst:32
+msgid "`xeus-python <https://github.com/jupyter-xeus/xeus-python>`_"
+msgstr ""
+
+#: ../../kernels.rst:33
+msgid "`JuniperKernel <https://github.com/JuniperKernel/JuniperKernel>`_"
+msgstr ""
+
+#: ../../kernels.rst:36
+msgid "Connection files"
+msgstr ""
+
+#: ../../kernels.rst:38
+msgid ""
+"Your kernel will be given the path to a connection file when it starts "
+"(see :ref:`kernelspecs` for how to specify the command line arguments for"
+" your kernel). This file, which is accessible only to the current user, "
+"will contain a JSON dictionary looking something like this::"
+msgstr ""
+
+#: ../../kernels.rst:55
+msgid ""
+"The ``transport``, ``ip`` and five ``_port`` fields specify five ports "
+"which the kernel should bind to using `ZeroMQ <http://zeromq.org/>`_. For"
+" instance, the address of the shell socket in the example above would "
+"be::"
+msgstr ""
+
+#: ../../kernels.rst:61
+msgid "New ports are chosen at random for each kernel started."
+msgstr ""
+
+#: ../../kernels.rst:63
+msgid ""
+"``signature_scheme`` and ``key`` are used to cryptographically sign "
+"messages, so that other users on the system can't send code to run in "
+"this kernel. See :ref:`wire_protocol` for the details of how this "
+"signature is calculated."
+msgstr ""
+
+#: ../../kernels.rst:68
+msgid "Handling messages"
+msgstr ""
+
+#: ../../kernels.rst:70
+msgid ""
+"After reading the connection file and binding to the necessary sockets, "
+"the kernel should go into an event loop, listening on the hb (heartbeat),"
+" control and shell sockets."
+msgstr ""
+
+#: ../../kernels.rst:74
+msgid ""
+":ref:`Heartbeat <kernel_heartbeat>` messages should be echoed back "
+"immediately on the same socket - the frontend uses this to check that the"
+" kernel is still alive."
+msgstr ""
+
+#: ../../kernels.rst:78
+msgid ""
+"Messages on the control and shell sockets should be parsed, and their "
+"signature validated. See :ref:`wire_protocol` for how to do this."
+msgstr ""
+
+#: ../../kernels.rst:81
+msgid ""
+"The kernel will send messages on the iopub socket to display output, and "
+"on the stdin socket to prompt the user for textual input."
+msgstr ""
+
+#: ../../kernels.rst:87
+msgid ":doc:`messaging`"
+msgstr ""
+
+#: ../../kernels.rst:87
+msgid "Details of the different sockets and the messages that come over them"
+msgstr ""
+
+#: ../../kernels.rst:91
+msgid ""
+"`Creating Language Kernels for IPython "
+"<http://andrew.gibiansky.com/blog/ipython/ipython-kernels/>`_"
+msgstr ""
+
+#: ../../kernels.rst:90
+msgid ""
+"A blog post by the author of `IHaskell "
+"<https://github.com/gibiansky/IHaskell>`_, a Haskell kernel"
+msgstr ""
+
+#: ../../kernels.rst:93
+msgid "`simple_kernel <https://github.com/dsblank/simple_kernel>`_"
+msgstr ""
+
+#: ../../kernels.rst:94
+msgid "A simple example implementation of the kernel machinery in Python"
+msgstr ""
+
+#: ../../kernels.rst:100
+msgid "Kernel specs"
+msgstr ""
+
+#: ../../kernels.rst:102
+msgid ""
+"A kernel identifies itself to IPython by creating a directory, the name "
+"of which is used as an identifier for the kernel. These may be created in"
+" a number of locations:"
+msgstr ""
+
+#: ../../kernels.rst:107
+msgid "Unix"
+msgstr ""
+
+#: ../../kernels.rst:107
+msgid "Windows"
+msgstr ""
+
+#: ../../kernels.rst:109
+msgid "System"
+msgstr ""
+
+#: ../../kernels.rst:109
+msgid "``/usr/share/jupyter/kernels``"
+msgstr ""
+
+#: ../../kernels.rst:111
+msgid "``/usr/local/share/jupyter/kernels``"
+msgstr ""
+
+#: ../../kernels.rst:109
+msgid "``%PROGRAMDATA%\\jupyter\\kernels``"
+msgstr ""
+
+#: ../../kernels.rst:113
+msgid "Env"
+msgstr ""
+
+#: ../../kernels.rst:113
+msgid "``{sys.prefix}/share/jupyter/kernels``"
+msgstr ""
+
+#: ../../kernels.rst:115
+msgid "User"
+msgstr ""
+
+#: ../../kernels.rst:115
+msgid "``~/.local/share/jupyter/kernels`` (Linux)"
+msgstr ""
+
+#: ../../kernels.rst:117
+msgid "``~/Library/Jupyter/kernels`` (Mac)"
+msgstr ""
+
+#: ../../kernels.rst:115
+msgid "``%APPDATA%\\jupyter\\kernels``"
+msgstr ""
+
+#: ../../kernels.rst:120
+msgid ""
+"The user location takes priority over the system locations, and the case "
+"of the names is ignored, so selecting kernels works the same way whether "
+"or not the filesystem is case sensitive. Since kernelspecs show up in "
+"URLs and other places, a kernelspec is required to have a simple name, "
+"only containing ASCII letters, ASCII numbers, and the simple separators: "
+"``-`` hyphen, ``.`` period, ``_`` underscore."
+msgstr ""
+
+#: ../../kernels.rst:126
+msgid ""
+"Other locations may also be searched if the :envvar:`JUPYTER_PATH` "
+"environment variable is set."
+msgstr ""
+
+#: ../../kernels.rst:129
+msgid ""
+"Inside the kernel directory, three types of files are presently used: "
+"``kernel.json``, ``kernel.js``, and logo image files. Currently, no other"
+" files are used, but this may change in the future."
+msgstr ""
+
+#: ../../kernels.rst:133
+msgid ""
+"Inside the directory, the most important file is *kernel.json*. This "
+"should be a JSON serialised dictionary containing the following keys and "
+"values:"
+msgstr ""
+
+#: ../../kernels.rst:136
+msgid ""
+"**argv**: A list of command line arguments used to start the kernel. The "
+"text ``{connection_file}`` in any argument will be replaced with the path"
+" to the connection file."
+msgstr ""
+
+#: ../../kernels.rst:139
+msgid ""
+"**display_name**: The kernel's name as it should be displayed in the UI. "
+"Unlike the kernel name used in the API, this can contain arbitrary "
+"unicode characters."
+msgstr ""
+
+#: ../../kernels.rst:142
+msgid ""
+"**language**: The name of the language of the kernel. When loading "
+"notebooks, if no matching kernelspec key (may differ across machines) is "
+"found, a kernel with a matching `language` will be used. This allows a "
+"notebook written on any Python or Julia kernel to be properly associated "
+"with the user's Python or Julia kernel, even if they aren't listed under "
+"the same name as the author's."
+msgstr ""
+
+#: ../../kernels.rst:147
+msgid ""
+"**interrupt_mode** (optional): May be either ``signal`` or ``message`` "
+"and specifies how a client is supposed to interrupt cell execution on "
+"this kernel, either by sending an interrupt ``signal`` via the operating "
+"system's signalling facilities (e.g. `SIGINT` on POSIX systems), or by "
+"sending an ``interrupt_request`` message on the control channel (see "
+":ref:`msging_interrupt`). If this is not specified the client will "
+"default to ``signal`` mode."
+msgstr ""
+
+#: ../../kernels.rst:154
+msgid ""
+"**env** (optional): A dictionary of environment variables to set for the "
+"kernel. These will be added to the current environment variables before "
+"the kernel is started.  Existing environment variables can be referenced "
+"using ``${<ENV_VAR>}`` and will be substituted with the corresponding "
+"value.  Administrators should note that use of ``${<ENV_VAR>}`` can "
+"expose sensitive variables and should use only in controlled "
+"circumstances."
+msgstr ""
+
+#: ../../kernels.rst:160
+msgid ""
+"**metadata** (optional): A dictionary of additional attributes about this"
+" kernel; used by clients to aid in kernel selection. Metadata added here "
+"should be namespaced for the tool reading and writing that metadata."
+msgstr ""
+
+#: ../../kernels.rst:164
+msgid "For example, the kernel.json file for IPython looks like this::"
+msgstr ""
+
+#: ../../kernels.rst:173
+msgid "To see the available kernel specs, run::"
+msgstr ""
+
+#: ../../kernels.rst:177
+msgid "To start the terminal console or the Qt console with a specific kernel::"
+msgstr ""
+
+#: ../../kernels.rst:182
+msgid ""
+"The notebook offers you the available kernels in a dropdown menu from the"
+" 'New' button."
+msgstr ""
+

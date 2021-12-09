@@ -1,0 +1,419 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2015, Jupyter Development Team
+# This file is distributed under the same license as the jupyter_client
+# package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2021.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: jupyter_client 7.1\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2021-12-09 21:30+0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.9.1\n"
+
+#: ../../api/provisioners.rst:2
+msgid "kernel provisioner apis"
+msgstr ""
+
+#: ../../api/provisioners.rst:6
+msgid ":doc:`/provisioning`"
+msgstr ""
+
+#: jupyter_client.provisioning.provisioner_base.KernelProvisionerBase:1 of
+msgid "Abstract base class defining methods for KernelProvisioner classes."
+msgstr ""
+
+#: jupyter_client.provisioning.provisioner_base.KernelProvisionerBase:3 of
+msgid ""
+"A majority of methods are abstract (requiring implementations via a "
+"subclass) while some are optional and others provide implementations "
+"common to all instances. Subclasses should be aware of which methods "
+"require a call to the superclass."
+msgstr ""
+
+#: jupyter_client.provisioning.provisioner_base.KernelProvisionerBase:7 of
+msgid ""
+"Many of these methods model those of :class:`subprocess.Popen` for parity"
+" with previous versions where the kernel process was managed directly."
+msgstr ""
+
+#: ../../api/provisioners.rst:14
+msgid ""
+"The kernel specification associated with the provisioned kernel (see "
+":ref:`kernelspecs`)."
+msgstr ""
+
+#: ../../api/provisioners.rst:18
+msgid "The provisioned kernel's ID."
+msgstr ""
+
+#: ../../api/provisioners.rst:22
+msgid "The provisioned kernel's connection information."
+msgstr ""
+
+#: jupyter_client.provisioning.provisioner_base.KernelProvisionerBase.has_process:1
+#: of
+msgid "Returns true if this provisioner is currently managing a process."
+msgstr ""
+
+#: jupyter_client.provisioning.provisioner_base.KernelProvisionerBase.has_process:3
+#: of
+msgid ""
+"This property is asserted to be True immediately following a call to the "
+"provisioner's :meth:`launch_kernel` method."
+msgstr ""
+
+#: jupyter_client.provisioning.provisioner_base.KernelProvisionerBase.poll:1 of
+msgid "Checks if kernel process is still running."
+msgstr ""
+
+#: jupyter_client.provisioning.provisioner_base.KernelProvisionerBase.poll:3 of
+msgid ""
+"If running, None is returned, otherwise the process's integer-valued exit"
+" code is returned. This method is called from "
+":meth:`KernelManager.is_alive`."
+msgstr ""
+
+#: jupyter_client.provisioning.provisioner_base.KernelProvisionerBase.wait:1 of
+msgid "Waits for kernel process to terminate."
+msgstr ""
+
+#: jupyter_client.provisioning.provisioner_base.KernelProvisionerBase.wait:3 of
+msgid ""
+"This method is called from `KernelManager.finish_shutdown()` and "
+"`KernelManager.kill_kernel()` when terminating a kernel gracefully or "
+"immediately, respectively."
+msgstr ""
+
+#: jupyter_client.provisioning.provisioner_base.KernelProvisionerBase.send_signal:1
+#: of
+msgid "Sends signal identified by signum to the kernel process."
+msgstr ""
+
+#: jupyter_client.provisioning.provisioner_base.KernelProvisionerBase.send_signal:3
+#: of
+msgid ""
+"This method is called from `KernelManager.signal_kernel()` to send the "
+"kernel process a signal."
+msgstr ""
+
+#: jupyter_client.provisioning.provisioner_base.KernelProvisionerBase.kill:1 of
+msgid "Kill the kernel process."
+msgstr ""
+
+#: jupyter_client.provisioning.provisioner_base.KernelProvisionerBase.kill:3 of
+msgid ""
+"This is typically accomplished via a SIGKILL signal, which cannot be "
+"caught. This method is called from `KernelManager.kill_kernel()` when "
+"terminating a kernel immediately."
+msgstr ""
+
+#: jupyter_client.provisioning.provisioner_base.KernelProvisionerBase.kill:7 of
+msgid ""
+"restart is True if this operation will precede a subsequent launch_kernel"
+" request."
+msgstr ""
+
+#: jupyter_client.provisioning.provisioner_base.KernelProvisionerBase.terminate:1
+#: of
+msgid "Terminates the kernel process."
+msgstr ""
+
+#: jupyter_client.provisioning.provisioner_base.KernelProvisionerBase.terminate:3
+#: of
+msgid ""
+"This is typically accomplished via a SIGTERM signal, which can be caught,"
+" allowing the kernel provisioner to perform possible cleanup of "
+"resources.  This method is called indirectly from "
+"`KernelManager.finish_shutdown()` during a kernel's graceful termination."
+msgstr ""
+
+#: jupyter_client.provisioning.provisioner_base.KernelProvisionerBase.cleanup:6
+#: jupyter_client.provisioning.provisioner_base.KernelProvisionerBase.terminate:8
+#: of
+msgid "restart is True if this operation precedes a start launch_kernel request."
+msgstr ""
+
+#: jupyter_client.provisioning.provisioner_base.KernelProvisionerBase.launch_kernel:1
+#: of
+msgid "Launch the kernel process and return its connection information."
+msgstr ""
+
+#: jupyter_client.provisioning.provisioner_base.KernelProvisionerBase.launch_kernel:3
+#: of
+msgid ""
+"This method is called from `KernelManager.launch_kernel()` during the "
+"kernel manager's start kernel sequence."
+msgstr ""
+
+#: jupyter_client.provisioning.provisioner_base.KernelProvisionerBase.cleanup:1
+#: of
+msgid "Cleanup any resources allocated on behalf of the kernel provisioner."
+msgstr ""
+
+#: jupyter_client.provisioning.provisioner_base.KernelProvisionerBase.cleanup:3
+#: of
+msgid ""
+"This method is called from `KernelManager.cleanup_resources()` as part of"
+" its shutdown kernel sequence."
+msgstr ""
+
+#: jupyter_client.provisioning.provisioner_base.KernelProvisionerBase.shutdown_requested:1
+#: of
+msgid ""
+"Allows the provisioner to determine if the kernel's shutdown has been "
+"requested."
+msgstr ""
+
+#: jupyter_client.provisioning.provisioner_base.KernelProvisionerBase.shutdown_requested:3
+#: of
+msgid ""
+"This method is called from `KernelManager.request_shutdown()` as part of "
+"its shutdown sequence."
+msgstr ""
+
+#: jupyter_client.provisioning.provisioner_base.KernelProvisionerBase.shutdown_requested:6
+#: of
+msgid ""
+"This method is optional and is primarily used in scenarios where the "
+"provisioner may need to perform other operations in preparation for a "
+"kernel's shutdown."
+msgstr ""
+
+#: jupyter_client.provisioning.provisioner_base.KernelProvisionerBase.pre_launch:1
+#: of
+msgid "Perform any steps in preparation for kernel process launch."
+msgstr ""
+
+#: jupyter_client.provisioning.provisioner_base.KernelProvisionerBase.pre_launch:3
+#: of
+msgid ""
+"This includes applying additional substitutions to the kernel launch "
+"command and environment. It also includes preparation of launch "
+"parameters."
+msgstr ""
+
+#: jupyter_client.provisioning.provisioner_base.KernelProvisionerBase.pre_launch:6
+#: of
+msgid ""
+"NOTE: Subclass implementations are advised to call this method as it "
+"applies environment variable substitutions from the local environment and"
+" calls the provisioner's :meth:`_finalize_env()` method to allow each "
+"provisioner the ability to cleanup the environment variables that will be"
+" used by the kernel."
+msgstr ""
+
+#: jupyter_client.provisioning.provisioner_base.KernelProvisionerBase.pre_launch:11
+#: of
+msgid ""
+"This method is called from `KernelManager.pre_start_kernel()` as part of "
+"its start kernel sequence."
+msgstr ""
+
+#: jupyter_client.provisioning.provisioner_base.KernelProvisionerBase.pre_launch:14
+#: of
+msgid ""
+"Returns the (potentially updated) keyword arguments that are passed to "
+":meth:`launch_kernel()`."
+msgstr ""
+
+#: jupyter_client.provisioning.provisioner_base.KernelProvisionerBase.post_launch:1
+#: of
+msgid "Perform any steps following the kernel process launch."
+msgstr ""
+
+#: jupyter_client.provisioning.provisioner_base.KernelProvisionerBase.post_launch:3
+#: of
+msgid ""
+"This method is called from `KernelManager.post_start_kernel()` as part of"
+" its start kernel sequence."
+msgstr ""
+
+#: jupyter_client.provisioning.provisioner_base.KernelProvisionerBase.get_provisioner_info:1
+#: of
+msgid ""
+"Captures the base information necessary for persistence relative to this "
+"instance."
+msgstr ""
+
+#: jupyter_client.provisioning.provisioner_base.KernelProvisionerBase.get_provisioner_info:3
+#: of
+msgid ""
+"This enables applications that subclass `KernelManager` to persist a "
+"kernel provisioner's relevant information to accomplish functionality "
+"like disaster recovery or high availability by calling this method via "
+"the kernel manager's `provisioner` attribute."
+msgstr ""
+
+#: jupyter_client.provisioning.provisioner_base.KernelProvisionerBase.get_provisioner_info:7
+#: of
+msgid ""
+"NOTE: The superclass method must always be called first to ensure proper "
+"serialization."
+msgstr ""
+
+#: jupyter_client.provisioning.provisioner_base.KernelProvisionerBase.load_provisioner_info:1
+#: of
+msgid ""
+"Loads the base information necessary for persistence relative to this "
+"instance."
+msgstr ""
+
+#: jupyter_client.provisioning.provisioner_base.KernelProvisionerBase.load_provisioner_info:3
+#: of
+msgid ""
+"The inverse of `get_provisioner_info()`, this enables applications that "
+"subclass `KernelManager` to re-establish communication with a provisioner"
+" that is managing a (presumably) remote kernel from an entirely different"
+" process that the original provisioner."
+msgstr ""
+
+#: jupyter_client.provisioning.provisioner_base.KernelProvisionerBase.load_provisioner_info:8
+#: of
+msgid ""
+"NOTE: The superclass method must always be called first to ensure proper "
+"deserialization."
+msgstr ""
+
+#: jupyter_client.provisioning.provisioner_base.KernelProvisionerBase.get_shutdown_wait_time:1
+#: of
+msgid ""
+"Returns the time allowed for a complete shutdown.  This may vary by "
+"provisioner."
+msgstr ""
+
+#: jupyter_client.provisioning.provisioner_base.KernelProvisionerBase.get_shutdown_wait_time:3
+#: of
+msgid ""
+"This method is called from `KernelManager.finish_shutdown()` during the "
+"graceful phase of its kernel shutdown sequence."
+msgstr ""
+
+#: jupyter_client.provisioning.provisioner_base.KernelProvisionerBase.get_shutdown_wait_time:6
+#: of
+msgid ""
+"The recommended value will typically be what is configured in the kernel "
+"manager."
+msgstr ""
+
+#: jupyter_client.provisioning.provisioner_base.KernelProvisionerBase._finalize_env:1
+#: of
+msgid "Ensures env is appropriate prior to launch."
+msgstr ""
+
+#: jupyter_client.provisioning.provisioner_base.KernelProvisionerBase.__apply_env_substitutions:3
+#: jupyter_client.provisioning.provisioner_base.KernelProvisionerBase._finalize_env:3
+#: of
+msgid ""
+"This method is called from `KernelProvisionerBase.pre_launch()` during "
+"the kernel's start sequence."
+msgstr ""
+
+#: jupyter_client.provisioning.provisioner_base.KernelProvisionerBase._finalize_env:6
+#: of
+msgid "NOTE: Subclasses should be sure to call super()._finalize_env(env)"
+msgstr ""
+
+#: jupyter_client.provisioning.provisioner_base.KernelProvisionerBase.__apply_env_substitutions:1
+#: of
+msgid ""
+"Walks entries in the kernelspec's env stanza and applies substitutions "
+"from current env."
+msgstr ""
+
+#: jupyter_client.provisioning.provisioner_base.KernelProvisionerBase.__apply_env_substitutions:6
+#: of
+msgid "Returns the substituted list of env entries."
+msgstr ""
+
+#: jupyter_client.provisioning.provisioner_base.KernelProvisionerBase.__apply_env_substitutions:8
+#: of
+msgid ""
+"NOTE: This method is private and is not intended to be overridden by "
+"provisioners."
+msgstr ""
+
+#: jupyter_client.provisioning.local_provisioner.LocalProvisioner:1 of
+msgid ""
+":class:`LocalProvisioner` is a concrete class of ABC "
+":py:class:`KernelProvisionerBase` and is the out-of-box default "
+"implementation used when no kernel provisioner is specified in the kernel"
+" specification (``kernel.json``).  It provides functional parity to "
+"existing applications by launching the kernel locally and using "
+":class:`subprocess.Popen` to manage its lifecycle."
+msgstr ""
+
+#: jupyter_client.provisioning.local_provisioner.LocalProvisioner:7 of
+msgid ""
+"This class is intended to be subclassed for customizing local kernel "
+"environments and serve as a reference implementation for other custom "
+"provisioners."
+msgstr ""
+
+#: jupyter_client.provisioning.factory.KernelProvisionerFactory:1 of
+msgid ""
+":class:`KernelProvisionerFactory` is responsible for creating provisioner"
+" instances."
+msgstr ""
+
+#: jupyter_client.provisioning.factory.KernelProvisionerFactory:3 of
+msgid ""
+"A singleton instance, `KernelProvisionerFactory` is also used by the "
+":class:`KernelSpecManager` to validate `kernel_provisioner` references "
+"found in kernel specifications to confirm their availability (in cases "
+"where the kernel specification references a kernel provisioner that has "
+"not been installed into the current Python environment)."
+msgstr ""
+
+#: jupyter_client.provisioning.factory.KernelProvisionerFactory:8 of
+msgid ""
+"It's `default_provisioner_name` attribute can be used to specify the "
+"default provisioner to use when a kernel_spec is found to not reference a"
+" provisioner.  It's value defaults to `\"local-provisioner\"` which "
+"identifies the local provisioner implemented by "
+":class:`LocalProvisioner`."
+msgstr ""
+
+#: ../../api/provisioners.rst:67
+msgid ""
+"Indicates the name of the provisioner to use when no kernel_provisioner "
+"entry is present in the kernel specification.  This value can also be "
+"specified via the environment variable "
+"``JUPYTER_DEFAULT_PROVISIONER_NAME``."
+msgstr ""
+
+#: jupyter_client.provisioning.factory.KernelProvisionerFactory.is_provisioner_available:1
+#: of
+msgid ""
+"Reads the associated ``kernel_spec`` to determine the provisioner and "
+"returns whether it exists as an entry_point (True) or not (False).  If "
+"the referenced provisioner is not in the current cache or cannot be "
+"loaded via entry_points, a warning message is issued indicating it is not"
+" available."
+msgstr ""
+
+#: jupyter_client.provisioning.factory.KernelProvisionerFactory.create_provisioner_instance:1
+#: of
+msgid ""
+"Reads the associated ``kernel_spec`` to see if it has a "
+"`kernel_provisioner` stanza. If one exists, it instantiates an instance."
+"  If a kernel provisioner is not specified in the kernel specification, a"
+" default provisioner stanza is fabricated and instantiated corresponding "
+"to the current value of `default_provisioner_name` trait. The "
+"instantiated instance is returned."
+msgstr ""
+
+#: jupyter_client.provisioning.factory.KernelProvisionerFactory.create_provisioner_instance:7
+#: of
+msgid ""
+"If the provisioner is found to not exist (not registered via "
+"entry_points), `ModuleNotFoundError` is raised."
+msgstr ""
+

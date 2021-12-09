@@ -1,0 +1,1678 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2015, Jupyter Development Team
+# This file is distributed under the same license as the jupyter_client
+# package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2021.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: jupyter_client 7.1\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2021-12-09 21:30+0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.9.1\n"
+
+#: ../../messaging.rst:5
+msgid "Messaging in Jupyter"
+msgstr ""
+
+#: ../../messaging.rst:7
+msgid ""
+"This document explains the basic communications design and messaging "
+"specification for how Jupyter frontends and kernels communicate. The "
+"ZeroMQ_ library provides the low-level transport layer over which these "
+"messages are sent."
+msgstr ""
+
+#: ../../messaging.rst:13
+msgid ""
+"This document contains the authoritative description of the IPython "
+"messaging protocol. All developers are strongly encouraged to keep it "
+"updated as the implementation evolves, so that we have a single common "
+"reference for all protocol details."
+msgstr ""
+
+#: ../../messaging.rst:20
+msgid "Versioning"
+msgstr ""
+
+#: ../../messaging.rst:22
+msgid ""
+"The Jupyter message specification is versioned independently of the "
+"packages that use it. The current version of the specification is 5.3."
+msgstr ""
+
+#: ../../messaging.rst:27
+msgid ""
+"*New in* and *Changed in* messages in this document refer to versions of "
+"the **Jupyter message specification**, not versions of "
+":mod:`jupyter_client`."
+msgstr ""
+
+#: ../../messaging.rst:31
+msgid "Introduction"
+msgstr ""
+
+#: ../../messaging.rst:33
+msgid "The basic design is explained in the following diagram:"
+msgstr ""
+
+msgid "IPython kernel/frontend messaging architecture."
+msgstr ""
+
+#: ../../messaging.rst:41
+msgid ""
+"A single kernel can be simultaneously connected to one or more frontends."
+"  The kernel has dedicated sockets for the following functions:"
+msgstr ""
+
+#: ../../messaging.rst:44
+msgid ""
+"**Shell**: this single ROUTER socket allows multiple incoming connections"
+" from frontends, and this is the socket where requests for code "
+"execution, object information, prompts, etc. are made to the kernel by "
+"any frontend.  The communication on this socket is a sequence of "
+"request/reply actions from each frontend and the kernel."
+msgstr ""
+
+#: ../../messaging.rst:50
+msgid ""
+"**IOPub**: this socket is the 'broadcast channel' where the kernel "
+"publishes all side effects (stdout, stderr, debugging events etc.) as "
+"well as the requests coming from any client over the shell socket and its"
+" own requests on the stdin socket.  There are a number of actions in "
+"Python which generate side effects: :func:`print` writes to "
+"``sys.stdout``, errors generate tracebacks, etc.  Additionally, in a "
+"multi-client scenario, we want all frontends to be able to know what each"
+" other has sent to the kernel (this can be useful in collaborative "
+"scenarios, for example).  This socket allows both side effects and the "
+"information about communications taking place with one client over the "
+"shell channel to be made available to all clients in a uniform manner."
+msgstr ""
+
+#: ../../messaging.rst:61
+msgid ""
+"**stdin**: this ROUTER socket is connected to all frontends, and it "
+"allows the kernel to request input from the active frontend when "
+":func:`raw_input` is called. The frontend that executed the code has a "
+"DEALER socket that acts as a 'virtual keyboard' for the kernel while this"
+" communication is happening (illustrated in the figure by the black "
+"outline around the central keyboard).  In practice, frontends may display"
+" such kernel requests using a special input widget or otherwise "
+"indicating that the user is to type input for the kernel instead of "
+"normal commands in the frontend."
+msgstr ""
+
+#: ../../messaging.rst:70
+msgid ""
+"All messages are tagged with enough information (details below) for "
+"clients to know which messages come from their own interaction with the "
+"kernel and which ones are from other clients, so they can display each "
+"type appropriately."
+msgstr ""
+
+#: ../../messaging.rst:75
+msgid ""
+"**Control**: This channel is identical to Shell, but operates on a "
+"separate socket to avoid queueing behind execution requests. The control "
+"channel is used for shutdown and restart messages, as well as for "
+"debugging messages."
+msgstr ""
+
+#: ../../messaging.rst:79
+msgid ""
+"For a smoother user experience, we recommend running the control channel "
+"in a separate thread from the shell channel, so that e.g. shutdown or "
+"debug messages can be processed immediately without waiting for a long-"
+"running shell message to be finished processing (such as an expensive "
+"execute request)."
+msgstr ""
+
+#: ../../messaging.rst:84
+msgid ""
+"**Heartbeat**: This socket allows for simple bytestring messages to be "
+"sent between the frontend and the kernel to ensure that they are still "
+"connected."
+msgstr ""
+
+#: ../../messaging.rst:87
+msgid ""
+"The actual format of the messages allowed on each of these channels is "
+"specified below.  Messages are dicts of dicts with string keys and values"
+" that are reasonably representable in JSON."
+msgstr ""
+
+#: ../../messaging.rst:92
+msgid "General Message Format"
+msgstr ""
+
+#: ../../messaging.rst:94
+msgid "A message is composed of five dictionaries."
+msgstr ""
+
+#: ../../messaging.rst:97
+msgid "Message Header"
+msgstr ""
+
+#: ../../messaging.rst:99
+msgid ""
+"The message `header` contains information about the message, such as "
+"unique identifiers for the originating session and the actual message id,"
+" the type of message, the version of the Jupyter protocol, and the date "
+"the message was created. In addition, there is a username field, e.g. for"
+" the process that generated the message, if applicable. This can be "
+"useful in collaborative settings where multiple users may be interacting "
+"with the same kernel simultaneously, so that frontends can label the "
+"various messages in a meaningful way."
+msgstr ""
+
+#: ../../messaging.rst:123
+msgid ""
+"The ``session`` id in a message header identifies a unique entity with "
+"state, such as a kernel process or client process."
+msgstr ""
+
+#: ../../messaging.rst:126
+msgid ""
+"A client session id, in message headers from a client, should be unique "
+"among all clients connected to a kernel. When a client reconnects to a "
+"kernel, it should use the same client session id in its message headers. "
+"When a client restarts, it should generate a new client session id."
+msgstr ""
+
+#: ../../messaging.rst:131
+msgid ""
+"A kernel session id, in message headers from a kernel, should identify a "
+"particular kernel process. If a kernel is restarted, the kernel session "
+"id should be regenerated."
+msgstr ""
+
+#: ../../messaging.rst:135
+msgid ""
+"The session id in a message header can be used to identify the sending "
+"entity. For example, if a client disconnects and reconnects to a kernel, "
+"and messages from the kernel have a different kernel session id than "
+"prior to the disconnect, the client should assume that the kernel was "
+"restarted."
+msgstr ""
+
+#: ../../messaging.rst:142
+msgid "``version`` key added to the header."
+msgstr ""
+
+#: ../../messaging.rst:146
+msgid ""
+"``date`` in the header was accidentally omitted from the spec prior to "
+"5.1, but it has always been in the canonical implementation, so "
+"implementers are strongly encouraged to include it. It will be mandatory "
+"in 5.1."
+msgstr ""
+
+#: ../../messaging.rst:152
+msgid "Parent header"
+msgstr ""
+
+#: ../../messaging.rst:154
+msgid ""
+"When a message is the \"result\" of another message, such as a side-"
+"effect (output or status) or direct reply, the ``parent_header`` is a "
+"copy of the ``header`` of the message that \"caused\" the current "
+"message. ``_reply`` messages MUST have a ``parent_header``, and side-"
+"effects *typically* have a parent. If there is no parent, an empty dict "
+"should be used. This parent is used by clients to route message handling "
+"to the right place, such as outputs to a cell."
+msgstr ""
+
+#: ../../messaging.rst:173
+msgid "Metadata"
+msgstr ""
+
+#: ../../messaging.rst:175
+msgid ""
+"The `metadata` dict contains information about the message that is not "
+"part of the content. This is not often used, but can be an extra location"
+" to store information about requests and replies, such as extensions "
+"adding information about request or execution context."
+msgstr ""
+
+#: ../../messaging.rst:180
+msgid "Content"
+msgstr ""
+
+#: ../../messaging.rst:182
+msgid ""
+"The ``content`` dict is the body of the message. Its structure is "
+"dictated by the ``msg_type`` field in the header, described in detail for"
+" each message below."
+msgstr ""
+
+#: ../../messaging.rst:187
+msgid "Buffers"
+msgstr ""
+
+#: ../../messaging.rst:189
+msgid ""
+"Finally, a list of additional binary buffers can be associated with a "
+"message. While this is part of the protocol, no official messages make "
+"use of these buffers. They are used by extension messages, such as "
+"IPython Parallel's ``apply`` and some of ipywidgets' ``comm`` messages."
+msgstr ""
+
+#: ../../messaging.rst:196
+msgid "A full message"
+msgstr ""
+
+#: ../../messaging.rst:198
+msgid ""
+"Combining all of these together, a complete message can be represented as"
+" the following dictionary of dictionaries (and one list)::"
+msgstr ""
+
+#: ../../messaging.rst:216
+msgid ""
+"This dictionary structure is *not* part of the Jupyter protocol that must"
+" be implemented by kernels and frontends; that would be "
+":ref:`wire_protocol`, which dictates how this information is serialized "
+"over the wire. Deserialization is up to the Kernel or frontend "
+"implementation, but a dict like this would be a logical choice in most "
+"contexts."
+msgstr ""
+
+#: ../../messaging.rst:226
+msgid "Compatibility"
+msgstr ""
+
+#: ../../messaging.rst:228
+msgid ""
+"Kernels must implement the :ref:`execute <execute>` and :ref:`kernel info"
+" <msging_kernel_info>` messages, along with the associated busy and idle "
+":ref:`status` messages. All other message types are optional, although we"
+" recommend implementing :ref:`completion <msging_completion>` if "
+"possible. Kernels do not need to send any reply for messages they don't "
+"handle, and frontends should provide sensible behaviour if no reply "
+"arrives (except for the required execution and kernel info messages)."
+msgstr ""
+
+#: ../../messaging.rst:236
+msgid ""
+":ref:`stdin messages <stdin_messages>` are unique in that the request "
+"comes from the kernel, and the reply from the frontend. The frontend is "
+"not required to support this, but if it does not, it must set "
+"``'allow_stdin' : False`` in its :ref:`execute requests <execute>`. In "
+"this case, the kernel may not send stdin requests. If that field is true,"
+" the kernel may send stdin requests and block waiting for a reply, so the"
+" frontend must answer."
+msgstr ""
+
+#: ../../messaging.rst:243
+msgid ""
+"Both sides should allow unexpected message types, and extra fields in "
+"known message types, so that additions to the protocol do not break "
+"existing code."
+msgstr ""
+
+#: ../../messaging.rst:249
+msgid "The Wire Protocol"
+msgstr ""
+
+#: ../../messaging.rst:252
+msgid ""
+"The above message format is only a logical representation of the contents"
+" of Jupyter messages, but does not describe the actual *implementation* "
+"at the wire level in zeromq. This section describes the protocol that "
+"must be implemented by Jupyter kernels and clients talking to each other "
+"over zeromq."
+msgstr ""
+
+#: ../../messaging.rst:257
+msgid ""
+"The reference implementation of the message spec is our "
+":class:`~jupyter_client.session.Session` class."
+msgstr ""
+
+#: ../../messaging.rst:261
+msgid ""
+"This section should only be relevant to non-Python consumers of the "
+"protocol. Python consumers should import and the use implementation of "
+"the wire protocol in :class:`jupyter_client.session.Session`."
+msgstr ""
+
+#: ../../messaging.rst:265
+msgid "Every message is serialized to a sequence of at least six blobs of bytes:"
+msgstr ""
+
+#: ../../messaging.rst:281
+msgid ""
+"The front of the message is the ZeroMQ routing prefix, which can be zero "
+"or more socket identities. This is every piece of the message prior to "
+"the delimiter key ``<IDS|MSG>``. In the case of IOPub, there should be "
+"just one prefix component, which is the topic for IOPub subscribers, e.g."
+" ``execute_result``, ``display_data``."
+msgstr ""
+
+#: ../../messaging.rst:289
+msgid ""
+"In most cases, the IOPub topics are irrelevant and completely ignored, "
+"because frontends just subscribe to all topics. The convention used in "
+"the IPython kernel is to use the msg_type as the topic, and possibly "
+"extra information about the message, e.g. "
+"``kernel.{u-u-i-d}.execute_result`` or ``stream.stdout``"
+msgstr ""
+
+#: ../../messaging.rst:294
+msgid ""
+"After the delimiter is the `HMAC`_ signature of the message, used for "
+"authentication. If authentication is disabled, this should be an empty "
+"string. By default, the hashing function used for computing these "
+"signatures is sha256."
+msgstr ""
+
+#: ../../messaging.rst:302
+msgid ""
+"To disable authentication and signature checking, set the `key` field of "
+"a connection file to an empty string."
+msgstr ""
+
+#: ../../messaging.rst:305
+msgid "The signature is the HMAC hex digest of the concatenation of:"
+msgstr ""
+
+#: ../../messaging.rst:307
+msgid "A shared key (typically the ``key`` field of a connection file)"
+msgstr ""
+
+#: ../../messaging.rst:308
+msgid "The serialized header dict"
+msgstr ""
+
+#: ../../messaging.rst:309
+msgid "The serialized parent header dict"
+msgstr ""
+
+#: ../../messaging.rst:310
+msgid "The serialized metadata dict"
+msgstr ""
+
+#: ../../messaging.rst:311
+msgid "The serialized content dict"
+msgstr ""
+
+#: ../../messaging.rst:313
+msgid "In Python, this is implemented via:"
+msgstr ""
+
+#: ../../messaging.rst:326
+msgid ""
+"After the signature is the actual message, always in four frames of "
+"bytes. The four dictionaries that compose a message are serialized "
+"separately, in the order of header, parent header, metadata, and content."
+" These can be serialized by any function that turns a dict into bytes. "
+"The default and most common serialization is JSON, but msgpack and pickle"
+" are common alternatives."
+msgstr ""
+
+#: ../../messaging.rst:333
+msgid ""
+"After the serialized dicts are zero to many raw data buffers, which can "
+"be used by message types that support binary data, which can be used in "
+"custom messages, such as comms and extensions to the protocol."
+msgstr ""
+
+#: ../../messaging.rst:339
+msgid "Python API"
+msgstr ""
+
+#: ../../messaging.rst:341
+msgid ""
+"As messages can be represented as dicts, they map naturally to a "
+"``func(**kw)`` call form.  We should develop, at a few key points, "
+"functional forms of all the requests that take arguments in this manner "
+"and automatically construct the necessary dict for sending."
+msgstr ""
+
+#: ../../messaging.rst:346
+msgid ""
+"In addition, the Python implementation of the message specification "
+"extends messages upon deserialization to the following form for "
+"convenience::"
+msgstr ""
+
+#: ../../messaging.rst:361
+msgid ""
+"All messages sent to or received by any IPython message handler should "
+"have this extended structure."
+msgstr ""
+
+#: ../../messaging.rst:366
+msgid "Messages on the shell (ROUTER/DEALER) channel"
+msgstr ""
+
+#: ../../messaging.rst:371
+msgid "Request-Reply"
+msgstr ""
+
+#: ../../messaging.rst:373
+msgid "In general, the ROUTER/DEALER sockets follow a request-reply pattern:"
+msgstr ""
+
+#: ../../messaging.rst:375
+msgid ""
+"The client sends an ``<action>_request`` message (such as "
+"``execute_request``) on its shell (DEALER) socket. The kernel receives "
+"that request and immediately publishes a ``status: busy`` message on "
+"IOPub. The kernel then processes the request and sends the appropriate "
+"``<action>_reply`` message, such as ``execute_reply``. After processing "
+"the request and publishing associated IOPub messages, if any, the kernel "
+"publishes a ``status: idle`` message. This idle status message indicates "
+"that IOPub messages associated with a given request have all been "
+"received."
+msgstr ""
+
+#: ../../messaging.rst:382
+msgid ""
+"All reply messages have a ``'status'`` field, which will have one of the "
+"following values:"
+msgstr ""
+
+#: ../../messaging.rst:384
+msgid ""
+"``status='ok'``: The request was processed successfully, and the "
+"remaining content of the reply is specified in the appropriate section "
+"below."
+msgstr ""
+
+#: ../../messaging.rst:394
+msgid "``status='error'``: The request failed due to an error."
+msgstr ""
+
+#: ../../messaging.rst:386
+msgid ""
+"When status is 'error', the usual content of a successful reply should be"
+" omitted, instead the following fields should be present::"
+msgstr ""
+
+#: ../../messaging.rst:396
+msgid ""
+"``status='abort'``: This is the same as ``status='error'`` but with no "
+"information about the error. No fields should be present other that "
+"`status`."
+msgstr ""
+
+#: ../../messaging.rst:400
+msgid ""
+"As a special case, ``execute_reply`` messages (see "
+":ref:`execution_results`) have an ``execution_count`` field regardless of"
+" their status."
+msgstr ""
+
+#: ../../messaging.rst:405
+msgid ""
+"``status='abort'`` has not proved useful, and is considered deprecated. "
+"Kernels should send ``status='error'`` instead."
+msgstr ""
+
+#: ../../messaging.rst:412
+msgid "Execute"
+msgstr ""
+
+#: ../../messaging.rst:414
+msgid ""
+"This message type is used by frontends to ask the kernel to execute code "
+"on behalf of the user, in a namespace reserved to the user's variables "
+"(and thus separate from the kernel's own internal code and variables)."
+msgstr ""
+
+#: ../../messaging.rst:418
+msgid "Message type: ``execute_request``::"
+msgstr ""
+
+#: ../../messaging.rst:456
+msgid "``user_variables`` removed, because it is redundant with user_expressions."
+msgstr ""
+
+#: ../../messaging.rst:458
+msgid ""
+"The ``code`` field contains a single string (possibly multiline) to be "
+"executed."
+msgstr ""
+
+#: ../../messaging.rst:460
+msgid ""
+"The ``user_expressions`` field deserves a detailed explanation.  In the "
+"past, IPython had the notion of a prompt string that allowed arbitrary "
+"code to be evaluated, and this was put to good use by many in creating "
+"prompts that displayed system status, path information, and even more "
+"esoteric uses like remote instrument status acquired over the network.  "
+"But now that IPython has a clean separation between the kernel and the "
+"clients, the kernel has no prompt knowledge; prompts are a frontend "
+"feature, and it should be even possible for different frontends to "
+"display different prompts while interacting with the same kernel. "
+"``user_expressions`` can be used to retrieve this information."
+msgstr ""
+
+#: ../../messaging.rst:470
+msgid ""
+"Any error in evaluating any expression in ``user_expressions`` will "
+"result in only that key containing a standard error message, of the "
+"form::"
+msgstr ""
+
+#: ../../messaging.rst:482
+msgid ""
+"In order to obtain the current execution counter for the purposes of "
+"displaying input prompts, frontends may make an execution request with an"
+" empty code string and ``silent=True``."
+msgstr ""
+
+#: ../../messaging.rst:486
+msgid ""
+"Upon completion of the execution request, the kernel *always* sends a "
+"reply, with a status code indicating what happened and additional data "
+"depending on the outcome.  See :ref:`below <execution_results>` for the "
+"possible return codes and associated data."
+msgstr ""
+
+#: ../../messaging.rst:493
+msgid ":ref:`execution_semantics`"
+msgstr ""
+
+#: ../../messaging.rst:498
+msgid "Execution counter (prompt number)"
+msgstr ""
+
+#: ../../messaging.rst:500
+msgid ""
+"The kernel should have a single, monotonically increasing counter of all "
+"execution requests that are made with ``store_history=True``. This "
+"counter is used to populate the ``In[n]`` and ``Out[n]`` prompts.  The "
+"value of this counter will be returned as the ``execution_count`` field "
+"of all ``execute_reply`` and ``execute_input`` messages."
+msgstr ""
+
+#: ../../messaging.rst:508 ../../messaging.rst:1403
+msgid "Execution results"
+msgstr ""
+
+#: ../../messaging.rst:510
+msgid "Message type: ``execute_reply``::"
+msgstr ""
+
+#: ../../messaging.rst:523
+msgid "When status is 'ok', the following extra fields are present::"
+msgstr ""
+
+#: ../../messaging.rst:539
+msgid "``user_variables`` is removed, use user_expressions instead."
+msgstr ""
+
+#: ../../messaging.rst:543
+msgid "Payloads (DEPRECATED)"
+msgstr ""
+
+#: ../../messaging.rst:545
+msgid "Execution payloads"
+msgstr ""
+
+#: ../../messaging.rst:547
+msgid ""
+"Payloads are considered **deprecated**, though their replacement is not "
+"yet implemented."
+msgstr ""
+
+#: ../../messaging.rst:549
+msgid ""
+"Payloads are a way to trigger frontend actions from the kernel. Current "
+"payloads:"
+msgstr ""
+
+#: ../../messaging.rst:551
+msgid "**page**: display data in a pager."
+msgstr ""
+
+#: ../../messaging.rst:553
+msgid ""
+"Pager output is used for introspection, or other displayed information "
+"that's not considered output. Pager payloads are generally displayed in a"
+" separate pane, that can be viewed alongside code, and are not included "
+"in notebook documents."
+msgstr ""
+
+#: ../../messaging.rst:568
+msgid "**set_next_input**: create a new output"
+msgstr ""
+
+#: ../../messaging.rst:570
+#, python-format
+msgid ""
+"used to create new cells in the notebook, or set the next input in a "
+"console interface. The main example being ``%load``."
+msgstr ""
+
+#: ../../messaging.rst:585
+msgid "**edit_magic**: open a file for editing."
+msgstr ""
+
+#: ../../messaging.rst:587
+#, python-format
+msgid "Triggered by `%edit`. Only the QtConsole currently supports edit payloads."
+msgstr ""
+
+#: ../../messaging.rst:597
+msgid "**ask_exit**: instruct the frontend to prompt the user for exit"
+msgstr ""
+
+#: ../../messaging.rst:599
+#, python-format
+msgid ""
+"Allows the kernel to request exit, e.g. via ``%exit`` in IPython. Only "
+"for console frontends."
+msgstr ""
+
+#: ../../messaging.rst:614
+msgid "Introspection"
+msgstr ""
+
+#: ../../messaging.rst:616
+msgid ""
+"Code can be inspected to show useful information to the user. It is up to"
+" the Kernel to decide what information should be displayed, and its "
+"formatting."
+msgstr ""
+
+#: ../../messaging.rst:619
+msgid "Message type: ``inspect_request``::"
+msgstr ""
+
+#: ../../messaging.rst:638
+msgid "``object_info_request`` renamed to ``inspect_request``."
+msgstr ""
+
+#: ../../messaging.rst:642
+msgid ""
+"``name`` key replaced with ``code`` and ``cursor_pos``, moving the lexing"
+" responsibility to the kernel."
+msgstr ""
+
+#: ../../messaging.rst:647 ../../messaging.rst:703
+msgid ""
+"Due to a widespread bug in many frontends, ``cursor_pos`` in versions "
+"prior to 5.2 is ambiguous in the presence of \"astral-plane\" characters."
+" In 5.2, cursor_pos **must be** the actual encoding-independent offset in"
+" unicode codepoints. See :ref:`cursor_pos_unicode_note` for more."
+msgstr ""
+
+#: ../../messaging.rst:653
+msgid ""
+"The reply is a mime-bundle, like a `display_data`_ message, which should "
+"be a formatted representation of information about the context. In the "
+"notebook, this is used to show tooltips over function calls, etc."
+msgstr ""
+
+#: ../../messaging.rst:657
+msgid "Message type: ``inspect_reply``::"
+msgstr ""
+
+#: ../../messaging.rst:673
+msgid "``object_info_reply`` renamed to ``inspect_reply``."
+msgstr ""
+
+#: ../../messaging.rst:677
+msgid ""
+"Reply is changed from structured data to a mime bundle,  allowing "
+"formatting decisions to be made by the kernel."
+msgstr ""
+
+#: ../../messaging.rst:682
+msgid "Completion"
+msgstr ""
+
+#: ../../messaging.rst:684
+msgid "Message type: ``complete_request``::"
+msgstr ""
+
+#: ../../messaging.rst:698
+msgid ""
+"``line``, ``block``, and ``text`` keys are removed in favor of a single "
+"``code`` for context. Lexing is up to the kernel."
+msgstr ""
+
+#: ../../messaging.rst:709
+msgid "Message type: ``complete_reply``::"
+msgstr ""
+
+#: ../../messaging.rst:732
+msgid ""
+"``matched_text`` is removed in favor of ``cursor_start`` and "
+"``cursor_end``."
+msgstr ""
+
+#: ../../messaging.rst:733
+msgid "``metadata`` is added for extended information."
+msgstr ""
+
+#: ../../messaging.rst:738
+msgid "History"
+msgstr ""
+
+#: ../../messaging.rst:740
+msgid ""
+"For clients to explicitly request history from a kernel.  The kernel has "
+"all the actual execution history stored in a single location, so clients "
+"can request it from the kernel when needed."
+msgstr ""
+
+#: ../../messaging.rst:744
+msgid "Message type: ``history_request``::"
+msgstr ""
+
+#: ../../messaging.rst:779
+msgid "The key ``unique`` for ``history_request``."
+msgstr ""
+
+#: ../../messaging.rst:782
+msgid "Message type: ``history_reply``::"
+msgstr ""
+
+#: ../../messaging.rst:797
+msgid ""
+"Most of the history messaging options are not used by Jupyter frontends, "
+"and many kernels do not implement them. If you're implementing these "
+"messages in a kernel, the 'tail' request is the most useful; this is used"
+" by the Qt console, for example. The notebook interface does not use "
+"history messages at all."
+msgstr ""
+
+#: ../../messaging.rst:803
+msgid ""
+"This interface was designed by exposing all the main options of IPython's"
+" history interface. We may remove some options in a future version of the"
+" message spec."
+msgstr ""
+
+#: ../../messaging.rst:810
+msgid "Code completeness"
+msgstr ""
+
+#: ../../messaging.rst:814
+msgid ""
+"When the user enters a line in a console style interface, the console "
+"must decide whether to immediately execute the current code, or whether "
+"to show a continuation prompt for further input. For instance, in Python "
+"``a = 5`` would be executed immediately, while ``for i in range(5):`` "
+"would expect further input."
+msgstr ""
+
+#: ../../messaging.rst:819
+msgid "There are four possible replies:"
+msgstr ""
+
+#: ../../messaging.rst:821
+msgid "*complete* code is ready to be executed"
+msgstr ""
+
+#: ../../messaging.rst:822
+msgid "*incomplete* code should prompt for another line"
+msgstr ""
+
+#: ../../messaging.rst:823
+msgid ""
+"*invalid* code will typically be sent for execution, so that the user "
+"sees the error soonest."
+msgstr ""
+
+#: ../../messaging.rst:825
+msgid ""
+"*unknown* - if the kernel is not able to determine this. The frontend "
+"should also handle the kernel not replying promptly. It may default to "
+"sending the code for execution, or it may implement simple fallback "
+"heuristics for whether to execute the code (e.g. execute after a blank "
+"line)."
+msgstr ""
+
+#: ../../messaging.rst:830
+msgid ""
+"Frontends may have ways to override this, forcing the code to be sent for"
+" execution or forcing a continuation prompt."
+msgstr ""
+
+#: ../../messaging.rst:833
+msgid "Message type: ``is_complete_request``::"
+msgstr ""
+
+#: ../../messaging.rst:840
+msgid "Message type: ``is_complete_reply``::"
+msgstr ""
+
+#: ../../messaging.rst:855
+msgid "Connect"
+msgstr ""
+
+#: ../../messaging.rst:859
+msgid ""
+"connect_request/reply have not proved useful, and are considered "
+"deprecated. Kernels are not expected to implement handlers for this "
+"message."
+msgstr ""
+
+#: ../../messaging.rst:862
+msgid ""
+"When a client connects to the request/reply socket of the kernel, it can "
+"issue a connect request to get basic information about the kernel, such "
+"as the ports the other ZeroMQ sockets are listening on. This allows "
+"clients to only have to know about a single port (the shell channel) to "
+"connect to a kernel. The ports for any additional channels the kernel is "
+"listening on should be included in the reply. If any ports are omitted "
+"from the reply, this indicates that the channels are not running."
+msgstr ""
+
+#: ../../messaging.rst:869
+msgid "Message type: ``connect_request``::"
+msgstr ""
+
+#: ../../messaging.rst:873
+msgid "For example, a kernel with all channels running:"
+msgstr ""
+
+#: ../../messaging.rst:875
+msgid "Message type: ``connect_reply``::"
+msgstr ""
+
+#: ../../messaging.rst:889
+msgid "Comm info"
+msgstr ""
+
+#: ../../messaging.rst:891
+msgid ""
+"When a client needs the currently open comms in the kernel, it can issue "
+"a request for the currently open comms. When the optional ``target_name``"
+" is specified, the reply only contains the currently open comms for the "
+"target."
+msgstr ""
+
+#: ../../messaging.rst:895
+msgid "Message type: ``comm_info_request``::"
+msgstr ""
+
+#: ../../messaging.rst:902
+msgid "Message type: ``comm_info_reply``::"
+msgstr ""
+
+#: ../../messaging.rst:921
+msgid "Kernel info"
+msgstr ""
+
+#: ../../messaging.rst:923
+msgid ""
+"If a client needs to know information about the kernel, it can make a "
+"request of the kernel's information. This message can be used to fetch "
+"core information of the kernel, including language (e.g., Python), "
+"language version number and IPython version number, and the IPython "
+"message spec version number."
+msgstr ""
+
+#: ../../messaging.rst:929
+msgid "Message type: ``kernel_info_request``::"
+msgstr ""
+
+#: ../../messaging.rst:934
+msgid "Message type: ``kernel_info_reply``::"
+msgstr ""
+
+#: ../../messaging.rst:1002
+msgid ""
+"Refer to the lists of available `Pygments lexers "
+"<http://pygments.org/docs/lexers/>`_ and `codemirror modes "
+"<http://codemirror.net/mode/index.html>`_ for those fields."
+msgstr ""
+
+#: ../../messaging.rst:1007
+msgid "Versions changed from lists of integers to strings."
+msgstr ""
+
+#: ../../messaging.rst:1011
+msgid "``ipython_version`` is removed."
+msgstr ""
+
+#: ../../messaging.rst:1015
+msgid ""
+"``language_info``, ``implementation``, ``implementation_version``, "
+"``banner`` and ``help_links`` keys are added."
+msgstr ""
+
+#: ../../messaging.rst:1020
+msgid "``language_version`` moved to ``language_info.version``"
+msgstr ""
+
+#: ../../messaging.rst:1024
+msgid "``language`` moved to ``language_info.name``"
+msgstr ""
+
+#: ../../messaging.rst:1027
+msgid "Messages on the Control (ROUTER/DEALER) channel"
+msgstr ""
+
+#: ../../messaging.rst:1032
+msgid "Kernel shutdown"
+msgstr ""
+
+#: ../../messaging.rst:1034
+msgid ""
+"The clients can request the kernel to shut itself down; this is used in "
+"multiple cases:"
+msgstr ""
+
+#: ../../messaging.rst:1037
+msgid ""
+"when the user chooses to close the client application via a menu or "
+"window control."
+msgstr ""
+
+#: ../../messaging.rst:1039
+msgid ""
+"when the user types 'exit' or 'quit' (or their uppercase magic "
+"equivalents)."
+msgstr ""
+
+#: ../../messaging.rst:1040
+msgid ""
+"when the user chooses a GUI method (like the 'Ctrl-C' shortcut in the "
+"IPythonQt client) to force a kernel restart to get a clean kernel without"
+" losing client-side state like history or inlined figures."
+msgstr ""
+
+#: ../../messaging.rst:1044
+msgid ""
+"The client sends a shutdown request to the kernel, and once it receives "
+"the reply message (which is otherwise empty), it can assume that the "
+"kernel has completed shutdown safely.  The request is sent on the "
+"`control` channel."
+msgstr ""
+
+#: ../../messaging.rst:1048
+msgid ""
+"Upon their own shutdown, client applications will typically execute a "
+"last minute sanity check and forcefully terminate any kernel that is "
+"still alive, to avoid leaving stray processes in the user's machine."
+msgstr ""
+
+#: ../../messaging.rst:1052
+msgid "Message type: ``shutdown_request``::"
+msgstr ""
+
+#: ../../messaging.rst:1058
+msgid "Message type: ``shutdown_reply``::"
+msgstr ""
+
+#: ../../messaging.rst:1069
+msgid ""
+"When the clients detect a dead kernel thanks to inactivity on the "
+"heartbeat socket, they simply send a forceful process termination signal,"
+" since a dead process is unlikely to respond in any useful way to "
+"messages."
+msgstr ""
+
+#: ../../messaging.rst:1075
+msgid ""
+"Sending a ``shutdown_request`` message on the ``shell`` channel is "
+"deprecated."
+msgstr ""
+
+#: ../../messaging.rst:1080
+msgid "Kernel interrupt"
+msgstr ""
+
+#: ../../messaging.rst:1082
+msgid ""
+"In case a kernel can not catch operating system interrupt signals (e.g. "
+"the used runtime handles signals and does not allow a user program to "
+"define a callback), a kernel can choose to be notified using a message "
+"instead. For this to work, the kernels kernelspec must set "
+"`interrupt_mode` to ``message``. An interruption will then result in the "
+"following message on the `control` channel:"
+msgstr ""
+
+#: ../../messaging.rst:1088
+msgid "Message type: ``interrupt_request``::"
+msgstr ""
+
+#: ../../messaging.rst:1092
+msgid "Message type: ``interrupt_reply``::"
+msgstr ""
+
+#: ../../messaging.rst:1102
+msgid "Debug request"
+msgstr ""
+
+#: ../../messaging.rst:1104
+msgid ""
+"This message type is used with debugging kernels to request specific "
+"actions to be performed by the debugger such as adding a breakpoint or "
+"stepping into a code."
+msgstr ""
+
+#: ../../messaging.rst:1108
+msgid "Message type: ``debug_request``::"
+msgstr ""
+
+#: ../../messaging.rst:1112
+msgid "Message type: ``debug_reply``::"
+msgstr ""
+
+#: ../../messaging.rst:1116
+msgid ""
+"The ``content`` dicts of the `debug_request` and `debug_reply` messages "
+"respectively follow the specification of the `Request` and `Response` "
+"messages from the `Debug Adapter Protocol (DAP) "
+"<https://microsoft.github.io/debug-adapter-protocol/>`_ as of version "
+"1.39 or later."
+msgstr ""
+
+#: ../../messaging.rst:1118
+msgid ""
+"Debug requests and replies are sent over the `control` channel to prevent"
+" queuing behind execution requests."
+msgstr ""
+
+#: ../../messaging.rst:1121
+msgid "Additions to the DAP"
+msgstr ""
+
+#: ../../messaging.rst:1123
+msgid "The Jupyter debugger protocol makes several additions to the DAP:"
+msgstr ""
+
+#: ../../messaging.rst:1125
+msgid "the `dumpCell` request and response messages"
+msgstr ""
+
+#: ../../messaging.rst:1126
+msgid "the `debugInfo` request and response messages"
+msgstr ""
+
+#: ../../messaging.rst:1127
+msgid "the `inspectVariables` request and response messages"
+msgstr ""
+
+#: ../../messaging.rst:1129
+msgid ""
+"In order to support the debugging of notebook cells and of Jupyter "
+"consoles, which are not based on source files, we need a message to "
+"submit code to the debugger to which breakpoints can be added."
+msgstr ""
+
+#: ../../messaging.rst:1131
+msgid "Content of the `dumpCell` request::"
+msgstr ""
+
+#: ../../messaging.rst:1141
+msgid "Content of the `dumpCell` response::"
+msgstr ""
+
+#: ../../messaging.rst:1151
+msgid ""
+"In order to support page reloading, or a client connecting at a later "
+"stage, Jupyter kernels must store the state of the debugger (such as "
+"breakpoints, whether the debugger is currently stopped). The `debugInfo` "
+"request is a DAP `Request` with no extra argument."
+msgstr ""
+
+#: ../../messaging.rst:1153
+msgid "Content of the `debugInfo` request::"
+msgstr ""
+
+#: ../../messaging.rst:1160
+msgid "Content of the `debugInfo` response::"
+msgstr ""
+
+#: ../../messaging.rst:1183
+msgid "The `source_breakpoint` schema is specified by the Debug Adapter Protocol."
+msgstr ""
+
+#: ../../messaging.rst:1185
+msgid ""
+"The `inspectVariables` is meant to retrieve the values of all the "
+"variables that have been defined in the kernel. It is a DAP `Request` "
+"with no extra argument."
+msgstr ""
+
+#: ../../messaging.rst:1187
+msgid "Content of the `inspectVariables` request::"
+msgstr ""
+
+#: ../../messaging.rst:1194
+msgid "Content of the `inspectVariables` response::"
+msgstr ""
+
+#: ../../messaging.rst:1211
+msgid ""
+"The ``richInspectVariables`` request allows to get the rich "
+"representation of a variable that has been defined in the kernel."
+msgstr ""
+
+#: ../../messaging.rst:1213
+msgid "Content of the ``richInspectVariables`` request::"
+msgstr ""
+
+#: ../../messaging.rst:1225
+msgid "Content of the ``richInspectVariables`` response::"
+msgstr ""
+
+#: ../../messaging.rst:1240
+msgid "Messages on the IOPub (PUB/SUB) channel"
+msgstr ""
+
+#: ../../messaging.rst:1243
+msgid "Streams (stdout,  stderr, etc)"
+msgstr ""
+
+#: ../../messaging.rst:1245
+msgid "Message type: ``stream``::"
+msgstr ""
+
+#: ../../messaging.rst:1257
+msgid "'data' key renamed to 'text' for consistency with the notebook format."
+msgstr ""
+
+#: ../../messaging.rst:1260
+msgid "Display Data"
+msgstr ""
+
+#: ../../messaging.rst:1262
+msgid ""
+"This type of message is used to bring back data that should be displayed "
+"(text, html, svg, etc.) in the frontends. This data is published to all "
+"frontends. Each message can have multiple representations of the data; it"
+" is up to the frontend to decide which to use and how. A single message "
+"should contain all possible representations of the same information. Each"
+" representation should be a JSON'able data structure, and should be a "
+"valid MIME type."
+msgstr ""
+
+#: ../../messaging.rst:1269
+msgid "Some questions remain about this design:"
+msgstr ""
+
+#: ../../messaging.rst:1271
+msgid ""
+"Do we use this message type for execute_result/displayhook? Probably not,"
+" because the displayhook also has to handle the Out prompt display. On "
+"the other hand we could put that information into the metadata section."
+msgstr ""
+
+#: ../../messaging.rst:1277
+msgid "Message type: ``display_data``::"
+msgstr ""
+
+#: ../../messaging.rst:1300
+msgid ""
+"The ``metadata`` contains any metadata that describes the output. Global "
+"keys are assumed to apply to the output as a whole. The ``metadata`` dict"
+" can also contain mime-type keys, which will be sub-dictionaries, which "
+"are interpreted as applying only to output of that type. Third parties "
+"should put any data they write into a single dict with a reasonably "
+"unique name to avoid conflicts."
+msgstr ""
+
+#: ../../messaging.rst:1307
+msgid ""
+"The only metadata keys currently defined in IPython are the width and "
+"height of images::"
+msgstr ""
+
+#: ../../messaging.rst:1317
+msgid "and expanded for JSON data::"
+msgstr ""
+
+#: ../../messaging.rst:1326
+msgid ""
+"The ``transient`` dict contains runtime metadata that should not be "
+"persisted to document formats and is fully optional. The only transient "
+"key currently defined in Jupyter is ``display_id``::"
+msgstr ""
+
+#: ../../messaging.rst:1336
+msgid ""
+"`application/json` data should be unpacked JSON data, not double-"
+"serialized as a JSON string."
+msgstr ""
+
+#: ../../messaging.rst:1341
+msgid "`transient` is a new field."
+msgstr ""
+
+#: ../../messaging.rst:1344
+msgid "Update Display Data"
+msgstr ""
+
+#: ../../messaging.rst:1348
+msgid ""
+"Displays can now be named with a ``display_id`` within the ``transient`` "
+"field of ``display_data`` or ``execute_result``."
+msgstr ""
+
+#: ../../messaging.rst:1351
+msgid ""
+"When a ``display_id`` is specified for a display, it can be updated later"
+" with an ``update_display_data`` message. This message has the same "
+"format as `display_data`_ messages and must contain a ``transient`` field"
+" with a ``display_id``."
+msgstr ""
+
+#: ../../messaging.rst:1357
+msgid "Message type: ``update_display_data``::"
+msgstr ""
+
+#: ../../messaging.rst:1374
+msgid ""
+"Frontends can choose how they update prior outputs (or if they regard "
+"this as a regular ``display_data`` message). Within the jupyter and "
+"nteract_ notebooks, all displays that match the ``display_id`` are "
+"updated (even if there are multiple)."
+msgstr ""
+
+#: ../../messaging.rst:1379
+msgid "Code inputs"
+msgstr ""
+
+#: ../../messaging.rst:1381
+msgid ""
+"To let all frontends know what code is being executed at any given time, "
+"these messages contain a re-broadcast of the ``code`` portion of an "
+":ref:`execute_request <execute>`, along with the :ref:`execution_count "
+"<execution_counter>`."
+msgstr ""
+
+#: ../../messaging.rst:1386
+msgid "Message type: ``execute_input``::"
+msgstr ""
+
+#: ../../messaging.rst:1399
+msgid "``pyin`` is renamed to ``execute_input``."
+msgstr ""
+
+#: ../../messaging.rst:1405
+msgid ""
+"Results of an execution are published as an ``execute_result``. These are"
+" identical to `display_data`_ messages, with the addition of an "
+"``execution_count`` key."
+msgstr ""
+
+#: ../../messaging.rst:1408
+msgid ""
+"Results can have multiple simultaneous formats depending on its "
+"configuration. A plain text representation should always be provided in "
+"the ``text/plain`` mime-type. Frontends are free to display any or all of"
+" these according to its capabilities. Frontends should ignore mime-types "
+"they do not understand. The data itself is any JSON object and depends on"
+" the format. It is often, but not always a string."
+msgstr ""
+
+#: ../../messaging.rst:1415
+msgid "Message type: ``execute_result``::"
+msgstr ""
+
+#: ../../messaging.rst:1432
+msgid "Execution errors"
+msgstr ""
+
+#: ../../messaging.rst:1434
+msgid "When an error occurs during code execution"
+msgstr ""
+
+#: ../../messaging.rst:1436
+msgid "Message type: ``error``::"
+msgstr ""
+
+#: ../../messaging.rst:1445
+msgid "``pyerr`` renamed to ``error``"
+msgstr ""
+
+#: ../../messaging.rst:1450
+msgid "Kernel status"
+msgstr ""
+
+#: ../../messaging.rst:1452
+msgid ""
+"This message type is used by frontends to monitor the status of the "
+"kernel."
+msgstr ""
+
+#: ../../messaging.rst:1454
+msgid "Message type: ``status``::"
+msgstr ""
+
+#: ../../messaging.rst:1463
+msgid ""
+"When a kernel receives a request and begins processing it, the kernel "
+"shall immediately publish a status message with ``execution_state: "
+"'busy'``. When that kernel has completed processing the request and has "
+"finished publishing associated IOPub messages, if any, it shall publish a"
+" status message with ``execution_state: 'idle'``. Thus, the outputs "
+"associated with a given execution shall generally arrive between the busy"
+" and idle status messages associated with a given request."
+msgstr ""
+
+#: ../../messaging.rst:1473
+msgid "**A caveat for asynchronous output**"
+msgstr ""
+
+#: ../../messaging.rst:1475
+msgid ""
+"Asynchronous output (e.g. from background threads) may be produced after "
+"the kernel has sent the idle status message that signals the completion "
+"of the request. The handling of these out-of-order output messages is "
+"currently undefined in this specification, but the Jupyter Notebook "
+"continues to handle IOPub messages associated with a given request after "
+"the idle message has arrived, as long as the output area corresponding to"
+" that request is still active."
+msgstr ""
+
+#: ../../messaging.rst:1484
+msgid ""
+"Busy and idle messages should be sent before/after handling every "
+"request, not just execution."
+msgstr ""
+
+#: ../../messaging.rst:1488
+msgid "Clear output"
+msgstr ""
+
+#: ../../messaging.rst:1490
+msgid ""
+"This message type is used to clear the output that is visible on the "
+"frontend."
+msgstr ""
+
+#: ../../messaging.rst:1492
+msgid "Message type: ``clear_output``::"
+msgstr ""
+
+#: ../../messaging.rst:1504
+msgid ""
+"``stdout``, ``stderr``, and ``display`` boolean keys for selective "
+"clearing are removed, and ``wait`` is added. The selective clearing keys "
+"are ignored in v4 and the default behavior remains the same, so v4 "
+"clear_output messages will be safely handled by a v4.1 frontend."
+msgstr ""
+
+#: ../../messaging.rst:1512
+msgid "Debug event"
+msgstr ""
+
+#: ../../messaging.rst:1514
+msgid ""
+"This message type is used by debugging kernels to send debugging events "
+"to the frontend."
+msgstr ""
+
+#: ../../messaging.rst:1517
+msgid "Message type: ``debug_event``::"
+msgstr ""
+
+#: ../../messaging.rst:1521
+msgid ""
+"The ``content`` dict follows the specification of the `Event` message "
+"from the `Debug Adapter Protocol (DAP) <https://microsoft.github.io"
+"/debug-adapter-protocol/>`_."
+msgstr ""
+
+#: ../../messaging.rst:1528
+msgid "Messages on the stdin (ROUTER/DEALER) channel"
+msgstr ""
+
+#: ../../messaging.rst:1530
+msgid ""
+"With the stdin ROUTER/DEALER socket, the request/reply pattern goes in "
+"the opposite direction of most kernel communication. With the stdin "
+"socket, the kernel makes the request, and the single frontend provides "
+"the response. This pattern allows code to prompt the user for a line of "
+"input, which would normally be read from stdin in a terminal."
+msgstr ""
+
+#: ../../messaging.rst:1537
+msgid ""
+"Many programming languages provide a function which displays a prompt, "
+"blocks until the user presses return, and returns the text they typed "
+"before pressing return. In Python 3, this is the ``input()`` function; in"
+" R it is called ``readline()``. If the :ref:`execute_request <execute>` "
+"message has ``allow_stdin==True``, kernels may implement these functions "
+"so that they send an ``input_request`` message and wait for a "
+"corresponding ``input_reply``. The frontend is responsible for displaying"
+" the prompt and getting the user's input."
+msgstr ""
+
+#: ../../messaging.rst:1545
+msgid ""
+"If ``allow_stdin`` is False, the kernel must not send ``stdin_request``. "
+"The kernel may decide what to do instead, but it's most likely that calls"
+" to the 'prompt for input' function should fail immediately in this case."
+msgstr ""
+
+#: ../../messaging.rst:1549
+msgid "Message type: ``input_request``::"
+msgstr ""
+
+#: ../../messaging.rst:1559
+msgid "Message type: ``input_reply``::"
+msgstr ""
+
+#: ../../messaging.rst:1564
+msgid ""
+"When ``password`` is True, the frontend should not show the input as it "
+"is entered. Different frontends may obscure it in different ways; e.g. "
+"showing each character entered as the same neutral symbol, or not showing"
+" anything at all as the user types."
+msgstr ""
+
+#: ../../messaging.rst:1571
+msgid "``password`` key added."
+msgstr ""
+
+#: ../../messaging.rst:1575
+msgid ""
+"The stdin socket of the client is required to have the same zmq IDENTITY "
+"as the client's shell socket. Because of this, the ``input_request`` must"
+" be sent with the same IDENTITY routing prefix as the ``execute_reply`` "
+"in order for the frontend to receive the message."
+msgstr ""
+
+#: ../../messaging.rst:1583
+msgid ""
+"This pattern of requesting user input is quite different from how stdin "
+"works at a lower level. The Jupyter protocol does not support everything "
+"code running in a terminal can do with stdin, but we believe that this "
+"enables the most common use cases."
+msgstr ""
+
+#: ../../messaging.rst:1591
+msgid "Heartbeat for kernels"
+msgstr ""
+
+#: ../../messaging.rst:1593
+msgid ""
+"Clients send ping messages on a REQ socket, which are echoed right back "
+"from the Kernel's REP socket. These are simple bytestrings, not full JSON"
+" messages described above."
+msgstr ""
+
+#: ../../messaging.rst:1597
+msgid "Custom Messages"
+msgstr ""
+
+#: ../../messaging.rst:1601
+msgid ""
+"Message spec 4.1 (IPython 2.0) added a messaging system for developers to"
+" add their own objects with Frontend and Kernel-side components, and "
+"allow them to communicate with each other. To do this, IPython adds a "
+"notion of a ``Comm``, which exists on both sides, and can communicate in "
+"either direction."
+msgstr ""
+
+#: ../../messaging.rst:1606
+msgid ""
+"These messages are fully symmetrical - both the Kernel and the Frontend "
+"can send each message, and no messages expect a reply. The Kernel listens"
+" for these messages on the Shell channel, and the Frontend listens for "
+"them on the IOPub channel."
+msgstr ""
+
+#: ../../messaging.rst:1611
+msgid "Opening a Comm"
+msgstr ""
+
+#: ../../messaging.rst:1613
+msgid ""
+"Opening a Comm produces a ``comm_open`` message, to be sent to the other "
+"side::"
+msgstr ""
+
+#: ../../messaging.rst:1621
+msgid ""
+"Every Comm has an ID and a target name. The code handling the message on "
+"the receiving side is responsible for maintaining a mapping of "
+"target_name keys to constructors. After a ``comm_open`` message has been "
+"sent, there should be a corresponding Comm instance on both sides. The "
+"``data`` key is always a dict and can be any extra JSON information used "
+"in initialization of the comm."
+msgstr ""
+
+#: ../../messaging.rst:1628
+msgid ""
+"If the ``target_name`` key is not found on the receiving side, then it "
+"should immediately reply with a ``comm_close`` message to avoid an "
+"inconsistent state."
+msgstr ""
+
+#: ../../messaging.rst:1633
+msgid "Comm Messages"
+msgstr ""
+
+#: ../../messaging.rst:1635
+msgid ""
+"Comm messages are one-way communications to update comm state, used for "
+"synchronizing widget state, or simply requesting actions of a comm's "
+"counterpart."
+msgstr ""
+
+#: ../../messaging.rst:1638
+msgid ""
+"Essentially, each comm pair defines their own message specification "
+"implemented inside the ``data`` dict."
+msgstr ""
+
+#: ../../messaging.rst:1640
+msgid ""
+"There are no expected replies (of course, one side can send another "
+"``comm_msg`` in reply)."
+msgstr ""
+
+#: ../../messaging.rst:1642
+msgid "Message type: ``comm_msg``::"
+msgstr ""
+
+#: ../../messaging.rst:1650
+msgid "Tearing Down Comms"
+msgstr ""
+
+#: ../../messaging.rst:1652
+msgid ""
+"Since comms live on both sides, when a comm is destroyed the other side "
+"must be notified. This is done with a ``comm_close`` message."
+msgstr ""
+
+#: ../../messaging.rst:1655
+msgid "Message type: ``comm_close``::"
+msgstr ""
+
+#: ../../messaging.rst:1663
+msgid "Output Side Effects"
+msgstr ""
+
+#: ../../messaging.rst:1665
+msgid ""
+"Since comm messages can execute arbitrary user code, handlers should set "
+"the parent header and publish status busy / idle, just like an execute "
+"request."
+msgstr ""
+
+#: ../../messaging.rst:1671
+msgid "Notes"
+msgstr ""
+
+#: ../../messaging.rst:1676
+msgid "``cursor_pos`` and unicode offsets"
+msgstr ""
+
+#: ../../messaging.rst:1678
+msgid ""
+"Many frontends, especially those implemented in javascript, reported "
+"cursor_pos as the interpreter's string index, which is not the same as "
+"the unicode character offset if the interpreter uses UTF-16 (e.g. "
+"javascript or Python 2 on macOS), which stores \"astral-plane\" "
+"characters such as ``𝐚 (U+1D41A)`` as surrogate pairs, taking up two "
+"indices instead of one, causing a unicode offset drift of one per astral-"
+"plane character. Not all frontends have this behavior, however, and after"
+" JSON serialization information about which encoding was used when "
+"calculating the offset is lost, so assuming ``cursor_pos`` is calculated "
+"in UTF-16 could result in a similarly incorrect offset for frontends that"
+" did the right thing."
+msgstr ""
+
+#: ../../messaging.rst:1690
+msgid ""
+"For this reason, in protocol versions prior to 5.2, ``cursor_pos`` is "
+"officially ambiguous in the presence of astral plane unicode characters. "
+"Frontends claiming to implement protocol 5.2 **MUST** identify cursor_pos"
+" as the encoding-independent unicode character offset. Kernels may choose"
+" to expect the UTF-16 offset from requests implementing protocol 5.1 and "
+"earlier, in order to behave correctly with the most popular frontends. "
+"But they should know that doing so *introduces* the inverse bug for the "
+"frontends that do not have this bug."
+msgstr ""
+
+#: ../../messaging.rst:1696
+msgid ""
+"As an example, use a python3 kernel and evaluate ``𨭎𨭎𨭎𨭎𨭎 = 10``.  Then "
+"type ``𨭎𨭎`` followed by the tab key and see if it properly completes."
+msgstr ""
+
+#: ../../messaging.rst:1698
+msgid "Known affected frontends (as of 2017-06):"
+msgstr ""
+
+#: ../../messaging.rst:1700
+msgid "Jupyter Notebook < 5.1"
+msgstr ""
+
+#: ../../messaging.rst:1701
+msgid "JupyterLab < 0.24"
+msgstr ""
+
+#: ../../messaging.rst:1702
+msgid "nteract < 0.2.0"
+msgstr ""
+
+#: ../../messaging.rst:1703
+msgid "Jupyter Console and QtConsole with Python 2 on macOS and Windows"
+msgstr ""
+
+#: ../../messaging.rst:1705
+msgid "Known *not* affected frontends:"
+msgstr ""
+
+#: ../../messaging.rst:1707
+msgid "QtConsole, Jupyter Console with Python 3 or Python 2 on Linux, CoCalc"
+msgstr ""
+
+#: ../../messaging.rst:1711
+msgid ""
+"`Discussion on GitHub "
+"<https://github.com/jupyter/jupyter_client/issues/259>`_"
+msgstr ""
+

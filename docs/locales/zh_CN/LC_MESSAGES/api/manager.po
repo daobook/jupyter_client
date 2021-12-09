@@ -1,0 +1,254 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2015, Jupyter Development Team
+# This file is distributed under the same license as the jupyter_client
+# package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2021.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: jupyter_client 7.1\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2021-12-09 21:30+0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.9.1\n"
+
+#: ../../api/manager.rst:2
+msgid "manager - starting, stopping, signalling"
+msgstr ""
+
+#: jupyter_client.manager.KernelManager:1 of
+msgid "Manages a single kernel in a subprocess on this host."
+msgstr ""
+
+#: jupyter_client.manager.KernelManager:3 of
+msgid "This version starts kernels with Popen."
+msgstr ""
+
+#: ../../api/manager.rst:10
+msgid "The name of the kernel to launch (see :ref:`kernelspecs`)."
+msgstr ""
+
+#: ../../api/manager.rst:14
+msgid ""
+"The kernel provisioner with which this :class:`KernelManager` is "
+"communicating.  This will generally be a :class:`LocalProvisioner` "
+"instance unless the kernelspec indicates otherwise."
+msgstr ""
+
+#: jupyter_client.utils.run_sync.<locals>.wrapped:1 of
+msgid "Starts a kernel on this host in a separate process."
+msgstr ""
+
+#: jupyter_client.utils.run_sync.<locals>.wrapped:3 of
+msgid ""
+"If random ports (port=0) are being used, this method must be called "
+"before the channels are created."
+msgstr ""
+
+#: jupyter_client.multikernelmanager.MultiKernelManager.get_kernel
+#: jupyter_client.utils.run_sync.<locals>.wrapped of
+msgid "参数"
+msgstr ""
+
+#: jupyter_client.utils.run_sync.<locals>.wrapped:6 of
+msgid ""
+"keyword arguments that are passed down to build the kernel_cmd and "
+"launching the kernel (e.g. Popen kwargs)."
+msgstr ""
+
+#: jupyter_client.utils.run_sync.<locals>.wrapped:1 of
+msgid "Is the kernel process still running?"
+msgstr ""
+
+#: jupyter_client.utils.run_sync.<locals>.wrapped:1 of
+msgid "Interrupts the kernel by sending it a signal."
+msgstr ""
+
+#: jupyter_client.utils.run_sync.<locals>.wrapped:3 of
+msgid ""
+"Unlike ``signal_kernel``, this operation is well supported on all "
+"platforms."
+msgstr ""
+
+#: jupyter_client.utils.run_sync.<locals>.wrapped:1 of
+msgid ""
+"Sends a signal to the process group of the kernel (this usually includes "
+"the kernel and any subprocesses spawned by the kernel)."
+msgstr ""
+
+#: jupyter_client.utils.run_sync.<locals>.wrapped:5 of
+msgid ""
+"Note that since only SIGTERM is supported on Windows, this function is "
+"only useful on Unix systems."
+msgstr ""
+
+#: jupyter_client.manager.KernelManager.client:1 of
+msgid "Create a client configured to connect to our kernel"
+msgstr ""
+
+#: ../../api/manager.rst:26
+msgid "For the client API, see :mod:`jupyter_client.client`."
+msgstr ""
+
+#: jupyter_client.connect.ConnectionFileMixin.blocking_client:1 of
+msgid "Make a blocking client connected to my kernel"
+msgstr ""
+
+#: jupyter_client.utils.run_sync.<locals>.wrapped:1 of
+msgid "Attempts to stop the kernel process cleanly."
+msgstr ""
+
+#: jupyter_client.utils.run_sync.<locals>.wrapped:3 of
+msgid "This attempts to shutdown the kernels cleanly by:"
+msgstr ""
+
+#: jupyter_client.utils.run_sync.<locals>.wrapped:5 of
+msgid "Sending it a shutdown message over the control channel."
+msgstr ""
+
+#: jupyter_client.utils.run_sync.<locals>.wrapped:6 of
+msgid "If that fails, the kernel is shutdown forcibly by sending it a signal."
+msgstr ""
+
+#: jupyter_client.utils.run_sync.<locals>.wrapped:9 of
+msgid ""
+"Should the kernel be forcible killed *now*. This skips the first, nice "
+"shutdown attempt."
+msgstr ""
+
+#: jupyter_client.utils.run_sync.<locals>.wrapped:12 of
+msgid ""
+"Will this kernel be restarted after it is shutdown. When this is True, "
+"connection files will not be cleaned up."
+msgstr ""
+
+#: jupyter_client.utils.run_sync.<locals>.wrapped:1 of
+msgid "Restarts a kernel with the arguments that were used to launch it."
+msgstr ""
+
+#: jupyter_client.utils.run_sync.<locals>.wrapped:3 of
+msgid ""
+"If True, the kernel is forcefully restarted *immediately*, without having"
+" a chance to do any cleanup action.  Otherwise the kernel is given 1s to "
+"clean up before a forceful restart is issued.  In all cases the kernel is"
+" restarted, the only difference is whether it is given a chance to "
+"perform a clean shutdown or not."
+msgstr ""
+
+#: jupyter_client.utils.run_sync.<locals>.wrapped:3 of
+msgid ""
+"If True, the kernel is forcefully restarted *immediately*, without having"
+" a chance to do any cleanup action.  Otherwise the kernel is given 1s to "
+"clean up before a forceful restart is issued."
+msgstr ""
+
+#: jupyter_client.utils.run_sync.<locals>.wrapped:7 of
+msgid ""
+"In all cases the kernel is restarted, the only difference is whether it "
+"is given a chance to perform a clean shutdown or not."
+msgstr ""
+
+#: jupyter_client.utils.run_sync.<locals>.wrapped:10 of
+msgid ""
+"If the old kernel was launched with random ports, this flag decides "
+"whether the same ports and connection file will be used again. If False, "
+"the same ports and connection file are used. This is the default. If "
+"True, new random port numbers are chosen and a new connection file is "
+"written. It is still possible that the newly chosen random port numbers "
+"happen to be the same as the old ones."
+msgstr ""
+
+#: jupyter_client.utils.run_sync.<locals>.wrapped:17 of
+msgid "Any options specified here will overwrite those used to launch the kernel."
+msgstr ""
+
+#: ../../api/manager.rst:35
+msgid "multikernelmanager - controlling multiple kernels"
+msgstr ""
+
+#: jupyter_client.multikernelmanager.MultiKernelManager:1 of
+msgid "A class for managing multiple kernels."
+msgstr ""
+
+#: ../../api/manager.rst:39
+msgid ""
+"This exposes the same methods as "
+":class:`~jupyter_client.manager.KernelManager`, but their first parameter"
+" is a kernel ID, a string identifying the kernel instance. Typically "
+"these are UUIDs picked by :meth:`start_kernel`"
+msgstr ""
+
+#: jupyter_client.utils.run_sync.<locals>.wrapped:1 of
+msgid "Start a new kernel."
+msgstr ""
+
+#: jupyter_client.utils.run_sync.<locals>.wrapped:3 of
+msgid ""
+"The caller can pick a kernel_id by passing one in as a keyword arg, "
+"otherwise one will be generated using new_kernel_id()."
+msgstr ""
+
+#: jupyter_client.utils.run_sync.<locals>.wrapped:6 of
+msgid "The kernel ID for the newly started kernel is returned."
+msgstr ""
+
+#: jupyter_client.multikernelmanager.MultiKernelManager.list_kernel_ids:1 of
+msgid "Return a list of the kernel ids of the active kernels."
+msgstr ""
+
+#: jupyter_client.multikernelmanager.MultiKernelManager.get_kernel:1 of
+msgid "Get the single KernelManager object for a kernel by its uuid."
+msgstr ""
+
+#: jupyter_client.multikernelmanager.MultiKernelManager.get_kernel:3 of
+msgid "The id of the kernel."
+msgstr ""
+
+#: jupyter_client.multikernelmanager.MultiKernelManager.remove_kernel:1 of
+msgid "remove a kernel from our mapping."
+msgstr ""
+
+#: jupyter_client.multikernelmanager.MultiKernelManager.remove_kernel:3 of
+msgid ""
+"Mainly so that a kernel can be removed if it is already dead, without "
+"having to call shutdown_kernel."
+msgstr ""
+
+#: jupyter_client.multikernelmanager.MultiKernelManager.remove_kernel:6 of
+msgid "The kernel object is returned, or `None` if not found."
+msgstr ""
+
+#: jupyter_client.utils.run_sync.<locals>.wrapped:1 of
+msgid "Shutdown all kernels."
+msgstr ""
+
+#: ../../api/manager.rst:54
+msgid "Utility functions"
+msgstr ""
+
+#: jupyter_client.manager.run_kernel:1 of
+msgid "Context manager to create a kernel in a subprocess."
+msgstr ""
+
+#: jupyter_client.manager.run_kernel:3 of
+msgid "The kernel is shut down when the context exits."
+msgstr ""
+
+#: jupyter_client.manager.run_kernel of
+msgid "返回"
+msgstr ""
+
+#: jupyter_client.manager.run_kernel:5 of
+msgid "**kernel_client**"
+msgstr ""
+
+#: jupyter_client.manager.run_kernel of
+msgid "返回类型"
+msgstr ""
+

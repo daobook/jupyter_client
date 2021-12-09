@@ -1,0 +1,252 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2015, Jupyter Development Team
+# This file is distributed under the same license as the jupyter_client
+# package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2021.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: jupyter_client 7.1\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2021-12-09 21:30+0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.9.1\n"
+
+#: ../../migration.md:1
+msgid "Migration Guide"
+msgstr ""
+
+#: ../../migration.md:3
+msgid "Jupyter Client 6.0 to 7.0"
+msgstr ""
+
+#: ../../migration.md:5
+msgid "API Changes"
+msgstr ""
+
+#: ../../migration.md:7
+msgid ""
+"All of the API changes for `KernelManager` and `AsyncKernelManager` in "
+"the 7.0 release were confined to _internal public_ methods, which we "
+"define as methods called from the _formally public_ methods but could be "
+"overridden in subclass implementations. As a result, these changes may "
+"impact subclasses of `KernelManager` or `AsyncKernelManager` provided "
+"those implementations also implement or call these methods, but should "
+"not affect applications that call only the _formally public_ methods."
+msgstr ""
+
+#: ../../migration.md:9
+msgid "`KernelManager`"
+msgstr ""
+
+#: ../../migration.md:11
+msgid "The following internal methods had signature changes:"
+msgstr ""
+
+#: ../../migration.md:13
+msgid ""
+"`def pre_start_kernel(self, **kwargs) -> Tuple[List[str], Dict[str, "
+"Any]]:`"
+msgstr ""
+
+#: ../../migration.md:14
+msgid ""
+"`pre_start_kernel` now returns a tuple consisting of the formatted kernel"
+" startup list and an updated set of keyword arguments."
+msgstr ""
+
+#: ../../migration.md:15
+msgid "`def _launch_kernel(self, kernel_cmd: List[str], **kw) -> None:`"
+msgstr ""
+
+#: ../../migration.md:16
+msgid "`_launch_kernel` now returns `None` instead of the `Popen` instance"
+msgstr ""
+
+#: ../../migration.md:17
+msgid ""
+"These methods now take the keyword argument `restart` indicating the "
+"shutdown was on behalf of a kernel restart (when `True`)."
+msgstr ""
+
+#: ../../migration.md:19
+msgid "`def finish_shutdown(self, restart: bool = False):`"
+msgstr ""
+
+#: ../../migration.md:20
+msgid "`def _kill_kernel(self, restart: bool = False):`"
+msgstr ""
+
+#: ../../migration.md:21
+msgid "`def _send_kernel_sigterm(self, restart: bool = False):`"
+msgstr ""
+
+#: ../../migration.md:23
+msgid ""
+"Attribute `kernel` has been removed and _logically_ replaced with "
+"`provisioner` - which is an instance of `KernelProvisionerBase` and can "
+"be viewed as an abstract `Popen` instance."
+msgstr ""
+
+#: ../../migration.md:25
+msgid "`AsyncKernelManager`"
+msgstr ""
+
+#: ../../migration.md:27
+msgid ""
+"Besides the signature and attribute changes described above, the "
+"following internal methods were made `async` for `AsyncKernelManager`:"
+msgstr ""
+
+#: ../../migration.md:29
+msgid ""
+"`async def pre_start_kernel(self, **kwargs) -> Tuple[List[str], Dict[str,"
+" Any]]:`"
+msgstr ""
+
+#: ../../migration.md:30
+msgid "`async def post_start_kernel(self, **kwargs):`"
+msgstr ""
+
+#: ../../migration.md:31
+msgid "`async def request_shutdown(self, restart: bool = False):`"
+msgstr ""
+
+#: ../../migration.md:32
+msgid "`async def cleanup_resources(self, restart: bool = False):`"
+msgstr ""
+
+#: ../../migration.md:34
+msgid "`AsyncKernelClient`"
+msgstr ""
+
+#: ../../migration.md:36 ../../migration.md:48
+msgid ""
+"We dropped the `block: bool = True` keyword argument for the following "
+"methods:"
+msgstr ""
+
+#: ../../migration.md:38
+msgid ""
+"`async def get_shell_msg(self, timeout: Optional[float] = None) -> "
+"Dict[str, Any]:`"
+msgstr ""
+
+#: ../../migration.md:39
+msgid ""
+"`async def get_iopub_msg(self, timeout: Optional[float] = None) -> "
+"Dict[str, Any]:`"
+msgstr ""
+
+#: ../../migration.md:40
+msgid ""
+"`async def get_stdin_msg(self, timeout: Optional[float] = None) -> "
+"Dict[str, Any]:`"
+msgstr ""
+
+#: ../../migration.md:41
+msgid ""
+"`async def get_control_msg(self, timeout: Optional[float] = None) -> "
+"Dict[str, Any]:`"
+msgstr ""
+
+#: ../../migration.md:43 ../../migration.md:55
+msgid ""
+"Calling these methods with `block=False` previously translates to calling"
+" them with `timeout=0` now. Calling these methods with `block=True` "
+"previously translates to calling them with a non-zero `timeout` value "
+"now."
+msgstr ""
+
+#: ../../migration.md:46 ../../migration.md:58
+msgid "`BlockingKernelClient`"
+msgstr ""
+
+#: ../../migration.md:50
+msgid ""
+"`def get_shell_msg(self, timeout: Optional[float] = None) -> Dict[str, "
+"Any]:`"
+msgstr ""
+
+#: ../../migration.md:51
+msgid ""
+"`def get_iopub_msg(self, timeout: Optional[float] = None) -> Dict[str, "
+"Any]:`"
+msgstr ""
+
+#: ../../migration.md:52
+msgid ""
+"`def get_stdin_msg(self, timeout: Optional[float] = None) -> Dict[str, "
+"Any]:`"
+msgstr ""
+
+#: ../../migration.md:53
+msgid ""
+"`def get_control_msg(self, timeout: Optional[float] = None) -> Dict[str, "
+"Any]:`"
+msgstr ""
+
+#: ../../migration.md:60
+msgid "`ZMQSocketChannel`"
+msgstr ""
+
+#: ../../migration.md:62
+msgid ""
+"We dropped the `block: bool = True` keyword argument for the following "
+"method:"
+msgstr ""
+
+#: ../../migration.md:64
+msgid ""
+"`async def get_msg(self, timeout: Optional[float] = None) -> Dict[str, "
+"Any]:`:"
+msgstr ""
+
+#: ../../migration.md:66
+msgid ""
+"Calling this method with `block=False` previously translates to calling "
+"it with `timeout=0` now. Calling this method with `block=True` previously"
+" translates to calling it with a non-zero `timeout` value now."
+msgstr ""
+
+#: ../../migration.md:69
+msgid "Note"
+msgstr ""
+
+#: ../../migration.md:1
+msgid ""
+"Prefer calling e.g. `client.get_shell_msg()` over "
+"`client.shell_channel.get_msg()`."
+msgstr ""
+
+#: ../../migration.md:73
+msgid "Deprecations removed"
+msgstr ""
+
+#: ../../migration.md:75
+msgid "Method `KernelManager.cleanup()`"
+msgstr ""
+
+#: ../../migration.md:77
+msgid ""
+"The `cleanup()` method on `KernelManager` has been removed. "
+"`cleanup_resources(restart: bool = False)` should be used."
+msgstr ""
+
+#: ../../migration.md:79
+msgid "Attribute `KernelManager.kernel_cmd`"
+msgstr ""
+
+#: ../../migration.md:81
+msgid ""
+"This attribute had been marked for deprecation for 4 years. The command "
+"used to start the kernel is derived from the `argv` stanza of the kernel "
+"specification file (`kernel.json`)."
+msgstr ""
+

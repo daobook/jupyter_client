@@ -1,0 +1,366 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2015, Jupyter Development Team
+# This file is distributed under the same license as the jupyter_client
+# package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2021.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: jupyter_client 7.1\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2021-12-09 21:30+0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.9.1\n"
+
+#: ../../api/client.rst:2
+msgid "client - communicating with kernels"
+msgstr ""
+
+#: ../../api/client.rst:8
+msgid ":doc:`/messaging`"
+msgstr ""
+
+#: ../../api/client.rst:9
+msgid "The Jupyter messaging specification"
+msgstr ""
+
+#: jupyter_client.client.KernelClient:1 of
+msgid "Communicates with a single kernel on any host via zmq channels."
+msgstr ""
+
+#: jupyter_client.client.KernelClient:3 of
+msgid "There are five channels associated with each kernel:"
+msgstr ""
+
+#: jupyter_client.client.KernelClient:5 of
+msgid "shell: for request/reply calls to the kernel."
+msgstr ""
+
+#: jupyter_client.client.KernelClient:6 of
+msgid "iopub: for the kernel to publish results to frontends."
+msgstr ""
+
+#: jupyter_client.client.KernelClient:7 of
+msgid "hb: for monitoring the kernel's heartbeat."
+msgstr ""
+
+#: jupyter_client.client.KernelClient:8 of
+msgid "stdin: for frontends to reply to raw_input calls in the kernel."
+msgstr ""
+
+#: jupyter_client.client.KernelClient:9 of
+msgid "control: for kernel management calls to the kernel."
+msgstr ""
+
+#: jupyter_client.client.KernelClient:11 of
+msgid ""
+"The messages that can be sent on these channels are exposed as methods of"
+" the client (KernelClient.execute, complete, history, etc.). These "
+"methods only send the message, they don't wait for a reply. To get "
+"results, use e.g. :meth:`get_shell_msg` to fetch messages from the shell "
+"channel."
+msgstr ""
+
+#: jupyter_client.connect.ConnectionFileMixin.load_connection_file:1 of
+msgid "Load connection info from JSON dict in self.connection_file."
+msgstr ""
+
+#: jupyter_client.client.KernelClient.complete
+#: jupyter_client.client.KernelClient.execute
+#: jupyter_client.client.KernelClient.history
+#: jupyter_client.client.KernelClient.inspect
+#: jupyter_client.connect.ConnectionFileMixin.load_connection_file
+#: jupyter_client.connect.ConnectionFileMixin.load_connection_info
+#: jupyter_client.utils.run_sync.<locals>.wrapped of
+msgid "参数"
+msgstr ""
+
+#: jupyter_client.connect.ConnectionFileMixin.load_connection_file:3 of
+msgid "Path to connection file to load. If unspecified, use self.connection_file"
+msgstr ""
+
+#: jupyter_client.connect.ConnectionFileMixin.load_connection_info:1 of
+msgid "Load connection info from a dict containing connection info."
+msgstr ""
+
+#: jupyter_client.connect.ConnectionFileMixin.load_connection_info:3 of
+msgid ""
+"Typically this data comes from a connection file and is called by "
+"load_connection_file."
+msgstr ""
+
+#: jupyter_client.connect.ConnectionFileMixin.load_connection_info:6 of
+msgid ""
+"Dictionary containing connection_info. See the connection_file spec for "
+"details."
+msgstr ""
+
+#: jupyter_client.client.KernelClient.start_channels:1 of
+msgid "Starts the channels for this kernel."
+msgstr ""
+
+#: jupyter_client.client.KernelClient.start_channels:3 of
+msgid ""
+"This will create the channels if they do not exist and then start them "
+"(their activity runs in a thread). If port numbers of 0 are being used "
+"(random ports) then you must first call :meth:`start_kernel`. If the "
+"channels have been stopped and you call this, :class:`RuntimeError` will "
+"be raised."
+msgstr ""
+
+#: jupyter_client.client.KernelClient.execute:1 of
+msgid "Execute code in the kernel."
+msgstr ""
+
+#: jupyter_client.client.KernelClient.execute:3
+#: jupyter_client.utils.run_sync.<locals>.wrapped:11 of
+msgid "A string of code in the kernel's language."
+msgstr ""
+
+#: jupyter_client.client.KernelClient.execute:5
+#: jupyter_client.utils.run_sync.<locals>.wrapped:13 of
+msgid ""
+"If set, the kernel will execute the code as quietly possible, and will "
+"force store_history to be False."
+msgstr ""
+
+#: jupyter_client.client.KernelClient.execute:8
+#: jupyter_client.utils.run_sync.<locals>.wrapped:16 of
+msgid ""
+"If set, the kernel will store command history.  This is forced to be "
+"False if silent is True."
+msgstr ""
+
+#: jupyter_client.client.KernelClient.execute:11
+#: jupyter_client.utils.run_sync.<locals>.wrapped:19 of
+msgid ""
+"A dict mapping names to expressions to be evaluated in the user's dict. "
+"The expression values are returned as strings formatted using "
+":func:`repr`."
+msgstr ""
+
+#: jupyter_client.client.KernelClient.execute:15
+#: jupyter_client.utils.run_sync.<locals>.wrapped:23 of
+msgid ""
+"Flag for whether the kernel can send stdin requests to frontends.  Some "
+"frontends (e.g. the Notebook) do not support stdin requests. If raw_input"
+" is called from code executed from such a frontend, a "
+"StdinNotImplementedError will be raised."
+msgstr ""
+
+#: jupyter_client.client.KernelClient.execute:15
+#: jupyter_client.utils.run_sync.<locals>.wrapped:23 of
+msgid "Flag for whether the kernel can send stdin requests to frontends."
+msgstr ""
+
+#: jupyter_client.client.KernelClient.execute:17
+#: jupyter_client.utils.run_sync.<locals>.wrapped:25 of
+msgid ""
+"Some frontends (e.g. the Notebook) do not support stdin requests. If "
+"raw_input is called from code executed from such a frontend, a "
+"StdinNotImplementedError will be raised."
+msgstr ""
+
+#: jupyter_client.client.KernelClient.execute:21
+#: jupyter_client.utils.run_sync.<locals>.wrapped:29 of
+msgid "Flag whether to abort the execution queue, if an exception is encountered."
+msgstr ""
+
+#: jupyter_client.client.KernelClient.comm_info
+#: jupyter_client.client.KernelClient.complete
+#: jupyter_client.client.KernelClient.execute
+#: jupyter_client.client.KernelClient.history
+#: jupyter_client.client.KernelClient.inspect
+#: jupyter_client.client.KernelClient.shutdown
+#: jupyter_client.utils.run_sync.<locals>.wrapped of
+msgid "返回"
+msgstr ""
+
+#: jupyter_client.client.KernelClient.comm_info
+#: jupyter_client.client.KernelClient.complete
+#: jupyter_client.client.KernelClient.execute
+#: jupyter_client.client.KernelClient.history
+#: jupyter_client.client.KernelClient.inspect
+#: jupyter_client.client.KernelClient.shutdown
+#: jupyter_client.utils.run_sync.<locals>.wrapped of
+msgid "返回类型"
+msgstr ""
+
+#: jupyter_client.client.KernelClient.complete:1 of
+msgid "Tab complete text in the kernel's namespace."
+msgstr ""
+
+#: jupyter_client.client.KernelClient.complete:3 of
+msgid ""
+"The context in which completion is requested. Can be anything between a "
+"variable name and an entire cell."
+msgstr ""
+
+#: jupyter_client.client.KernelClient.complete:6 of
+msgid ""
+"The position of the cursor in the block of code where the completion was "
+"requested. Default: ``len(code)``"
+msgstr ""
+
+#: jupyter_client.client.KernelClient.inspect:1 of
+msgid "Get metadata information about an object in the kernel's namespace."
+msgstr ""
+
+#: jupyter_client.client.KernelClient.inspect:3 of
+msgid "It is up to the kernel to determine the appropriate object to inspect."
+msgstr ""
+
+#: jupyter_client.client.KernelClient.inspect:5 of
+msgid ""
+"The context in which info is requested. Can be anything between a "
+"variable name and an entire cell."
+msgstr ""
+
+#: jupyter_client.client.KernelClient.inspect:8 of
+msgid ""
+"The position of the cursor in the block of code where the info was "
+"requested. Default: ``len(code)``"
+msgstr ""
+
+#: jupyter_client.client.KernelClient.inspect:11 of
+msgid "The level of detail for the introspection (0-2)"
+msgstr ""
+
+#: jupyter_client.client.KernelClient.history:1 of
+msgid "Get entries from the kernel's history list."
+msgstr ""
+
+#: jupyter_client.client.KernelClient.history:3 of
+msgid "If True, return the raw input."
+msgstr ""
+
+#: jupyter_client.client.KernelClient.history:5 of
+msgid "If True, then return the output as well."
+msgstr ""
+
+#: jupyter_client.client.KernelClient.history:7 of
+msgid ""
+"'range' (fill in session, start and stop params), 'tail' (fill in n)  or "
+"'search' (fill in pattern param)."
+msgstr ""
+
+#: jupyter_client.client.KernelClient.history:8 of
+msgid "'range' (fill in session, start and stop params), 'tail' (fill in n)"
+msgstr ""
+
+#: jupyter_client.client.KernelClient.history:9 of
+msgid "or 'search' (fill in pattern param)."
+msgstr ""
+
+#: jupyter_client.client.KernelClient.history:11 of
+msgid ""
+"For a range request, the session from which to get lines. Session numbers"
+" are positive integers; negative ones count back from the current "
+"session."
+msgstr ""
+
+#: jupyter_client.client.KernelClient.history:15 of
+msgid "The first line number of a history range."
+msgstr ""
+
+#: jupyter_client.client.KernelClient.history:17 of
+msgid "The final (excluded) line number of a history range."
+msgstr ""
+
+#: jupyter_client.client.KernelClient.history:19 of
+msgid "The number of lines of history to get for a tail request."
+msgstr ""
+
+#: jupyter_client.client.KernelClient.history:21 of
+msgid "The glob-syntax pattern for a search request."
+msgstr ""
+
+#: jupyter_client.client.KernelClient.comm_info:1 of
+msgid "Request comm info"
+msgstr ""
+
+#: jupyter_client.client.KernelClient.is_complete:1 of
+msgid "Ask the kernel whether some code is complete and ready to execute."
+msgstr ""
+
+#: jupyter_client.client.KernelClient.input:1 of
+msgid "Send a string of raw input to the kernel."
+msgstr ""
+
+#: jupyter_client.client.KernelClient.input:3 of
+msgid ""
+"This should only be called in response to the kernel sending an "
+"``input_request`` message on the stdin channel."
+msgstr ""
+
+#: jupyter_client.client.KernelClient.shutdown:1 of
+msgid "Request an immediate kernel shutdown on the control channel."
+msgstr ""
+
+#: jupyter_client.client.KernelClient.shutdown:3 of
+msgid ""
+"Upon receipt of the (empty) reply, client code can safely assume that the"
+" kernel has shut down and it's safe to forcefully terminate it if it's "
+"still alive."
+msgstr ""
+
+#: jupyter_client.client.KernelClient.shutdown:7 of
+msgid ""
+"The kernel will send the reply via a function registered with Python's "
+"atexit module, ensuring it's truly done as the kernel is done with all "
+"normal operation."
+msgstr ""
+
+#: jupyter_client.blocking.client.BlockingKernelClient:1 of
+msgid "A KernelClient with blocking APIs"
+msgstr ""
+
+#: jupyter_client.blocking.client.BlockingKernelClient:3 of
+msgid ""
+"``get_[channel]_msg()`` methods wait for and return messages on channels,"
+" raising :exc:`queue.Empty` if no message arrives within ``timeout`` "
+"seconds."
+msgstr ""
+
+#: jupyter_client.utils.run_sync.<locals>.wrapped:1 of
+msgid "Execute code in the kernel interactively"
+msgstr ""
+
+#: jupyter_client.utils.run_sync.<locals>.wrapped:3 of
+msgid ""
+"Output will be redisplayed, and stdin prompts will be relayed as well. If"
+" an IPython kernel is detected, rich output will be displayed."
+msgstr ""
+
+#: jupyter_client.utils.run_sync.<locals>.wrapped:6 of
+msgid ""
+"You can pass a custom output_hook callable that will be called with every"
+" IOPub message that is produced instead of the default redisplay."
+msgstr ""
+
+#: jupyter_client.utils.run_sync.<locals>.wrapped:31 of
+msgid "Timeout to use when waiting for a reply"
+msgstr ""
+
+#: jupyter_client.utils.run_sync.<locals>.wrapped:33 of
+msgid ""
+"Function to be called with output messages. If not specified, output will"
+" be redisplayed."
+msgstr ""
+
+#: jupyter_client.utils.run_sync.<locals>.wrapped:36 of
+msgid ""
+"Function to be called with stdin_request messages. If not specified, "
+"input/getpass will be called."
+msgstr ""
+
+#: jupyter_client.utils.run_sync.<locals>.wrapped:40 of
+msgid "**reply** -- The reply message for this request"
+msgstr ""
+

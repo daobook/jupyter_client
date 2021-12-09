@@ -1,0 +1,1647 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2015, Jupyter Development Team
+# This file is distributed under the same license as the jupyter_client
+# package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2021.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: jupyter_client 7.1\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2021-12-09 21:30+0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.9.1\n"
+
+#: ../../changelog.md:1
+msgid "Changes in Jupyter Client {#changelog}"
+msgstr ""
+
+#: ../../changelog.md:5
+msgid "7.1.0"
+msgstr ""
+
+#: ../../changelog.md:7
+msgid ""
+"([Full "
+"Changelog](https://github.com/jupyter/jupyter_client/compare/v7.0.6...6b76603578fd3a76fd577d3319393c9933f53ab0))"
+msgstr ""
+
+#: ../../changelog.md:9 ../../changelog.md:140
+msgid "Enhancements made"
+msgstr ""
+
+#: ../../changelog.md:11
+msgid ""
+"Add support for pending kernels "
+"[#712](https://github.com/jupyter/jupyter_client/pull/712) "
+"([@blink1073](https://github.com/blink1073))"
+msgstr ""
+
+#: ../../changelog.md:13 ../../changelog.md:34 ../../changelog.md:52
+#: ../../changelog.md:70 ../../changelog.md:87 ../../changelog.md:102
+#: ../../changelog.md:144
+msgid "Bugs fixed"
+msgstr ""
+
+#: ../../changelog.md:15
+msgid ""
+"Improve restarter logic "
+"[#717](https://github.com/jupyter/jupyter_client/pull/717) "
+"([@vidartf](https://github.com/vidartf))"
+msgstr ""
+
+#: ../../changelog.md:16
+msgid ""
+"Set sticky bit only on the directory "
+"[#711](https://github.com/jupyter/jupyter_client/pull/711) "
+"([@ci4ic4](https://github.com/ci4ic4))"
+msgstr ""
+
+#: ../../changelog.md:18 ../../changelog.md:56 ../../changelog.md:151
+msgid "Maintenance and upkeep improvements"
+msgstr ""
+
+#: ../../changelog.md:20
+msgid ""
+"Enforce labels on PRs "
+"[#720](https://github.com/jupyter/jupyter_client/pull/720) "
+"([@blink1073](https://github.com/blink1073))"
+msgstr ""
+
+#: ../../changelog.md:22 ../../changelog.md:42 ../../changelog.md:60
+#: ../../changelog.md:77 ../../changelog.md:92 ../../changelog.md:110
+#: ../../changelog.md:124 ../../changelog.md:184
+msgid "Contributors to this release"
+msgstr ""
+
+#: ../../changelog.md:24
+msgid ""
+"([GitHub contributors page for this "
+"release](https://github.com/jupyter/jupyter_client/graphs/contributors?from=2021-10-01&to=2021-11-22&type=c))"
+msgstr ""
+
+#: ../../changelog.md:26
+#, python-format
+msgid ""
+"[@blink1073](https://github.com/search?q=repo%3Ajupyter%2Fjupyter_client+involves%3Ablink1073+updated%3A2021-10-01..2021-11-22&type=Issues)"
+" | "
+"[@ci4ic4](https://github.com/search?q=repo%3Ajupyter%2Fjupyter_client+involves%3Aci4ic4+updated%3A2021-10-01..2021-11-22&type=Issues)"
+" | "
+"[@davidbrochart](https://github.com/search?q=repo%3Ajupyter%2Fjupyter_client+involves%3Adavidbrochart+updated%3A2021-10-01..2021-11-22&type=Issues)"
+" | [@kevin-"
+"bates](https://github.com/search?q=repo%3Ajupyter%2Fjupyter_client+involves"
+"%3Akevin-bates+updated%3A2021-10-01..2021-11-22&type=Issues) | "
+"[@vidartf](https://github.com/search?q=repo%3Ajupyter%2Fjupyter_client+involves%3Avidartf+updated%3A2021-10-01..2021-11-22&type=Issues)"
+msgstr ""
+
+#: ../../changelog.md:30
+msgid "7.0.6"
+msgstr ""
+
+#: ../../changelog.md:32
+msgid ""
+"([Full "
+"Changelog](https://github.com/jupyter/jupyter_client/compare/v7.0.5...58b11df0ecb729effacc59ce28e9f431fa9c6a4d))"
+msgstr ""
+
+#: ../../changelog.md:36
+msgid ""
+"Fallback to the old ipykernel \"json_clean\" if we are not able to "
+"serialize a JSON message "
+"[#708](https://github.com/jupyter/jupyter_client/pull/708) "
+"([@martinRenou](https://github.com/martinRenou))"
+msgstr ""
+
+#: ../../changelog.md:38
+msgid "Other merged PRs"
+msgstr ""
+
+#: ../../changelog.md:40
+msgid ""
+"Add test for serializing bytes "
+"[#707](https://github.com/jupyter/jupyter_client/pull/707) "
+"([@martinRenou](https://github.com/martinRenou))"
+msgstr ""
+
+#: ../../changelog.md:44
+msgid ""
+"([GitHub contributors page for this "
+"release](https://github.com/jupyter/jupyter_client/graphs/contributors?from=2021-09-29&to=2021-10-01&type=c))"
+msgstr ""
+
+#: ../../changelog.md:46
+#, python-format
+msgid "[@martinRenou](https://github.com/search?q=repo%3Ajupyter%2Fjupyter_client+involves%3AmartinRenou+updated%3A2021-09-29..2021-10-01&type=Issues)"
+msgstr ""
+
+#: ../../changelog.md:48
+msgid "7.0.5"
+msgstr ""
+
+#: ../../changelog.md:50
+msgid ""
+"([Full "
+"Changelog](https://github.com/jupyter/jupyter_client/compare/v7.0.4...e379bf91fea63526b9c4cc6679e7953a325b540c))"
+msgstr ""
+
+#: ../../changelog.md:54
+msgid ""
+"avoid use of deprecated zmq.utils.jsonapi "
+"[#703](https://github.com/jupyter/jupyter_client/pull/703) "
+"([@minrk](https://github.com/minrk))"
+msgstr ""
+
+#: ../../changelog.md:58
+msgid ""
+"Use logger.warning instead of deprecated warn method "
+"[#700](https://github.com/jupyter/jupyter_client/pull/700) ([@kevin-"
+"bates](https://github.com/kevin-bates))"
+msgstr ""
+
+#: ../../changelog.md:62
+msgid ""
+"([GitHub contributors page for this "
+"release](https://github.com/jupyter/jupyter_client/graphs/contributors?from=2021-09-28&to=2021-09-29&type=c))"
+msgstr ""
+
+#: ../../changelog.md:64
+#, python-format
+msgid ""
+"[@kevin-"
+"bates](https://github.com/search?q=repo%3Ajupyter%2Fjupyter_client+involves"
+"%3Akevin-bates+updated%3A2021-09-28..2021-09-29&type=Issues) | "
+"[@minrk](https://github.com/search?q=repo%3Ajupyter%2Fjupyter_client+involves%3Aminrk+updated%3A2021-09-28..2021-09-29&type=Issues)"
+msgstr ""
+
+#: ../../changelog.md:66
+msgid "7.0.4"
+msgstr ""
+
+#: ../../changelog.md:68
+msgid ""
+"([Full "
+"Changelog](https://github.com/jupyter/jupyter_client/compare/v7.0.3...5b570152c0d88dd5e0ff1711c75fc9987ef76256))"
+msgstr ""
+
+#: ../../changelog.md:72
+msgid ""
+"Fix json_default so that it's closer to what ipykernel had before "
+"[#698](https://github.com/jupyter/jupyter_client/pull/698) "
+"([@martinRenou](https://github.com/martinRenou))"
+msgstr ""
+
+#: ../../changelog.md:73
+msgid ""
+"Clean up the pending task "
+"[#697](https://github.com/jupyter/jupyter_client/pull/697) "
+"([@shingo78](https://github.com/shingo78))"
+msgstr ""
+
+#: ../../changelog.md:74
+msgid ""
+"fix kernel can only restart once issue "
+"[#695](https://github.com/jupyter/jupyter_client/pull/695) "
+"([@mofanke](https://github.com/mofanke))"
+msgstr ""
+
+#: ../../changelog.md:75
+msgid ""
+"Prevent failure if kernel is not found when shutting it down "
+"[#694](https://github.com/jupyter/jupyter_client/pull/694) "
+"([@martinRenou](https://github.com/martinRenou))"
+msgstr ""
+
+#: ../../changelog.md:79
+msgid ""
+"([GitHub contributors page for this "
+"release](https://github.com/jupyter/jupyter_client/graphs/contributors?from=2021-09-16&to=2021-09-28&type=c))"
+msgstr ""
+
+#: ../../changelog.md:81
+#, python-format
+msgid ""
+"[@davidbrochart](https://github.com/search?q=repo%3Ajupyter%2Fjupyter_client+involves%3Adavidbrochart+updated%3A2021-09-16..2021-09-28&type=Issues)"
+" | "
+"[@martinRenou](https://github.com/search?q=repo%3Ajupyter%2Fjupyter_client+involves%3AmartinRenou+updated%3A2021-09-16..2021-09-28&type=Issues)"
+" | "
+"[@mofanke](https://github.com/search?q=repo%3Ajupyter%2Fjupyter_client+involves%3Amofanke+updated%3A2021-09-16..2021-09-28&type=Issues)"
+" | "
+"[@shingo78](https://github.com/search?q=repo%3Ajupyter%2Fjupyter_client+involves%3Ashingo78+updated%3A2021-09-16..2021-09-28&type=Issues)"
+msgstr ""
+
+#: ../../changelog.md:83
+msgid "7.0.3"
+msgstr ""
+
+#: ../../changelog.md:85
+msgid ""
+"([Full "
+"Changelog](https://github.com/jupyter/jupyter_client/compare/v7.0.2...e2e854c445d697ae1c188171ea0731532b6ac0d9))"
+msgstr ""
+
+#: ../../changelog.md:89
+msgid ""
+"Address missing `local-provisioner` scenario "
+"[#692](https://github.com/jupyter/jupyter_client/pull/692) ([@kevin-"
+"bates](https://github.com/kevin-bates))"
+msgstr ""
+
+#: ../../changelog.md:90
+msgid ""
+"use `load_connection_info(info)` when constructing a blocking client "
+"[#688](https://github.com/jupyter/jupyter_client/pull/688) "
+"([@minrk](https://github.com/minrk))"
+msgstr ""
+
+#: ../../changelog.md:94
+msgid ""
+"([GitHub contributors page for this "
+"release](https://github.com/jupyter/jupyter_client/graphs/contributors?from=2021-08-30&to=2021-09-16&type=c))"
+msgstr ""
+
+#: ../../changelog.md:96
+#, python-format
+msgid ""
+"[@kevin-"
+"bates](https://github.com/search?q=repo%3Ajupyter%2Fjupyter_client+involves"
+"%3Akevin-bates+updated%3A2021-08-30..2021-09-16&type=Issues) | "
+"[@minrk](https://github.com/search?q=repo%3Ajupyter%2Fjupyter_client+involves%3Aminrk+updated%3A2021-08-30..2021-09-16&type=Issues)"
+msgstr ""
+
+#: ../../changelog.md:98
+msgid "7.0.2"
+msgstr ""
+
+#: ../../changelog.md:100
+msgid ""
+"([Full "
+"Changelog](https://github.com/jupyter/jupyter_client/compare/v7.0.1...b2a23d8f8b4f24a2bc908b6d95047242f4da87cd))"
+msgstr ""
+
+#: ../../changelog.md:104
+msgid ""
+"Don't set event loop policy on Windows at import time "
+"[#686](https://github.com/jupyter/jupyter_client/pull/686) "
+"([@minrk](https://github.com/minrk))"
+msgstr ""
+
+#: ../../changelog.md:106 ../../changelog.md:175
+msgid "Documentation improvements"
+msgstr ""
+
+#: ../../changelog.md:108
+msgid ""
+"Improve migration guide "
+"[#685](https://github.com/jupyter/jupyter_client/pull/685) "
+"([@davidbrochart](https://github.com/davidbrochart))"
+msgstr ""
+
+#: ../../changelog.md:112
+msgid ""
+"([GitHub contributors page for this "
+"release](https://github.com/jupyter/jupyter_client/graphs/contributors?from=2021-08-20&to=2021-08-30&type=c))"
+msgstr ""
+
+#: ../../changelog.md:114
+#, python-format
+msgid ""
+"[@blink1073](https://github.com/search?q=repo%3Ajupyter%2Fjupyter_client+involves%3Ablink1073+updated%3A2021-08-20..2021-08-30&type=Issues)"
+" | "
+"[@davidbrochart](https://github.com/search?q=repo%3Ajupyter%2Fjupyter_client+involves%3Adavidbrochart+updated%3A2021-08-20..2021-08-30&type=Issues)"
+" | "
+"[@dhirschfeld](https://github.com/search?q=repo%3Ajupyter%2Fjupyter_client+involves%3Adhirschfeld+updated%3A2021-08-20..2021-08-30&type=Issues)"
+" | "
+"[@jankatins](https://github.com/search?q=repo%3Ajupyter%2Fjupyter_client+involves%3Ajankatins+updated%3A2021-08-20..2021-08-30&type=Issues)"
+" | [@kevin-"
+"bates](https://github.com/search?q=repo%3Ajupyter%2Fjupyter_client+involves"
+"%3Akevin-bates+updated%3A2021-08-20..2021-08-30&type=Issues) | "
+"[@minrk](https://github.com/search?q=repo%3Ajupyter%2Fjupyter_client+involves%3Aminrk+updated%3A2021-08-20..2021-08-30&type=Issues)"
+" | "
+"[@takluyver](https://github.com/search?q=repo%3Ajupyter%2Fjupyter_client+involves%3Atakluyver+updated%3A2021-08-20..2021-08-30&type=Issues)"
+" | "
+"[@yuvipanda](https://github.com/search?q=repo%3Ajupyter%2Fjupyter_client+involves%3Ayuvipanda+updated%3A2021-08-20..2021-08-30&type=Issues)"
+msgstr ""
+
+#: ../../changelog.md:116
+msgid "7.0.1"
+msgstr ""
+
+#: ../../changelog.md:118
+msgid ""
+"([Full "
+"Changelog](https://github.com/jupyter/jupyter_client/compare/v7.0.0...0ce9f293ea574d61cae438469df5e53298713b63))"
+msgstr ""
+
+#: ../../changelog.md:120
+msgid "Merged PRs"
+msgstr ""
+
+#: ../../changelog.md:122
+msgid ""
+"Use formal method names when called internally "
+"[#683](https://github.com/jupyter/jupyter_client/pull/683) ([@kevin-"
+"bates](https://github.com/kevin-bates))"
+msgstr ""
+
+#: ../../changelog.md:126
+msgid ""
+"([GitHub contributors page for this "
+"release](https://github.com/jupyter/jupyter_client/graphs/contributors?from=2021-08-19&to=2021-08-20&type=c))"
+msgstr ""
+
+#: ../../changelog.md:128
+#, python-format
+msgid ""
+"[@kevin-"
+"bates](https://github.com/search?q=repo%3Ajupyter%2Fjupyter_client+involves"
+"%3Akevin-bates+updated%3A2021-08-19..2021-08-20&type=Issues)"
+msgstr ""
+
+#: ../../changelog.md:130
+msgid "7.0.0"
+msgstr ""
+
+#: ../../changelog.md:132
+msgid ""
+"([Full "
+"Changelog](https://github.com/jupyter/jupyter_client/compare/26a16c0c91e245f7403aa27a812fee5e905d2964...31750bc87baf88377bcc6967e227b650b38fa872))"
+msgstr ""
+
+#: ../../changelog.md:134
+msgid "Summary"
+msgstr ""
+
+#: ../../changelog.md:136
+msgid ""
+"The 7.0 release brings a major feature in [Kernel "
+"Provisioners](https://github.com/jupyter/jupyter_client/blob/master/docs/provisioning.rst),"
+" which enable the ability for third parties to manage the lifecycle of a "
+"kernel's runtime environment."
+msgstr ""
+
+#: ../../changelog.md:138
+msgid ""
+"Being a major release, there are some backward incompatible changes. "
+"Please see the [migration guide](https://jupyter-"
+"client.readthedocs.io/en/latest/migration.html) for further details."
+msgstr ""
+
+#: ../../changelog.md:142
+msgid ""
+"Kernel Provisioning - initial implementation "
+"[#612](https://github.com/jupyter/jupyter_client/pull/612) ([@kevin-"
+"bates](https://github.com/kevin-bates))"
+msgstr ""
+
+#: ../../changelog.md:146
+msgid ""
+"Fix up some async method aliases in KernelManager "
+"[#670](https://github.com/jupyter/jupyter_client/pull/670) ([@kevin-"
+"bates](https://github.com/kevin-bates))"
+msgstr ""
+
+#: ../../changelog.md:147
+msgid ""
+"Support `answer_yes` when removing kernel specs "
+"[#659](https://github.com/jupyter/jupyter_client/pull/659) "
+"([@davidbrochart](https://github.com/davidbrochart))"
+msgstr ""
+
+#: ../../changelog.md:148
+msgid ""
+"Include process ID in message ID "
+"[#655](https://github.com/jupyter/jupyter_client/pull/655) "
+"([@takluyver](https://github.com/takluyver))"
+msgstr ""
+
+#: ../../changelog.md:149
+msgid ""
+"Fix qtconsole issues "
+"[#638](https://github.com/jupyter/jupyter_client/pull/638) "
+"([@davidbrochart](https://github.com/davidbrochart))"
+msgstr ""
+
+#: ../../changelog.md:153
+msgid ""
+"Added debugger key in `kernel_info_reply` "
+"[#486](https://github.com/jupyter/jupyter_client/pull/486) "
+"([@JohanMabille](https://github.com/JohanMabille))"
+msgstr ""
+
+#: ../../changelog.md:154
+msgid ""
+"Prepare for use with Jupyter Releaser "
+"[#676](https://github.com/jupyter/jupyter_client/pull/676) "
+"([@afshin](https://github.com/afshin))"
+msgstr ""
+
+#: ../../changelog.md:155
+msgid ""
+"Force install `jupyter_client` master "
+"[#675](https://github.com/jupyter/jupyter_client/pull/675) "
+"([@davidbrochart](https://github.com/davidbrochart))"
+msgstr ""
+
+#: ../../changelog.md:156
+msgid ""
+"Fix project name "
+"[#674](https://github.com/jupyter/jupyter_client/pull/674) "
+"([@vidartf](https://github.com/vidartf))"
+msgstr ""
+
+#: ../../changelog.md:157
+msgid ""
+"Rename trait to `allowed_kernelspecs` "
+"[#672](https://github.com/jupyter/jupyter_client/pull/672) "
+"([@blink1073](https://github.com/blink1073))"
+msgstr ""
+
+#: ../../changelog.md:158
+msgid ""
+"Remove block parameter from `get_msg()` "
+"[#671](https://github.com/jupyter/jupyter_client/pull/671) "
+"([@davidbrochart](https://github.com/davidbrochart))"
+msgstr ""
+
+#: ../../changelog.md:159
+msgid ""
+"Only import `nest_asyncio` locally "
+"[#665](https://github.com/jupyter/jupyter_client/pull/665) "
+"([@SylvainCorlay](https://github.com/SylvainCorlay))"
+msgstr ""
+
+#: ../../changelog.md:160
+msgid ""
+"Use a default serializer that is not only for date types "
+"[#664](https://github.com/jupyter/jupyter_client/pull/664) "
+"([@martinRenou](https://github.com/martinRenou))"
+msgstr ""
+
+#: ../../changelog.md:161
+msgid ""
+"Updated `debug_info_response` "
+"[#657](https://github.com/jupyter/jupyter_client/pull/657) "
+"([@JohanMabille](https://github.com/JohanMabille))"
+msgstr ""
+
+#: ../../changelog.md:162
+msgid ""
+"Do not block on exit "
+"[#651](https://github.com/jupyter/jupyter_client/pull/651) "
+"([@impact27](https://github.com/impact27))"
+msgstr ""
+
+#: ../../changelog.md:163
+msgid ""
+"Update test kernel with native coroutine, remove `async_generator` "
+"dependency [#646](https://github.com/jupyter/jupyter_client/pull/646) "
+"([@kevin-bates](https://github.com/kevin-bates))"
+msgstr ""
+
+#: ../../changelog.md:164
+msgid ""
+"`setup.py` and CI improvements "
+"[#645](https://github.com/jupyter/jupyter_client/pull/645) "
+"([@dolfinus](https://github.com/dolfinus))"
+msgstr ""
+
+#: ../../changelog.md:165
+msgid ""
+"Test downstream projects "
+"[#644](https://github.com/jupyter/jupyter_client/pull/644) "
+"([@davidbrochart](https://github.com/davidbrochart))"
+msgstr ""
+
+#: ../../changelog.md:166
+msgid ""
+"Remove deprecations in kernel manager "
+"[#643](https://github.com/jupyter/jupyter_client/pull/643) ([@kevin-"
+"bates](https://github.com/kevin-bates))"
+msgstr ""
+
+#: ../../changelog.md:167
+msgid ""
+"Add `block=True` back to `get_msg()` "
+"[#641](https://github.com/jupyter/jupyter_client/pull/641) "
+"([@davidbrochart](https://github.com/davidbrochart))"
+msgstr ""
+
+#: ../../changelog.md:168
+msgid ""
+"Pin `python>=3.6.1` "
+"[#636](https://github.com/jupyter/jupyter_client/pull/636) "
+"([@davidbrochart](https://github.com/davidbrochart))"
+msgstr ""
+
+#: ../../changelog.md:169
+msgid ""
+"Use `pre-commit` "
+"[#631](https://github.com/jupyter/jupyter_client/pull/631) "
+"([@davidbrochart](https://github.com/davidbrochart))"
+msgstr ""
+
+#: ../../changelog.md:170
+msgid ""
+"Attempt CI with `ipykernel` 6.0 prerelease "
+"[#629](https://github.com/jupyter/jupyter_client/pull/629) "
+"([@SylvainCorlay](https://github.com/SylvainCorlay))"
+msgstr ""
+
+#: ../../changelog.md:171
+msgid ""
+"Make `KernelManager` subclass tests DRY "
+"[#628](https://github.com/jupyter/jupyter_client/pull/628) "
+"([@davidbrochart](https://github.com/davidbrochart))"
+msgstr ""
+
+#: ../../changelog.md:172
+msgid ""
+"Add tests to ensure MultiKernelManager subclass methods are called "
+"[#627](https://github.com/jupyter/jupyter_client/pull/627) ([@kevin-"
+"bates](https://github.com/kevin-bates))"
+msgstr ""
+
+#: ../../changelog.md:173
+msgid ""
+"Add type annotations, refactor sync/async "
+"[#623](https://github.com/jupyter/jupyter_client/pull/623) "
+"([@davidbrochart](https://github.com/davidbrochart))"
+msgstr ""
+
+#: ../../changelog.md:177
+msgid ""
+"Create migration guide "
+"[#681](https://github.com/jupyter/jupyter_client/pull/681) "
+"([@blink1073](https://github.com/blink1073))"
+msgstr ""
+
+#: ../../changelog.md:178
+msgid ""
+"Update changelog for 7.0.0rc0 "
+"[#673](https://github.com/jupyter/jupyter_client/pull/673) "
+"([@blink1073](https://github.com/blink1073))"
+msgstr ""
+
+#: ../../changelog.md:179
+msgid ""
+"Added documentation for `richInspectVariables` request "
+"[#654](https://github.com/jupyter/jupyter_client/pull/654) "
+"([@JohanMabille](https://github.com/JohanMabille))"
+msgstr ""
+
+#: ../../changelog.md:180
+msgid ""
+"Change to `edit_magic` payload "
+"[#652](https://github.com/jupyter/jupyter_client/pull/652) "
+"([@yitzchak](https://github.com/yitzchak))"
+msgstr ""
+
+#: ../../changelog.md:181
+msgid ""
+"Added missing documentation for the inspectVariables request and resp… "
+"[#649](https://github.com/jupyter/jupyter_client/pull/649) "
+"([@JohanMabille](https://github.com/JohanMabille))"
+msgstr ""
+
+#: ../../changelog.md:182
+msgid ""
+"Add status field to other replies in documentation "
+"[#648](https://github.com/jupyter/jupyter_client/pull/648) "
+"([@yitzchak](https://github.com/yitzchak))"
+msgstr ""
+
+#: ../../changelog.md:186
+msgid ""
+"([GitHub contributors page for this "
+"release](https://github.com/jupyter/jupyter_client/graphs/contributors?from=2021-03-14&to=2021-08-16&type=c))"
+msgstr ""
+
+#: ../../changelog.md:188
+#, python-format
+msgid ""
+"[@afshin](https://github.com/search?q=repo%3Ajupyter%2Fjupyter_client+involves%3Aafshin+updated%3A2021-03-14..2021-08-16&type=Issues)"
+" | "
+"[@blink1073](https://github.com/search?q=repo%3Ajupyter%2Fjupyter_client+involves%3Ablink1073+updated%3A2021-03-14..2021-08-16&type=Issues)"
+" | "
+"[@Carreau](https://github.com/search?q=repo%3Ajupyter%2Fjupyter_client+involves%3ACarreau+updated%3A2021-03-14..2021-08-16&type=Issues)"
+" | "
+"[@ccordoba12](https://github.com/search?q=repo%3Ajupyter%2Fjupyter_client+involves%3Accordoba12+updated%3A2021-03-14..2021-08-16&type=Issues)"
+" | "
+"[@davidbrochart](https://github.com/search?q=repo%3Ajupyter%2Fjupyter_client+involves%3Adavidbrochart+updated%3A2021-03-14..2021-08-16&type=Issues)"
+" | "
+"[@dhirschfeld](https://github.com/search?q=repo%3Ajupyter%2Fjupyter_client+involves%3Adhirschfeld+updated%3A2021-03-14..2021-08-16&type=Issues)"
+" | "
+"[@dolfinus](https://github.com/search?q=repo%3Ajupyter%2Fjupyter_client+involves%3Adolfinus+updated%3A2021-03-14..2021-08-16&type=Issues)"
+" | "
+"[@echarles](https://github.com/search?q=repo%3Ajupyter%2Fjupyter_client+involves%3Aecharles+updated%3A2021-03-14..2021-08-16&type=Issues)"
+" | "
+"[@impact27](https://github.com/search?q=repo%3Ajupyter%2Fjupyter_client+involves%3Aimpact27+updated%3A2021-03-14..2021-08-16&type=Issues)"
+" | "
+"[@JohanMabille](https://github.com/search?q=repo%3Ajupyter%2Fjupyter_client+involves%3AJohanMabille+updated%3A2021-03-14..2021-08-16&type=Issues)"
+" | [@kevin-"
+"bates](https://github.com/search?q=repo%3Ajupyter%2Fjupyter_client+involves"
+"%3Akevin-bates+updated%3A2021-03-14..2021-08-16&type=Issues) | "
+"[@martinRenou](https://github.com/search?q=repo%3Ajupyter%2Fjupyter_client+involves%3AmartinRenou+updated%3A2021-03-14..2021-08-16&type=Issues)"
+" | "
+"[@mattip](https://github.com/search?q=repo%3Ajupyter%2Fjupyter_client+involves%3Amattip+updated%3A2021-03-14..2021-08-16&type=Issues)"
+" | "
+"[@minrk](https://github.com/search?q=repo%3Ajupyter%2Fjupyter_client+involves%3Aminrk+updated%3A2021-03-14..2021-08-16&type=Issues)"
+" | "
+"[@MSeal](https://github.com/search?q=repo%3Ajupyter%2Fjupyter_client+involves%3AMSeal+updated%3A2021-03-14..2021-08-16&type=Issues)"
+" | "
+"[@SylvainCorlay](https://github.com/search?q=repo%3Ajupyter%2Fjupyter_client+involves%3ASylvainCorlay+updated%3A2021-03-14..2021-08-16&type=Issues)"
+" | "
+"[@takluyver](https://github.com/search?q=repo%3Ajupyter%2Fjupyter_client+involves%3Atakluyver+updated%3A2021-03-14..2021-08-16&type=Issues)"
+" | "
+"[@vidartf](https://github.com/search?q=repo%3Ajupyter%2Fjupyter_client+involves%3Avidartf+updated%3A2021-03-14..2021-08-16&type=Issues)"
+" | "
+"[@yitzchak](https://github.com/search?q=repo%3Ajupyter%2Fjupyter_client+involves%3Ayitzchak+updated%3A2021-03-14..2021-08-16&type=Issues)"
+msgstr ""
+
+#: ../../changelog.md:190
+msgid "6.2.0"
+msgstr ""
+
+#: ../../changelog.md:192 ../../changelog.md:196
+msgid "Yanked (PyPI) and marked as broken (conda)"
+msgstr ""
+
+#: ../../changelog.md:194
+msgid "6.1.13"
+msgstr ""
+
+#: ../../changelog.md:198
+msgid "6.1.12"
+msgstr ""
+
+#: ../../changelog.md:200
+msgid ""
+"Shutdown request sequence has been modified to be more graceful, it now "
+"is preceded by interrupt, and will also send a `SIGTERM` before forcibly "
+"killing the kernel. "
+"[#620](https://github.com/jupyter/jupyter_client/pull/620)"
+msgstr ""
+
+#: ../../changelog.md:203
+msgid ""
+"Removal of `ipython_genutils` as a dependency. It was implicit before; "
+"but required by at least traitlets thus avoiding issues. We are working "
+"on completely removing it from all jupyter dependencies; as it might lead"
+" to issues packaging for Python 3.10, and was mostly used for "
+"compatibility with python 2. "
+"([#620](https://github.com/jupyter/jupyter_client/pull/620), "
+"[#605](https://github.com/jupyter/jupyter_client/pull/605))"
+msgstr ""
+
+#: ../../changelog.md:208
+msgid ""
+"Address a race condition between `shutdown_kernel` and restarter. "
+"([#607](https://github.com/jupyter/jupyter_client/pull/607).)"
+msgstr ""
+
+#: ../../changelog.md:211
+msgid ""
+"See the [full list of pull-"
+"requests](https://github.com/jupyter/jupyter_client/milestone/27?closed=1)"
+msgstr ""
+
+#: ../../changelog.md:214
+msgid "6.1.11"
+msgstr ""
+
+#: ../../changelog.md:216
+msgid ""
+"Move jedi pinning to test requirements "
+"[#599](https://github.com/jupyter/jupyter_client/pull/599)"
+msgstr ""
+
+#: ../../changelog.md:218
+msgid "6.1.10"
+msgstr ""
+
+#: ../../changelog.md:220
+msgid ""
+"Add change parameter needed for observer method of kernel_spec_manager "
+"trait [#598](https://github.com/jupyter/jupyter_client/pull/598)"
+msgstr ""
+
+#: ../../changelog.md:223
+msgid "6.1.9"
+msgstr ""
+
+#: ../../changelog.md:225
+msgid ""
+"Pin jedi\\<=0.17.2 "
+"[#596](https://github.com/jupyter/jupyter_client/pull/596)"
+msgstr ""
+
+#: ../../changelog.md:227
+msgid "6.1.8"
+msgstr ""
+
+#: ../../changelog.md:229
+msgid ""
+"Doc updates ([#563](https://github.com/jupyter/jupyter_client/pull/563), "
+"[#564](https://github.com/jupyter/jupyter_client/pull/564), "
+"[#587](https://github.com/jupyter/jupyter_client/pull/587))"
+msgstr ""
+
+#: ../../changelog.md:231
+msgid ""
+"Fix path to the connection file "
+"[#568](https://github.com/jupyter/jupyter_client/pull/568)"
+msgstr ""
+
+#: ../../changelog.md:232
+msgid ""
+"Code cleanup ([#574](https://github.com/jupyter/jupyter_client/pull/574),"
+" [#579](https://github.com/jupyter/jupyter_client/pull/579))"
+msgstr ""
+
+#: ../../changelog.md:234
+msgid ""
+"Silence kill_kernel when no process is present "
+"[#576](https://github.com/jupyter/jupyter_client/pull/576)"
+msgstr ""
+
+#: ../../changelog.md:236
+msgid ""
+"Remove extra_env and corresponding test "
+"[#581](https://github.com/jupyter/jupyter_client/pull/581)"
+msgstr ""
+
+#: ../../changelog.md:237
+msgid ""
+"Add documentation dependencies to setup.py "
+"[#582](https://github.com/jupyter/jupyter_client/pull/582)"
+msgstr ""
+
+#: ../../changelog.md:238
+msgid ""
+"Fix for Windows localhost IP addresses "
+"[#584](https://github.com/jupyter/jupyter_client/pull/584)"
+msgstr ""
+
+#: ../../changelog.md:239
+msgid ""
+"Drop Travis CI, add GitHub Actions "
+"[#586](https://github.com/jupyter/jupyter_client/pull/586)"
+msgstr ""
+
+#: ../../changelog.md:240
+msgid ""
+"Adapt KernelManager.\\_kernel_spec_manager_changed to observe "
+"[#588](https://github.com/jupyter/jupyter_client/pull/588)"
+msgstr ""
+
+#: ../../changelog.md:242
+msgid ""
+"Allow use \\~/ in the kernel\\'s command or its arguments "
+"[#589](https://github.com/jupyter/jupyter_client/pull/589)"
+msgstr ""
+
+#: ../../changelog.md:244
+msgid ""
+"Change wait_for_ready logic "
+"[#592](https://github.com/jupyter/jupyter_client/pull/592)"
+msgstr ""
+
+#: ../../changelog.md:245
+msgid ""
+"Fix test_session with msgpack v1 "
+"[#594](https://github.com/jupyter/jupyter_client/pull/594)"
+msgstr ""
+
+#: ../../changelog.md:247
+msgid "6.1.6"
+msgstr ""
+
+#: ../../changelog.md:249
+msgid ""
+"Removed warnings in more cases for KernelManagers that use new cleanup "
+"method [#560](https://github.com/jupyter/jupyter_client/pull/560)"
+msgstr ""
+
+#: ../../changelog.md:251
+msgid ""
+"Some improved tests with a conversion to pytest pattern "
+"[#561](https://github.com/jupyter/jupyter_client/pull/561)"
+msgstr ""
+
+#: ../../changelog.md:254
+msgid "6.1.5"
+msgstr ""
+
+#: ../../changelog.md:256
+msgid ""
+"Gracefully Close ZMQ Context upon kernel shutdown to fix memory leak "
+"[#548](https://github.com/jupyter/jupyter_client/pull/548)"
+msgstr ""
+
+#: ../../changelog.md:258
+msgid ""
+"Fix for chained exceptions to preserve stacks "
+"([#552](https://github.com/jupyter/jupyter_client/pull/552), "
+"[#554](https://github.com/jupyter/jupyter_client/pull/554))"
+msgstr ""
+
+#: ../../changelog.md:260
+msgid ""
+"Fix start_kernel error when passing kernel_id "
+"[#547](https://github.com/jupyter/jupyter_client/pull/547)"
+msgstr ""
+
+#: ../../changelog.md:262
+msgid ""
+"Update to releasing docs "
+"[#543](https://github.com/jupyter/jupyter_client/pull/543)"
+msgstr ""
+
+#: ../../changelog.md:264
+msgid "6.1.4"
+msgstr ""
+
+#: ../../changelog.md:266
+msgid "(Deleted release with incorrect local files)"
+msgstr ""
+
+#: ../../changelog.md:268
+msgid "6.1.3"
+msgstr ""
+
+#: ../../changelog.md:270
+msgid ""
+"Add AsyncKernelClient client_class to AsyncKernelManager "
+"[#542](https://github.com/jupyter/jupyter_client/pull/542)"
+msgstr ""
+
+#: ../../changelog.md:272
+msgid ""
+"Doc fix for xeus hyperlinks "
+"[#540](https://github.com/jupyter/jupyter_client/pull/540)"
+msgstr ""
+
+#: ../../changelog.md:273
+msgid "Doc typo fix [#539](https://github.com/jupyter/jupyter_client/pull/539)"
+msgstr ""
+
+#: ../../changelog.md:275
+msgid "6.1.2"
+msgstr ""
+
+#: ../../changelog.md:277
+msgid ""
+"Fixed a bug causing clients to sometimes hang after a stop call was made "
+"[#536](https://github.com/jupyter/jupyter_client/pull/536)"
+msgstr ""
+
+#: ../../changelog.md:280
+msgid "6.1.1"
+msgstr ""
+
+#: ../../changelog.md:282
+msgid ""
+"Subprocess kill action fix for async execution "
+"[#535](https://github.com/jupyter/jupyter_client/pull/535)"
+msgstr ""
+
+#: ../../changelog.md:284
+msgid ""
+"Doc fix for xeus kernel list "
+"[#534](https://github.com/jupyter/jupyter_client/pull/534)"
+msgstr ""
+
+#: ../../changelog.md:286
+msgid "6.1.0"
+msgstr ""
+
+#: ../../changelog.md:288
+msgid ""
+"This release includes support for asyncio patterns! Downstream tools "
+"should soon have releases to additionally support async patterns."
+msgstr ""
+
+#: ../../changelog.md:291
+msgid ""
+"AsyncKernelManager and AsyncMultiKernelManager are now available for "
+"async jupyter_client interactions "
+"([#528](https://github.com/jupyter/jupyter_client/pull/528), "
+"[#529](https://github.com/jupyter/jupyter_client/pull/529))"
+msgstr ""
+
+#: ../../changelog.md:293
+msgid ""
+"Removed unused sphinx dependency "
+"([#518](https://github.com/jupyter/jupyter_client/pull/518), "
+"[#518](https://github.com/jupyter/jupyter_client/pull/518))."
+msgstr ""
+
+#: ../../changelog.md:294
+msgid ""
+"Added install instructions for pip to documentation "
+"[#521](https://github.com/jupyter/jupyter_client/pull/521)"
+msgstr ""
+
+#: ../../changelog.md:296
+msgid ""
+"Improved docs around version protocol and messaging "
+"([#522](https://github.com/jupyter/jupyter_client/pull/522), "
+"[#526](https://github.com/jupyter/jupyter_client/pull/526))"
+msgstr ""
+
+#: ../../changelog.md:299
+msgid "6.0.0"
+msgstr ""
+
+#: ../../changelog.md:301
+msgid ""
+"The git history had to be reworked heavily in merging 5.x and master, so "
+"a link to all the changes at once in github had been left out as it\\'s "
+"just confusing."
+msgstr ""
+
+#: ../../changelog.md:305
+msgid ""
+"An exciting change in this release is some async support (huge thanks to "
+"\\@davidbrochart for doing most of the work)! See linked PR below for "
+"more details, we\\'re working on integrating this into nbclient as well "
+"in the near future."
+msgstr ""
+
+#: ../../changelog.md:310 ../../changelog.md:367
+msgid "New Features:"
+msgstr ""
+
+#: ../../changelog.md:312
+msgid "Added async API [#506](https://github.com/jupyter/jupyter_client/pull/506)"
+msgstr ""
+
+#: ../../changelog.md:314 ../../changelog.md:372 ../../changelog.md:537
+msgid "Changes:"
+msgstr ""
+
+#: ../../changelog.md:316
+msgid ""
+"Python 3.8 testing and support added "
+"[#509](https://github.com/jupyter/jupyter_client/pull/509)"
+msgstr ""
+
+#: ../../changelog.md:317
+msgid ""
+"Session.msg_id optimization "
+"[#493](https://github.com/jupyter/jupyter_client/pull/493)"
+msgstr ""
+
+#: ../../changelog.md:318
+msgid ""
+"Only cache ports if the cache_ports flag is set to True "
+"[#492](https://github.com/jupyter/jupyter_client/pull/492)"
+msgstr ""
+
+#: ../../changelog.md:320
+msgid ""
+"Removed direct dependency on pywin32 as this is now in jupyter core "
+"[#489](https://github.com/jupyter/jupyter_client/pull/489)"
+msgstr ""
+
+#: ../../changelog.md:323 ../../changelog.md:527
+msgid "Fixes:"
+msgstr ""
+
+#: ../../changelog.md:325
+msgid ""
+"Prevent two kernels to have the same ports "
+"[#490](https://github.com/jupyter/jupyter_client/pull/490)"
+msgstr ""
+
+#: ../../changelog.md:327
+msgid "Docs:"
+msgstr ""
+
+#: ../../changelog.md:329
+msgid ""
+"Document the handling of error in do_execute "
+"[#500](https://github.com/jupyter/jupyter_client/pull/500)"
+msgstr ""
+
+#: ../../changelog.md:332 ../../changelog.md:378
+msgid "Breaking changes:"
+msgstr ""
+
+#: ../../changelog.md:334
+msgid "Dropped support for Python 2.7!"
+msgstr ""
+
+#: ../../changelog.md:336
+msgid "5.3.5"
+msgstr ""
+
+#: ../../changelog.md:338
+msgid ""
+"Backported memory leak fix "
+"[#548](https://github.com/jupyter/jupyter_client/pull/548) "
+"[#555](https://github.com/jupyter/jupyter_client/pull/555)."
+msgstr ""
+
+#: ../../changelog.md:341
+msgid "5.3.4"
+msgstr ""
+
+#: ../../changelog.md:343
+msgid ""
+"Changed secure_write to be imported from jupyter_core with fix for "
+"extended usernames in Windows "
+"[#483](https://github.com/jupyter/jupyter_client/pull/483)."
+msgstr ""
+
+#: ../../changelog.md:346
+msgid "5.3.3"
+msgstr ""
+
+#: ../../changelog.md:348
+msgid ""
+"Fixed issue with non-english windows permissions "
+"[#478](https://github.com/jupyter/jupyter_client/pull/478). Potential "
+"issue still open in use with jupyerlab."
+msgstr ""
+
+#: ../../changelog.md:352
+msgid "5.3.2"
+msgstr ""
+
+#: ../../changelog.md:354
+msgid ""
+"Important files creation now checks umask permissions "
+"[#469](https://github.com/jupyter/jupyter_client/pull/469)."
+msgstr ""
+
+#: ../../changelog.md:357
+msgid "5.3.1"
+msgstr ""
+
+#: ../../changelog.md:359
+msgid ""
+"Fix bug with control channel socket introduced in 5.3.0 "
+"[#456](https://github.com/jupyter/jupyter_client/pull/456)."
+msgstr ""
+
+#: ../../changelog.md:362
+msgid "5.3.0"
+msgstr ""
+
+#: ../../changelog.md:364
+msgid ""
+"[5.3.0 on "
+"GitHub](https://github.com/jupyter/jupyter_client/milestones/5.3.0)"
+msgstr ""
+
+#: ../../changelog.md:369
+msgid ""
+"Multiprocessing and Threading support "
+"[#437](https://github.com/jupyter/jupyter_client/pull/437) and "
+"[#450](https://github.com/jupyter/jupyter_client/pull/450)"
+msgstr ""
+
+#: ../../changelog.md:370
+msgid ""
+"Setup package long_description "
+"[#411](https://github.com/jupyter/jupyter_client/pull/411)"
+msgstr ""
+
+#: ../../changelog.md:374
+msgid ""
+"Control channel now in the public API "
+"[#447](https://github.com/jupyter/jupyter_client/pull/447)"
+msgstr ""
+
+#: ../../changelog.md:375
+msgid ""
+"Closing Jupyter Client is now faster "
+"[#420](https://github.com/jupyter/jupyter_client/pull/420)"
+msgstr ""
+
+#: ../../changelog.md:376
+msgid ""
+"Pip support improvements "
+"[#421](https://github.com/jupyter/jupyter_client/pull/421)"
+msgstr ""
+
+#: ../../changelog.md:380
+msgid ""
+"Dropped support for Python 3.3 and 3.4 (upstream packages dropped support"
+" already)"
+msgstr ""
+
+#: ../../changelog.md:383
+msgid "5.2.4"
+msgstr ""
+
+#: ../../changelog.md:385
+msgid ""
+"[5.2.4 on "
+"GitHub](https://github.com/jupyter/jupyter_client/milestones/5.2.4)"
+msgstr ""
+
+#: ../../changelog.md:388
+msgid ""
+"Prevent creating new console windows on Windows "
+"[#346](https://github.com/jupyter/jupyter_client/pull/346)"
+msgstr ""
+
+#: ../../changelog.md:390
+msgid ""
+"Fix interrupts on Python 3.7 on Windows "
+"[#408](https://github.com/jupyter/jupyter_client/pull/408)"
+msgstr ""
+
+#: ../../changelog.md:392
+msgid "5.2.3"
+msgstr ""
+
+#: ../../changelog.md:394
+msgid ""
+"[5.2.3 on "
+"GitHub](https://github.com/jupyter/jupyter_client/milestones/5.2.3)"
+msgstr ""
+
+#: ../../changelog.md:397
+msgid ""
+"Fix hang on close in `.ThreadedKernelClient` (used in QtConsole) when "
+"using tornado with asyncio (default behavior of tornado 5, see "
+"[#352](https://github.com/jupyter/jupyter_client/pull/352))."
+msgstr ""
+
+#: ../../changelog.md:399
+msgid ""
+"Fix errors when using deprecated `.KernelManager.kernel_cmd` "
+"([#343](https://github.com/jupyter/jupyter_client/pull/343), "
+"[#344](https://github.com/jupyter/jupyter_client/pull/344))."
+msgstr ""
+
+#: ../../changelog.md:403
+msgid "5.2.2"
+msgstr ""
+
+#: ../../changelog.md:405
+msgid ""
+"[5.2.2 on "
+"GitHub](https://github.com/jupyter/jupyter_client/milestones/5.2.2)"
+msgstr ""
+
+#: ../../changelog.md:408
+msgid ""
+"Fix `.KernelSpecManager.get_all_specs` method in subclasses that only "
+"override `.KernelSpecManager.find_kernel_specs` and "
+"`.KernelSpecManager.get_kernel_spec`. See "
+"[#338](https://github.com/jupyter/jupyter_client/issues/338) and "
+"[#339](https://github.com/jupyter/jupyter_client/pull/339)."
+msgstr ""
+
+#: ../../changelog.md:413
+msgid ""
+"Eliminate occasional error messages during process exit "
+"[#336](https://github.com/jupyter/jupyter_client/pull/336)."
+msgstr ""
+
+#: ../../changelog.md:415
+msgid ""
+"Improve error message when attempting to bind on invalid address "
+"[#330](https://github.com/jupyter/jupyter_client/pull/330)."
+msgstr ""
+
+#: ../../changelog.md:417
+msgid ""
+"Add missing direct dependency on tornado "
+"[#323](https://github.com/jupyter/jupyter_client/pull/323)."
+msgstr ""
+
+#: ../../changelog.md:419
+msgid "5.2.1"
+msgstr ""
+
+#: ../../changelog.md:421
+msgid ""
+"[5.2.1 on "
+"GitHub](https://github.com/jupyter/jupyter_client/milestones/5.2.1)"
+msgstr ""
+
+#: ../../changelog.md:424
+msgid ""
+"Add parenthesis to conditional pytest requirement to work around a bug in"
+" the `wheel` package, that generate a `.whl` which otherwise always "
+"depends on `pytest` see "
+"[#324](https://github.com/jupyter/jupyter_client/issues/324)and "
+"[#325](https://github.com/jupyter/jupyter_client/pull/325)."
+msgstr ""
+
+#: ../../changelog.md:428
+msgid "5.2"
+msgstr ""
+
+#: ../../changelog.md:430
+msgid "[5.2 on GitHub](https://github.com/jupyter/jupyter_client/milestones/5.2)"
+msgstr ""
+
+#: ../../changelog.md:433
+msgid "Define Jupyter protocol version 5.3:"
+msgstr ""
+
+#: ../../changelog.md:434
+msgid ""
+"Kernels can now opt to be interrupted by a message sent on the control "
+"channel instead of a system signal. See `kernelspecs` and "
+"`msging_interrupt` "
+"[#294](https://github.com/jupyter/jupyter_client/pull/294)."
+msgstr ""
+
+#: ../../changelog.md:439
+msgid ""
+"New `jupyter kernel` command to launch an installed kernel by name "
+"[#240](https://github.com/jupyter/jupyter_client/pull/240)."
+msgstr ""
+
+#: ../../changelog.md:441
+msgid ""
+"Kernelspecs where the command starts with e.g. `python3` or "
+"`python3.6`---matching the version `jupyter_client` is running on---are "
+"now launched with the same Python executable as the launching process "
+"[#306](https://github.com/jupyter/jupyter_client/pull/306). This extends "
+"the special handling of `python` added in 5.0."
+msgstr ""
+
+#: ../../changelog.md:446
+msgid ""
+"Command line arguments specified by a kernelspec can now include "
+"`{resource_dir}`, which will be substituted with the kernelspec resource "
+"directory path when the kernel is launched "
+"[#289](https://github.com/jupyter/jupyter_client/pull/289)."
+msgstr ""
+
+#: ../../changelog.md:450
+msgid ""
+"Kernelspecs now have an optional `metadata` field to hold arbitrary "
+"metadata about kernels---see `kernelspecs` "
+"[#274](https://github.com/jupyter/jupyter_client/pull/274)."
+msgstr ""
+
+#: ../../changelog.md:452
+msgid ""
+"Make the `KernelRestarter` class used by a `KernelManager` configurable "
+"[#290](https://github.com/jupyter/jupyter_client/pull/290)."
+msgstr ""
+
+#: ../../changelog.md:454
+msgid ""
+"When killing a kernel on Unix, kill its process group "
+"[#314](https://github.com/jupyter/jupyter_client/pull/314)."
+msgstr ""
+
+#: ../../changelog.md:456
+msgid ""
+"If a kernel dies soon after starting, reassign random ports before "
+"restarting it, in case one of the previously chosen ports has been bound "
+"by another process "
+"[#279](https://github.com/jupyter/jupyter_client/pull/279)."
+msgstr ""
+
+#: ../../changelog.md:459
+msgid ""
+"Avoid unnecessary filesystem operations when finding a kernelspec with "
+"`.KernelSpecManager.get_kernel_spec` "
+"[#311](https://github.com/jupyter/jupyter_client/pull/311)."
+msgstr ""
+
+#: ../../changelog.md:461
+msgid ""
+"`.KernelSpecManager.get_all_specs` will no longer raise an exception on "
+"encountering an invalid `kernel.json` file. It will raise a warning and "
+"continue [#310](https://github.com/jupyter/jupyter_client/pull/310)."
+msgstr ""
+
+#: ../../changelog.md:465
+msgid ""
+"Check for non-contiguous buffers before trying to send them through ZMQ "
+"[#258](https://github.com/jupyter/jupyter_client/pull/258)."
+msgstr ""
+
+#: ../../changelog.md:467
+msgid ""
+"Compatibility with upcoming Tornado version 5.0 "
+"[#304](https://github.com/jupyter/jupyter_client/pull/304)."
+msgstr ""
+
+#: ../../changelog.md:469
+msgid ""
+"Simplify setup code by always using setuptools "
+"[#284](https://github.com/jupyter/jupyter_client/pull/284)."
+msgstr ""
+
+#: ../../changelog.md:471
+msgid ""
+"Soften warnings when setting the sticky bit on runtime files fails "
+"[#286](https://github.com/jupyter/jupyter_client/pull/286)."
+msgstr ""
+
+#: ../../changelog.md:473
+msgid "Various corrections and improvements to documentation."
+msgstr ""
+
+#: ../../changelog.md:475
+msgid "5.1"
+msgstr ""
+
+#: ../../changelog.md:477
+msgid "[5.1 on GitHub](https://github.com/jupyter/jupyter_client/milestones/5.1)"
+msgstr ""
+
+#: ../../changelog.md:480
+msgid ""
+"Define Jupyter protocol version 5.2, resolving ambiguity of `cursor_pos` "
+"field in the presence of unicode surrogate pairs."
+msgstr ""
+
+#: ../../changelog.md:483
+msgid "::: {.seealso} `cursor_pos_unicode_note` :::"
+msgstr ""
+
+#: ../../changelog.md:487
+msgid ""
+"Add `Session.clone` for making a copy of a Session object without sharing"
+" the digest history. Reusing a single Session object to connect multiple "
+"sockets to the same IOPub peer can cause digest collisions."
+msgstr ""
+
+#: ../../changelog.md:492
+msgid ""
+"Avoid global references preventing garbage collection of background "
+"threads."
+msgstr ""
+
+#: ../../changelog.md:495
+msgid "5.0"
+msgstr ""
+
+#: ../../changelog.md:497
+msgid "5.0.1"
+msgstr ""
+
+#: ../../changelog.md:499
+msgid ""
+"[5.0.1 on "
+"GitHub](https://github.com/jupyter/jupyter_client/milestones/5.0.1)"
+msgstr ""
+
+#: ../../changelog.md:502
+msgid ""
+"Update internal protocol version number to 5.1, which should have been "
+"done in 5.0.0."
+msgstr ""
+
+#: ../../changelog.md:505
+msgid "5.0.0"
+msgstr ""
+
+#: ../../changelog.md:507
+msgid ""
+"[5.0.0 on "
+"GitHub](https://github.com/jupyter/jupyter_client/milestones/5.0)"
+msgstr ""
+
+#: ../../changelog.md:510
+msgid "New features:"
+msgstr ""
+
+#: ../../changelog.md:512
+msgid "Implement Jupyter protocol version 5.1."
+msgstr ""
+
+#: ../../changelog.md:514
+msgid ""
+"Introduce `jupyter run` command for running scripts with a kernel, for "
+"instance:"
+msgstr ""
+
+#: ../../changelog.md:519
+msgid ""
+"New method `.BlockingKernelClient.execute_interactive` for running code "
+"and capturing or redisplaying its output."
+msgstr ""
+
+#: ../../changelog.md:523
+msgid ""
+"New `KernelManager.shutdown_wait_time` configurable for adjusting the "
+"time for a kernel manager to wait after politely requesting shutdown "
+"before it resorts to forceful termination."
+msgstr ""
+
+#: ../../changelog.md:529
+msgid "Set sticky bit on connection-file directory to avoid getting cleaned up."
+msgstr ""
+
+#: ../../changelog.md:531
+msgid ""
+"`jupyter_client.launcher.launch_kernel` passes through additional options"
+" to the underlying Popen, matching `KernelManager.start_kernel`."
+msgstr ""
+
+#: ../../changelog.md:533
+msgid ""
+"Check types of `buffers` argument in `.Session.send`, so that TypeErrors "
+"are raised immediately, rather than in the eventloop."
+msgstr ""
+
+#: ../../changelog.md:539
+msgid ""
+"In kernelspecs, if the executable is the string `python` (as opposed to "
+"an absolute path), `sys.executable` will be used rather than resolving "
+"`python` on PATH. This should enable Python-based kernels to install "
+"kernelspecs as part of wheels."
+msgstr ""
+
+#: ../../changelog.md:543
+msgid ""
+"kernelspec names are now validated. They should only include ascii "
+"letters and numbers, plus period, hyphen, and underscore."
+msgstr ""
+
+#: ../../changelog.md:546
+msgid "Backward-incompatible changes:"
+msgstr ""
+
+#: ../../changelog.md:548
+msgid ""
+":py`.datetime` objects returned in parsed messages are now always "
+"timezone-aware. Timestamps in messages without timezone info are "
+"interpreted as the local timezone, as this was the behavior in earlier "
+"versions."
+msgstr ""
+
+#: ../../changelog.md:553
+msgid "4.4"
+msgstr ""
+
+#: ../../changelog.md:555
+msgid "4.4.0"
+msgstr ""
+
+#: ../../changelog.md:557
+msgid "[4.4 on GitHub](https://github.com/jupyter/jupyter_client/milestones/4.4)"
+msgstr ""
+
+#: ../../changelog.md:560
+msgid ""
+"Add `.KernelClient.load_connection_info` on KernelClient, etc. for "
+"loading connection info directly from a dict, not just from files."
+msgstr ""
+
+#: ../../changelog.md:562
+msgid ""
+"Include parent headers when adapting messages from older protocol "
+"implementations (treats parent headers the same as headers)."
+msgstr ""
+
+#: ../../changelog.md:564
+msgid "Compatibility fixes in tests for recent changes in ipykernel."
+msgstr ""
+
+#: ../../changelog.md:566
+msgid "4.3"
+msgstr ""
+
+#: ../../changelog.md:568
+msgid "4.3.0"
+msgstr ""
+
+#: ../../changelog.md:570
+msgid "[4.3 on GitHub](https://github.com/jupyter/jupyter_client/milestones/4.3)"
+msgstr ""
+
+#: ../../changelog.md:573
+msgid ""
+"Adds `--sys-prefix` argument to `jupyter kernelspec install`, for better "
+"symmetry with `jupyter nbextension install`, etc."
+msgstr ""
+
+#: ../../changelog.md:577
+msgid "4.2"
+msgstr ""
+
+#: ../../changelog.md:579
+msgid "4.2.2"
+msgstr ""
+
+#: ../../changelog.md:581
+msgid ""
+"[4.2.2 on "
+"GitHub](https://github.com/jupyter/jupyter_client/milestones/4.2.2)"
+msgstr ""
+
+#: ../../changelog.md:584
+msgid ""
+"Another fix for the `start_new_kernel` issue in 4.2.1 affecting slow-"
+"starting kernels."
+msgstr ""
+
+#: ../../changelog.md:586
+msgid "4.2.1"
+msgstr ""
+
+#: ../../changelog.md:588
+msgid ""
+"[4.2.1 on "
+"GitHub](https://github.com/jupyter/jupyter_client/milestones/4.2.1)"
+msgstr ""
+
+#: ../../changelog.md:591
+msgid ""
+"Fix regression in 4.2 causing `start_new_kernel` to fail while waiting "
+"for kernels to become available."
+msgstr ""
+
+#: ../../changelog.md:593
+msgid "4.2.0"
+msgstr ""
+
+#: ../../changelog.md:595
+msgid ""
+"[4.2.0 on "
+"GitHub](https://github.com/jupyter/jupyter_client/milestones/4.2)"
+msgstr ""
+
+#: ../../changelog.md:598
+msgid "added `jupyter kernelspec remove` for removing kernelspecs"
+msgstr ""
+
+#: ../../changelog.md:600
+msgid ""
+"allow specifying the environment for kernel processes via the `env` "
+"argument"
+msgstr ""
+
+#: ../../changelog.md:602
+msgid ""
+"added `name` field to connection files identifying the kernelspec name, "
+"so that consumers of connection files (alternate frontends) can identify "
+"the kernelspec in use"
+msgstr ""
+
+#: ../../changelog.md:605
+msgid ""
+"added `KernelSpecManager.get_all_specs` for getting all kernelspecs more "
+"efficiently"
+msgstr ""
+
+#: ../../changelog.md:606
+msgid "various improvements to error messages and documentation"
+msgstr ""
+
+#: ../../changelog.md:608
+msgid "4.1"
+msgstr ""
+
+#: ../../changelog.md:610
+msgid "4.1.0"
+msgstr ""
+
+#: ../../changelog.md:612
+msgid ""
+"[4.1.0 on "
+"GitHub](https://github.com/jupyter/jupyter_client/milestones/4.1)"
+msgstr ""
+
+#: ../../changelog.md:615
+msgid "Highlights:"
+msgstr ""
+
+#: ../../changelog.md:617
+msgid "Setuptools fixes for `jupyter kernelspec`"
+msgstr ""
+
+#: ../../changelog.md:618
+msgid "`jupyter kernelspec list` includes paths"
+msgstr ""
+
+#: ../../changelog.md:619
+msgid "add `KernelManager.blocking_client`"
+msgstr ""
+
+#: ../../changelog.md:620
+msgid ""
+"provisional implementation of `comm_info` requests from upcoming 5.1 "
+"release of the protocol"
+msgstr ""
+
+#: ../../changelog.md:623
+msgid "4.0"
+msgstr ""
+
+#: ../../changelog.md:625
+msgid "The first release of Jupyter Client as its own package."
+msgstr ""
+
