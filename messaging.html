@@ -48,17 +48,17 @@
 <li class="toctree-l2"><a class="reference internal" href="#introduction">介绍</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#general-message-format">通用消息格式</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#message-header">消息头</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#parent-header">Parent header</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#metadata">Metadata</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#content">Content</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#buffers">Buffers</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#a-full-message">A full message</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#parent-header">Parent 消息头</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#metadata">元数据</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#content">内容</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#buffers">缓冲</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#a-full-message">完整消息</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#compatibility">Compatibility</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#the-wire-protocol">The Wire Protocol</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#compatibility">兼容性</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#the-wire-protocol">Wire 协议</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#python-api">Python API</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#messages-on-the-shell-router-dealer-channel">Messages on the shell (ROUTER/DEALER) channel</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#messages-on-the-shell-router-dealer-channel">shell（ROUTER/DEALER）通道上的消息</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#request-reply">Request-Reply</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#execute">Execute</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#execution-counter-prompt-number">Execution counter (prompt number)</a></li>
@@ -190,7 +190,7 @@
 <p>一条消息是由五个字典组成的。</p>
 <section id="message-header">
 <h3>消息头<a class="headerlink" href="#message-header" title="永久链接至标题">¶</a></h3>
-<p>消息 <code class="docutils literal notranslate"><span class="pre">header</span></code> 包含有关消息的信息，如发起会话和实际消息 ID 的唯一标识符，消息的类型，Jupyter 协议的版本，以及消息的创建日期。此外，还有一个用户名字段，例如，如果适用的话，用于生成消息的进程。这在多个用户可能同时与同一个内核互动的协作环境中是很有用的，这样前端就可以以有意义的方式标记各种消息。</p>
+<p>消息 <code class="docutils literal notranslate"><span class="pre">header</span></code> 包含关于消息的信息，如发起会话和实际消息 ID 的唯一标识符，消息的类型，Jupyter 协议的版本，以及消息的创建日期。此外，还有一个用户名字段，例如，如果适用的话，用于生成消息的进程。这在多个用户可能同时与同一个内核交互的协作环境中是很有用的，这样前端就可以用有意义的方式标记各种消息。</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
     <span class="s1">&#39;msg_id&#39;</span> <span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="c1"># typically UUID, must be unique per message</span>
     <span class="s1">&#39;session&#39;</span> <span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="c1"># typically UUID, should be unique per session</span>
@@ -206,29 +206,21 @@
 </div>
 <div class="admonition note">
 <p class="admonition-title">注解</p>
-<p>消息头中的 <code class="docutils literal notranslate"><span class="pre">session</span></code> ID 确定了一个具有状态的独特实体，如内核进程或客户进程。</p>
-<p>来自客户端的消息头中的客户端会话 ID，在连接到一个内核的所有客户端中应该是唯一的。当一个客户重新连接到一个内核时，它应该在其消息头中使用相同的客户会话 ID。当客户端重新启动时，它应该产生一个新的客户端会话 ID。</p>
-<p>内核会话 ID，在来自内核的消息头中，应该识别一个特定的内核进程。如果一个内核被重新启动，内核会话 ID 应该被重新生成。</p>
-<p>消息头中的会话 ID 可以用来识别发送实体。例如，如果客户端断开连接并重新连接到一个内核，而来自该内核的消息有一个与断开连接前不同的内核会话 ID，客户端应该认为该内核被重新启动。</p>
+<p>消息头中的 <code class="docutils literal notranslate"><span class="pre">session</span></code> ID 标识了一个具有状态的独特实体，如内核进程或客户端进程。</p>
+<p>来自客户端的消息头中的客户端会话 ID，在连接到一个内核的所有客户端中应该是唯一的。当一个客户端重新连接到一个内核时，它应该在其消息头中使用相同的客户端会话 ID。当客户端重新启动时，它应该产生一个新的客户端会话 ID。</p>
+<p>内核会话 ID，在来自内核的消息头中，应该标识一个特定的内核进程。如果一个内核被重新启动，内核会话 ID 应该被重新生成。</p>
+<p>消息头中的会话 ID 可以用来标识发送实体。例如，如果客户端断开连接并重新连接到一个内核，而来自该内核的消息有一个与断开连接前不同的内核会话 ID，客户端应该认为该内核被重新启动。</p>
 </div>
 <div class="versionchanged">
 <p><span class="versionmodified changed">在 5.0 版更改: </span><code class="docutils literal notranslate"><span class="pre">version</span></code> 关键字被添加到消息头</p>
 </div>
 <div class="versionchanged">
-<p><span class="versionmodified changed">在 5.1 版更改: </span>头中的 <code class="docutils literal notranslate"><span class="pre">date</span></code> 在 5.1 之前的规范中被意外地省略了，但它一直在规范的实现中，所以强烈鼓励实现者包括它。在 5.1 中，它将是强制性的。</p>
+<p><span class="versionmodified changed">在 5.1 版更改: </span>消息头中的 <code class="docutils literal notranslate"><span class="pre">date</span></code> 在 5.1 之前的规范中被意外地省略了，但它一直在规范的实现中，所以强烈鼓励实现者包含它。在 5.1 中，它将是强制性的。</p>
 </div>
 </section>
 <section id="parent-header">
-<h3>Parent header<a class="headerlink" href="#parent-header" title="永久链接至标题">¶</a></h3>
-<p>When a message is the “result” of another message,
-such as a side-effect (output or status) or direct reply,
-the <code class="docutils literal notranslate"><span class="pre">parent_header</span></code> is a copy of the <code class="docutils literal notranslate"><span class="pre">header</span></code> of the message
-that “caused” the current message.
-<code class="docutils literal notranslate"><span class="pre">_reply</span></code> messages MUST have a <code class="docutils literal notranslate"><span class="pre">parent_header</span></code>,
-and side-effects <em>typically</em> have a parent.
-If there is no parent, an empty dict should be used.
-This parent is used by clients to route message handling to the right place,
-such as outputs to a cell.</p>
+<h3>Parent 消息头<a class="headerlink" href="#parent-header" title="永久链接至标题">¶</a></h3>
+<p>当一个消息是另一个消息的 “结果”，例如一个副作用（输出或状态）或直接应答，<code class="docutils literal notranslate"><span class="pre">parent_header</span></code> “引起” 当前消息的 <code class="docutils literal notranslate"><span class="pre">header</span></code> 的副本。。<code class="docutils literal notranslate"><span class="pre">_reply</span></code> 信息必须有一个 <code class="docutils literal notranslate"><span class="pre">parent_header</span></code>，而副作用 <em>通常</em> 有一个父信息。如果没有父类，应该使用一个空的 dict。这个父节点被客户端用来将消息处理路由到正确的地方，例如输出到一个单元格。</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
     <span class="c1"># parent_header is a copy of the request&#39;s header</span>
     <span class="s1">&#39;msg_id&#39;</span><span class="p">:</span> <span class="s1">&#39;...&#39;</span><span class="p">,</span>
@@ -238,29 +230,20 @@ such as outputs to a cell.</p>
 </div>
 </section>
 <section id="metadata">
-<h3>Metadata<a class="headerlink" href="#metadata" title="永久链接至标题">¶</a></h3>
-<p>The <cite>metadata</cite> dict contains information about the message that is not part of the content.
-This is not often used, but can be an extra location to store information about requests and replies,
-such as extensions adding information about request or execution context.</p>
+<h3>元数据<a class="headerlink" href="#metadata" title="永久链接至标题">¶</a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">metadata</span></code> dict 包含关于消息的信息，但不是内容的一部分。这并不经常使用，但可以作为一个额外的位置来存储关于请求和回复的信息，例如扩展添加关于请求或执行环境的信息。</p>
 </section>
 <section id="content">
-<h3>Content<a class="headerlink" href="#content" title="永久链接至标题">¶</a></h3>
-<p>The <code class="docutils literal notranslate"><span class="pre">content</span></code> dict is the body of the message.
-Its structure is dictated by the <code class="docutils literal notranslate"><span class="pre">msg_type</span></code> field in the header,
-described in detail for each message below.</p>
+<h3>内容<a class="headerlink" href="#content" title="永久链接至标题">¶</a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">content</span></code> dict 是信息的主体。其结构由 header 中的 <code class="docutils literal notranslate"><span class="pre">msg_type</span></code> 字段决定，下面将对每条信息进行详细描述。</p>
 </section>
 <section id="buffers">
-<h3>Buffers<a class="headerlink" href="#buffers" title="永久链接至标题">¶</a></h3>
-<p>Finally, a list of additional binary buffers can be associated with a message.
-While this is part of the protocol,
-no official messages make use of these buffers.
-They are used by extension messages, such as IPython Parallel’s <code class="docutils literal notranslate"><span class="pre">apply</span></code>
-and some of ipywidgets’ <code class="docutils literal notranslate"><span class="pre">comm</span></code> messages.</p>
+<h3>缓冲<a class="headerlink" href="#buffers" title="永久链接至标题">¶</a></h3>
+<p>最后，一个额外的二进制缓冲区的列表可以与一个消息相关联。虽然这是协议的一部分，但没有正式的消息使用这些缓冲区。它们被扩展消息所使用，例如 IPython Parallel 的 <code class="docutils literal notranslate"><span class="pre">apply</span></code> 和一些 ipywidgets 的 <code class="docutils literal notranslate"><span class="pre">comm</span></code> 消息。</p>
 </section>
 <section id="a-full-message">
-<h3>A full message<a class="headerlink" href="#a-full-message" title="永久链接至标题">¶</a></h3>
-<p>Combining all of these together,
-a complete message can be represented as the following dictionary of dictionaries (and one list):</p>
+<h3>完整消息<a class="headerlink" href="#a-full-message" title="永久链接至标题">¶</a></h3>
+<p>将所有这些结合起来，一个完整的信息可以表示为以下的字典（和一个列表）:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
     <span class="s2">&quot;header&quot;</span> <span class="p">:</span> <span class="p">{</span>
         <span class="s2">&quot;msg_id&quot;</span><span class="p">:</span> <span class="s2">&quot;...&quot;</span><span class="p">,</span>
@@ -276,45 +259,25 @@ a complete message can be represented as the following dictionary of dictionarie
 </div>
 <div class="admonition note">
 <p class="admonition-title">注解</p>
-<p>This dictionary structure is <em>not</em> part of the Jupyter protocol
-that must be implemented by kernels and frontends;
-that would be <a class="reference internal" href="#wire-protocol"><span class="std std-ref">The Wire Protocol</span></a>,
-which dictates how this information is serialized over the wire.
-Deserialization is up to the Kernel or frontend implementation,
-but a dict like this would be a logical choice in most contexts.</p>
+<p>这个字典结构不是 Jupyter 协议的部分，它必须由内核和前端来实现；那将是 <a class="reference internal" href="#wire-protocol"><span class="std std-ref">Wire 协议</span></a>，它决定了这些信息如何通过 wire 进行序列化。反序列化是由内核或前端实现的，但在大多数情况下，像这样的 dict 是一个合理的选择。</p>
 </div>
 </section>
 </section>
 <section id="compatibility">
-<span id="msging-compatibility"></span><h2>Compatibility<a class="headerlink" href="#compatibility" title="永久链接至标题">¶</a></h2>
-<p>Kernels must implement the <a class="reference internal" href="#execute"><span class="std std-ref">execute</span></a> and <a class="reference internal" href="#msging-kernel-info"><span class="std std-ref">kernel info</span></a> messages, along with the associated busy and idle
-<a class="reference internal" href="#status"><span class="std std-ref">Kernel status</span></a> messages. All other message types are
-optional, although we recommend implementing <a class="reference internal" href="#msging-completion"><span class="std std-ref">completion</span></a> if possible. Kernels do not need to send any reply for
-messages they don’t handle, and frontends should provide sensible behaviour if
-no reply arrives (except for the required execution and kernel info messages).</p>
-<p><a class="reference internal" href="#stdin-messages"><span class="std std-ref">stdin messages</span></a> are unique in that the request comes from
-the kernel, and the reply from the frontend. The frontend is not required to
-support this, but if it does not, it must set <code class="docutils literal notranslate"><span class="pre">'allow_stdin'</span> <span class="pre">:</span> <span class="pre">False</span></code> in
-its <a class="reference internal" href="#execute"><span class="std std-ref">execute requests</span></a>. In this case, the kernel may not send
-stdin requests. If that field is true, the kernel may send stdin requests and
-block waiting for a reply, so the frontend must answer.</p>
-<p>Both sides should allow unexpected message types, and extra fields in known
-message types, so that additions to the protocol do not break existing code.</p>
+<span id="msging-compatibility"></span><h2>兼容性<a class="headerlink" href="#compatibility" title="永久链接至标题">¶</a></h2>
+<p>内核必须实现 <a class="reference internal" href="#execute"><span class="std std-ref">执行</span></a> 和 <a class="reference internal" href="#msging-kernel-info"><span class="std std-ref">内核 info</span></a> 消息，以及相关的 busy 和 idle <a class="reference internal" href="#status"><span class="std std-ref">Kernel status</span></a> 消息。所有其他消息类型都是可选的，但我们建议尽可能实现 <a class="reference internal" href="#msging-completion"><span class="std std-ref">completion</span></a>。内核不需要为它们不处理的消息发送任何回复，如果没有回复，前端应该提供合理的行为（除了必要的执行和内核  info 消息）。</p>
+<p><a class="reference internal" href="#stdin-messages"><span class="std std-ref">stdin 消息</span></a> 是独特的，因为请求来自内核，而回复来自前端。前端不需要支持这个，但是如果它不支持，它必须在 <a class="reference internal" href="#execute"><span class="std std-ref">执行请求</span></a> 设置中 <code class="docutils literal notranslate"><span class="pre">'allow_stdin'</span> <span class="pre">:</span> <span class="pre">False</span></code>。在这种情况下，内核可能不会发送 stdin 请求。如果该字段为真，内核可以发送 stdin 请求并阻塞等待回复，所以前端必须应答。</p>
+<p>双方都应该允许意外的消息类型，以及已知消息类型中的额外字段，以便对协议的添加不会破坏现有的代码。</p>
 </section>
 <section id="the-wire-protocol">
-<span id="wire-protocol"></span><h2>The Wire Protocol<a class="headerlink" href="#the-wire-protocol" title="永久链接至标题">¶</a></h2>
-<p>The above message format is only a logical representation of the contents of Jupyter messages,
-but does not describe the actual <em>implementation</em> at the wire level in zeromq.
-This section describes the protocol that must be implemented by Jupyter kernels and clients
-talking to each other over zeromq.</p>
-<p>The reference implementation of the message spec is our <code class="xref py py-class docutils literal notranslate"><span class="pre">Session</span></code> class.</p>
+<span id="wire-protocol"></span><h2>Wire 协议<a class="headerlink" href="#the-wire-protocol" title="永久链接至标题">¶</a></h2>
+<p>上述消息格式只是 Jupyter 消息内容的逻辑表示，但并没有描述 zeromq 中 wire 层面的实际 <em>实现</em>。本节描述了 Jupyter 内核和客户端通过 zeromq 相互交谈时必须实现的协议。</p>
+<p>消息规范的参考实现是 <code class="xref py py-class docutils literal notranslate"><span class="pre">Session</span></code> 类。</p>
 <div class="admonition note">
 <p class="admonition-title">注解</p>
-<p>This section should only be relevant to non-Python consumers of the protocol.
-Python consumers should import and the use implementation of the wire
-protocol in <code class="xref py py-class docutils literal notranslate"><span class="pre">jupyter_client.session.Session</span></code>.</p>
+<p>这部分应该只与该协议的非 Python consumer 有关。Python consumer 应该导入并使用 <code class="xref py py-class docutils literal notranslate"><span class="pre">jupyter_client.session.Session</span></code> 中的 wire 协议的实现。</p>
 </div>
-<p>Every message is serialized to a sequence of at least six blobs of bytes:</p>
+<p>每条信息都被序列化为一个至少由六个字节块组成的序列：</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="p">[</span>
   <span class="sa">b</span><span class="s1">&#39;u-u-i-d&#39;</span><span class="p">,</span>         <span class="c1"># zmq identity(ies)</span>
   <span class="sa">b</span><span class="s1">&#39;&lt;IDS|MSG&gt;&#39;</span><span class="p">,</span>       <span class="c1"># delimiter</span>
@@ -328,35 +291,25 @@ protocol in <code class="xref py py-class docutils literal notranslate"><span cl
 <span class="p">]</span>
 </pre></div>
 </div>
-<p>The front of the message is the ZeroMQ routing prefix,
-which can be zero or more socket identities.
-This is every piece of the message prior to the delimiter key <code class="docutils literal notranslate"><span class="pre">&lt;IDS|MSG&gt;</span></code>.
-In the case of IOPub, there should be just one prefix component,
-which is the topic for IOPub subscribers, e.g. <code class="docutils literal notranslate"><span class="pre">execute_result</span></code>, <code class="docutils literal notranslate"><span class="pre">display_data</span></code>.</p>
+<p>消息的前面是 ZeroMQ 的路由前缀，它可以是零个或多个套接字身份。这是消息中分界符键 <code class="docutils literal notranslate"><span class="pre">&lt;IDS|MSG&gt;</span></code> 之前的每一块。在 IOPub 的情况下，应该只有一个前缀成分，这就是 IOPub 订阅者的主题，例如 <code class="docutils literal notranslate"><span class="pre">execute_result</span></code>、<code class="docutils literal notranslate"><span class="pre">display_data</span></code>。</p>
 <div class="admonition note">
 <p class="admonition-title">注解</p>
-<p>In most cases, the IOPub topics are irrelevant and completely ignored,
-because frontends just subscribe to all topics.
-The convention used in the IPython kernel is to use the msg_type as the topic,
-and possibly extra information about the message, e.g. <code class="docutils literal notranslate"><span class="pre">kernel.{u-u-i-d}.execute_result</span></code> or <code class="docutils literal notranslate"><span class="pre">stream.stdout</span></code></p>
+<p>在大多数情况下，IOPub 的主题是不相关的，完全被忽略，因为前端只是订阅了所有的主题。在 IPython 内核中的惯例是使用 msg_type 作为主题，可能还有关于消息的额外信息，例如 <code class="docutils literal notranslate"><span class="pre">kernel.{u-u-i-d}.execute_result</span></code> 或 <code class="docutils literal notranslate"><span class="pre">stream.stdout</span></code></p>
 </div>
-<p>After the delimiter is the <a class="reference external" href="https://en.wikipedia.org/wiki/HMAC">HMAC</a> signature of the message, used for authentication.
-If authentication is disabled, this should be an empty string.
-By default, the hashing function used for computing these signatures is sha256.</p>
+<p>分隔符之后是信息的 <a class="reference external" href="https://en.wikipedia.org/wiki/HMAC">HMAC</a> 签名，用于认证。如果认证被禁用，这应该是一个空字符串。默认情况下，用于计算这些签名的散列函数是 sha256。</p>
 <div class="admonition note">
 <p class="admonition-title">注解</p>
-<p>To disable authentication and signature checking,
-set the <cite>key</cite> field of a connection file to an empty string.</p>
+<p>要禁用认证和签名检查，将连接文件的 <code class="docutils literal notranslate"><span class="pre">key</span></code> 字段设置为空字符串。</p>
 </div>
-<p>The signature is the HMAC hex digest of the concatenation of:</p>
+<p>签名是 HMAC 的十六进制摘要，由以下内容串联而成：</p>
 <ul class="simple">
-<li><p>A shared key (typically the <code class="docutils literal notranslate"><span class="pre">key</span></code> field of a connection file)</p></li>
-<li><p>The serialized header dict</p></li>
-<li><p>The serialized parent header dict</p></li>
-<li><p>The serialized metadata dict</p></li>
-<li><p>The serialized content dict</p></li>
+<li><p>一个共享密钥（通常是连接文件的 <code class="docutils literal notranslate"><span class="pre">key</span></code> 字段）。</p></li>
+<li><p>序列化的 header dict</p></li>
+<li><p>序列化的 parent header dict</p></li>
+<li><p>序列化的 metadata dict</p></li>
+<li><p>序列化的 content dict</p></li>
 </ul>
-<p>In Python, this is implemented via:</p>
+<p>在 Python 中，这是通过以下方式实现的：</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># once:</span>
 <span class="n">digester</span> <span class="o">=</span> <span class="n">HMAC</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">digestmod</span><span class="o">=</span><span class="n">hashlib</span><span class="o">.</span><span class="n">sha256</span><span class="p">)</span>
 
@@ -367,24 +320,13 @@ set the <cite>key</cite> field of a connection file to an empty string.</p>
 <span class="n">signature</span> <span class="o">=</span> <span class="n">d</span><span class="o">.</span><span class="n">hexdigest</span><span class="p">()</span>
 </pre></div>
 </div>
-<p>After the signature is the actual message, always in four frames of bytes.
-The four dictionaries that compose a message are serialized separately,
-in the order of header, parent header, metadata, and content.
-These can be serialized by any function that turns a dict into bytes.
-The default and most common serialization is JSON, but msgpack and pickle
-are common alternatives.</p>
-<p>After the serialized dicts are zero to many raw data buffers,
-which can be used by message types that support binary data,
-which can be used in custom messages, such as comms and extensions to the protocol.</p>
+<p>在签名之后是实际的信息，总是在四个字节的框架内。组成一个消息的四个字典是分别序列化的，顺序是 header、parent header、metadata 和 content。这些可以由任何将字典变成字节的函数来序列化。默认和最常见的序列化是 JSON，但常被 msgpack 和 pickle 替代。</p>
+<p>在序列化的字典为零后，有许多原始数据缓冲区，可以被支持二进制数据的消息类型使用，这可以在自定义消息中使用，如 comms 和 protocol 的扩展。</p>
 </section>
 <section id="python-api">
 <h2>Python API<a class="headerlink" href="#python-api" title="永久链接至标题">¶</a></h2>
-<p>As messages can be represented as dicts, they map naturally to a <code class="docutils literal notranslate"><span class="pre">func(**kw)</span></code> call form.  We
-should develop, at a few key points, functional forms of all the requests that
-take arguments in this manner and automatically construct the necessary dict
-for sending.</p>
-<p>In addition, the Python implementation of the message specification extends
-messages upon deserialization to the following form for convenience:</p>
+<p>由于消息可以被表示为 dict，它们自然地映射为 <code class="docutils literal notranslate"><span class="pre">func(**kw)</span></code> 的调用形式。我们应该在一些关键点上开发所有请求的函数形式，这些请求以这种方式接受参数，并自动构建必要的 dict 进行发送。</p>
+<p>此外，为了方便，消息规范的 Python 实现在反序列化时将消息扩展为以下形式：”</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
   <span class="s1">&#39;header&#39;</span> <span class="p">:</span> <span class="nb">dict</span><span class="p">,</span>
   <span class="c1"># The msg&#39;s unique identifier and type are always stored in the header,</span>
@@ -398,11 +340,10 @@ messages upon deserialization to the following form for convenience:</p>
 <span class="p">}</span>
 </pre></div>
 </div>
-<p>All messages sent to or received by any IPython message handler should have this
-extended structure.</p>
+<p>所有发送的消息或由任何 IPython 消息处理程序接收的消息都应该有这个扩展结构。</p>
 </section>
 <section id="messages-on-the-shell-router-dealer-channel">
-<h2>Messages on the shell (ROUTER/DEALER) channel<a class="headerlink" href="#messages-on-the-shell-router-dealer-channel" title="永久链接至标题">¶</a></h2>
+<h2>shell（ROUTER/DEALER）通道上的消息<a class="headerlink" href="#messages-on-the-shell-router-dealer-channel" title="永久链接至标题">¶</a></h2>
 <section id="request-reply">
 <span id="id1"></span><h3>Request-Reply<a class="headerlink" href="#request-reply" title="永久链接至标题">¶</a></h3>
 <p>In general, the ROUTER/DEALER sockets follow a request-reply pattern:</p>

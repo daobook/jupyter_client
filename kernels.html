@@ -92,7 +92,7 @@
              
   <section id="making-kernels-for-jupyter">
 <span id="kernels"></span><h1>为 Jupyter 制作内核<a class="headerlink" href="#making-kernels-for-jupyter" title="永久链接至标题">¶</a></h1>
-<p>‘内核’ 是一个运行并反省用户代码的程序。IPython 包括一个用于 Python 代码的内核，人们已经为 <a class="reference external" href="https://github.com/jupyter/jupyter/wiki/Jupyter-kernels">其他几种语言编写了内核</a>。</p>
+<p>‘内核’ 是一个运行并自省用户代码的程序。IPython 包括一个用于 Python 代码的内核，人们已经为 <a class="reference external" href="https://github.com/jupyter/jupyter/wiki/Jupyter-kernels">其他几种语言编写了内核</a>。</p>
 <p>在内核启动时，Jupyter 向内核传递一个连接文件。这指定了如何设置与前端的通信。</p>
 <p>编写内核有三种选择：</p>
 <ol class="arabic simple">
@@ -127,13 +127,13 @@
 </pre></div>
 </div>
 <p>对于每个启动的内核，新的端口是随机选择的。</p>
-<p><code class="docutils literal notranslate"><span class="pre">signature_scheme</span></code> 和 <code class="docutils literal notranslate"><span class="pre">key</span></code> 是用来对信息进行加密签名的，这样系统中的其他用户就不能发送代码到这个内核中运行。请参阅 <a class="reference internal" href="messaging.html#wire-protocol"><span class="std std-ref">The Wire Protocol</span></a>，了解如何计算这个签名的细节。</p>
+<p><code class="docutils literal notranslate"><span class="pre">signature_scheme</span></code> 和 <code class="docutils literal notranslate"><span class="pre">key</span></code> 是用来对信息进行加密签名的，这样系统中的其他用户就不能发送代码到这个内核中运行。请参阅 <a class="reference internal" href="messaging.html#wire-protocol"><span class="std std-ref">Wire 协议</span></a>，了解如何计算这个签名的细节。</p>
 </section>
 <section id="handling-messages">
 <h2>处理消息<a class="headerlink" href="#handling-messages" title="永久链接至标题">¶</a></h2>
 <p>在读取连接文件并绑定到必要的套接字之后，内核应该进入一个事件循环，监听 hb（heartbeat）、control 和 shell 套接字。</p>
 <p><a class="reference internal" href="messaging.html#kernel-heartbeat"><span class="std std-ref">Heartbeat</span></a> 消息应立即在同一套接字上回显 —— 前端使用它来检查内核是否仍然存在。</p>
-<p>control 和 shell 套接字上的信息应该被解析，并验证其签名。请参阅 <a class="reference internal" href="messaging.html#wire-protocol"><span class="std std-ref">The Wire Protocol</span></a> 了解如何做到这一点。</p>
+<p>control 和 shell 套接字上的信息应该被解析，并验证其签名。请参阅 <a class="reference internal" href="messaging.html#wire-protocol"><span class="std std-ref">Wire 协议</span></a> 了解如何做到这一点。</p>
 <p>内核将在 iopub 套接字上发送消息以显示输出，并在 stdin 套接字上发送消息以提示用户输入文本。</p>
 <div class="admonition seealso">
 <p class="admonition-title">参见</p>
@@ -149,7 +149,7 @@
 </section>
 <section id="kernel-specs">
 <span id="kernelspecs"></span><h2>内核规范<a class="headerlink" href="#kernel-specs" title="永久链接至标题">¶</a></h2>
-<p>一个内核通过创建一个目录来向 IPython 识别自己，该目录的名称被用作内核的标识。这些目录可以在很多地方创建：</p>
+<p>一个内核通过创建一个目录来向 IPython 标识自己，该目录的名称被用作内核的标识符。这些目录可以在很多地方创建：</p>
 <table class="docutils align-default">
 <colgroup>
 <col style="width: 9%" />
@@ -180,12 +180,12 @@
 </tr>
 </tbody>
 </table>
-<p>用户位置优先于系统位置，名字的大小写被忽略，所以无论文件系统是否区分大小写，选择内核的方式都是一样的。由于 kernelspecs 出现在 URL 和其他地方，kernelspec 被要求有一个简单的名字，只包含 ASCII 字母、ASCII 数字和简单的分隔符。<code class="docutils literal notranslate"><span class="pre">-</span></code> 连字符，<code class="docutils literal notranslate"><span class="pre">.</span></code> 句点，<code class="docutils literal notranslate"><span class="pre">_</span></code> 下划线。</p>
+<p>用户位置优先于系统位置，名字的大小写被忽略，所以无论文件系统是否区分大小写，选择内核的方式都是一样的。由于 kernelspecs 出现在 URL 和其他地方，kernelspec 被要求有一个简单的名字，只包含 ASCII 字母、ASCII 数字和简单的分隔符：<code class="docutils literal notranslate"><span class="pre">-</span></code> 连字符，<code class="docutils literal notranslate"><span class="pre">.</span></code> 句点，<code class="docutils literal notranslate"><span class="pre">_</span></code> 下划线。</p>
 <p>如果设置了 <span class="target" id="index-2"></span><code class="xref std std-envvar docutils literal notranslate"><span class="pre">JUPYTER_PATH</span></code> 环境变量，也可以搜索其他位置。</p>
 <p>在内核目录内，目前有三种类型的文件被使用： <code class="docutils literal notranslate"><span class="pre">kernel.json</span></code>、<code class="docutils literal notranslate"><span class="pre">kernel.js</span></code> 和 logo 图片文件。目前，没有使用其他文件，但将来可能会改变。</p>
 <p>在该目录内，最重要的文件是 <em>kernel.json</em>。这应该是一个 JSON 序列化的字典，包含以下键和值：</p>
 <ul class="simple">
-<li><p><strong>argv</strong>：一个用于启动内核的命令行参数列表。任何参数中的文字 <code class="docutils literal notranslate"><span class="pre">{connection_file}</span></code> 将被替换成连接文件的路径。</p></li>
+<li><p><strong>argv</strong>：一个用于启动内核的命令行参数列表。任何参数中的文本 <code class="docutils literal notranslate"><span class="pre">{connection_file}</span></code> 将被替换成连接文件的路径。</p></li>
 <li><p><strong>display_name</strong>: 内核的名字，它理应显示在 UI 上。与 API 中使用的内核名称不同，它可以包含任意的 unicode 字符。</p></li>
 <li><p><strong>language</strong>：内核的语言名称。当加载笔记本时，如果没有找到匹配的 kernelspec 键（可能在不同的机器上有所不同），将使用具有匹配的 <code class="docutils literal notranslate"><span class="pre">language</span></code> 的内核。这允许在任何 Python 或 Julia 内核上编写的笔记本与用户的 Python 或 Julia 内核正确关联，即使它们与作者的内核不在同一名称下。</p></li>
 <li><p><strong>interrupt_mode</strong> （可选）：可以是 <code class="docutils literal notranslate"><span class="pre">signal</span></code> 或 <code class="docutils literal notranslate"><span class="pre">message</span></code>，指定客户如何中断该内核上的单元执行，可以通过操作系统的信号设施（例如 POSIX 系统上的 <cite>SIGINT</cite>）发送一个中断 <code class="docutils literal notranslate"><span class="pre">signal</span></code>，或者在控制通道上发送一个 <code class="docutils literal notranslate"><span class="pre">interrupt_request</span></code> 消息（见 <a class="reference internal" href="messaging.html#msging-interrupt"><span class="std std-ref">Kernel interrupt</span></a>）。如果没有指定，客户端将默认为 <code class="docutils literal notranslate"><span class="pre">signal</span></code> 模式”</p></li>

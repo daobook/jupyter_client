@@ -96,14 +96,14 @@
 <div class="admonition seealso">
 <p class="admonition-title">参见</p>
 <dl class="simple">
-<dt><a class="reference external" href="https://github.com/takluyver/bash_kernel">bash_kernel</a></dt><dd><p>一个简单的 bash 的内核，用这个机器写的</p>
+<dt><a class="reference external" href="https://github.com/takluyver/bash_kernel">bash_kernel</a></dt><dd><p>一个简单的 bash 的内核，用这个机制写的</p>
 </dd>
 </dl>
 </div>
 <p><a class="reference external" href="https://github.com/Calysto/metakernel/#">Metakernel</a> 库使编写一个封装的内核更容易，其中包括一套基本的行和单元格魔法。它还有一个 <code class="docutils literal notranslate"><span class="pre">ProcessKernel</span></code> 子类，使得编写使用 <code class="docutils literal notranslate"><span class="pre">pexpect</span></code> 的内核变得容易。请看 <a class="reference external" href="https://github.com/Calysto/octave_kernel">Octave 内核</a> 作为一个例子。</p>
 <section id="required-steps">
 <h2>所需步骤<a class="headerlink" href="#required-steps" title="永久链接至标题">¶</a></h2>
-<p>子类 <code class="xref py py-class docutils literal notranslate"><span class="pre">ipykernel.kernelbase.Kernel</span></code>，并实现以下方法和属性：</p>
+<p>子类化 <code class="xref py py-class docutils literal notranslate"><span class="pre">ipykernel.kernelbase.Kernel</span></code>，并实现以下方法和属性：</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="MyKernel">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">MyKernel</span></span><a class="headerlink" href="#MyKernel" title="永久链接至目标">¶</a></dt>
