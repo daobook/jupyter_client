@@ -206,17 +206,17 @@ msgid ""
 "with the same kernel simultaneously, so that frontends can label the "
 "various messages in a meaningful way."
 msgstr ""
-"消息 ``header`` 包含有关消息的信息，如发起会话和实际消息 ID 的唯一标识符，"
+"消息 ``header`` 包含关于消息的信息，如发起会话和实际消息 ID 的唯一标识符，"
 "消息的类型，Jupyter 协议的版本，以及消息的创建日期。"
 "此外，还有一个用户名字段，例如，如果适用的话，用于生成消息的进程。"
-"这在多个用户可能同时与同一个内核互动的协作环境中是很有用的，这样前端就可以以有意义的方式标记各种消息。"
+"这在多个用户可能同时与同一个内核交互的协作环境中是很有用的，这样前端就可以用有意义的方式标记各种消息。"
 
 #: ../../messaging.rst:123
 msgid ""
 "The ``session`` id in a message header identifies a unique entity with "
 "state, such as a kernel process or client process."
 msgstr ""
-"消息头中的 ``session`` ID 确定了一个具有状态的独特实体，如内核进程或客户进程。"
+"消息头中的 ``session`` ID 标识了一个具有状态的独特实体，如内核进程或客户端进程。"
 
 #: ../../messaging.rst:126
 msgid ""
@@ -226,7 +226,7 @@ msgid ""
 "When a client restarts, it should generate a new client session id."
 msgstr ""
 "来自客户端的消息头中的客户端会话 ID，在连接到一个内核的所有客户端中应该是唯一的。"
-"当一个客户重新连接到一个内核时，它应该在其消息头中使用相同的客户会话 ID。"
+"当一个客户端重新连接到一个内核时，它应该在其消息头中使用相同的客户端会话 ID。"
 "当客户端重新启动时，它应该产生一个新的客户端会话 ID。"
 
 #: ../../messaging.rst:131
@@ -235,7 +235,7 @@ msgid ""
 "particular kernel process. If a kernel is restarted, the kernel session "
 "id should be regenerated."
 msgstr ""
-"内核会话 ID，在来自内核的消息头中，应该识别一个特定的内核进程。"
+"内核会话 ID，在来自内核的消息头中，应该标识一个特定的内核进程。"
 "如果一个内核被重新启动，内核会话 ID 应该被重新生成。"
 
 #: ../../messaging.rst:135
@@ -246,8 +246,9 @@ msgid ""
 "prior to the disconnect, the client should assume that the kernel was "
 "restarted."
 msgstr ""
-"消息头中的会话 ID 可以用来识别发送实体。"
-"例如，如果客户端断开连接并重新连接到一个内核，而来自该内核的消息有一个与断开连接前不同的内核会话 ID，"
+"消息头中的会话 ID 可以用来标识发送实体。"
+"例如，如果客户端断开连接并重新连接到一个内核，"
+"而来自该内核的消息有一个与断开连接前不同的内核会话 ID，"
 "客户端应该认为该内核被重新启动。"
 
 #: ../../messaging.rst:142
@@ -261,12 +262,12 @@ msgid ""
 "implementers are strongly encouraged to include it. It will be mandatory "
 "in 5.1."
 msgstr ""
-"头中的 ``date`` 在 5.1 之前的规范中被意外地省略了，但它一直在规范的实现中，所以强烈鼓励实现者包括它。"
-"在 5.1 中，它将是强制性的。"
+"消息头中的 ``date`` 在 5.1 之前的规范中被意外地省略了，但它一直在规范的实现中，"
+"所以强烈鼓励实现者包含它。在 5.1 中，它将是强制性的。"
 
 #: ../../messaging.rst:152
 msgid "Parent header"
-msgstr ""
+msgstr "Parent 消息头"
 
 #: ../../messaging.rst:154
 msgid ""
@@ -278,10 +279,16 @@ msgid ""
 "should be used. This parent is used by clients to route message handling "
 "to the right place, such as outputs to a cell."
 msgstr ""
+"当一个消息是另一个消息的 \"结果\"，例如一个副作用（输出或状态）或直接应答，"
+"``parent_header`` \"引起\" 当前消息的 ``header`` 的副本。。"
+"``_reply`` 信息必须有一个 ``parent_header``，而副作用 *通常* 有一个父信息。"
+"如果没有父类，应该使用一个空的 dict。"
+"这个父节点被客户端用来将消息处理路由到正确的地方，例如输出到一个单元格。"
+
 
 #: ../../messaging.rst:173
 msgid "Metadata"
-msgstr ""
+msgstr "元数据"
 
 #: ../../messaging.rst:175
 msgid ""
@@ -290,10 +297,13 @@ msgid ""
 " to store information about requests and replies, such as extensions "
 "adding information about request or execution context."
 msgstr ""
+"``metadata`` dict 包含关于消息的信息，但不是内容的一部分。"
+"这并不经常使用，但可以作为一个额外的位置来存储关于请求和回复的信息，"
+"例如扩展添加关于请求或执行环境的信息。"
 
 #: ../../messaging.rst:180
 msgid "Content"
-msgstr ""
+msgstr "内容"
 
 #: ../../messaging.rst:182
 msgid ""
@@ -301,10 +311,12 @@ msgid ""
 "dictated by the ``msg_type`` field in the header, described in detail for"
 " each message below."
 msgstr ""
+"``content`` dict 是信息的主体。"
+"其结构由 header 中的 ``msg_type`` 字段决定，下面将对每条信息进行详细描述。"
 
 #: ../../messaging.rst:187
 msgid "Buffers"
-msgstr ""
+msgstr "缓冲"
 
 #: ../../messaging.rst:189
 msgid ""
@@ -313,16 +325,21 @@ msgid ""
 "use of these buffers. They are used by extension messages, such as "
 "IPython Parallel's ``apply`` and some of ipywidgets' ``comm`` messages."
 msgstr ""
+"最后，一个额外的二进制缓冲区的列表可以与一个消息相关联。"
+"虽然这是协议的一部分，但没有正式的消息使用这些缓冲区。"
+"它们被扩展消息所使用，例如 IPython Parallel 的 "
+"``apply`` 和一些 ipywidgets 的 ``comm`` 消息。"
 
 #: ../../messaging.rst:196
 msgid "A full message"
-msgstr ""
+msgstr "完整消息"
 
 #: ../../messaging.rst:198
 msgid ""
 "Combining all of these together, a complete message can be represented as"
 " the following dictionary of dictionaries (and one list)::"
 msgstr ""
+"将所有这些结合起来，一个完整的信息可以表示为以下的字典（和一个列表）::"
 
 #: ../../messaging.rst:216
 msgid ""
@@ -333,10 +350,13 @@ msgid ""
 "implementation, but a dict like this would be a logical choice in most "
 "contexts."
 msgstr ""
+"这个字典结构不是 Jupyter 协议的部分，它必须由内核和前端来实现；"
+"那将是 :ref:`wire_protocol`，它决定了这些信息如何通过 wire 进行序列化。"
+"反序列化是由内核或前端实现的，但在大多数情况下，像这样的 dict 是一个合理的选择。"
 
 #: ../../messaging.rst:226
 msgid "Compatibility"
-msgstr ""
+msgstr "兼容性"
 
 #: ../../messaging.rst:228
 msgid ""
@@ -348,6 +368,11 @@ msgid ""
 "handle, and frontends should provide sensible behaviour if no reply "
 "arrives (except for the required execution and kernel info messages)."
 msgstr ""
+"内核必须实现 :ref:`执行 <execute>` 和 :ref:`内核 info <msging_kernel_info>` 消息，"
+"以及相关的 busy 和 idle :ref:`status` 消息。"
+"所有其他消息类型都是可选的，但我们建议尽可能实现 :ref:`completion <msging_completion>`。"
+"内核不需要为它们不处理的消息发送任何回复，如果没有回复，"
+"前端应该提供合理的行为（除了必要的执行和内核  info 消息）。"
 
 #: ../../messaging.rst:236
 msgid ""
@@ -359,6 +384,11 @@ msgid ""
 " the kernel may send stdin requests and block waiting for a reply, so the"
 " frontend must answer."
 msgstr ""
+":ref:`stdin 消息 <stdin_messages>` 是独特的，因为请求来自内核，而回复来自前端。"
+"前端不需要支持这个，但是如果它不支持，它必须在 "
+":ref:`执行请求 <execute>` 设置中 ``'allow_stdin' : False``。"
+"在这种情况下，内核可能不会发送 stdin 请求。"
+"如果该字段为真，内核可以发送 stdin 请求并阻塞等待回复，所以前端必须应答。"
 
 #: ../../messaging.rst:243
 msgid ""
@@ -366,10 +396,11 @@ msgid ""
 "known message types, so that additions to the protocol do not break "
 "existing code."
 msgstr ""
+"双方都应该允许意外的消息类型，以及已知消息类型中的额外字段，以便对协议的添加不会破坏现有的代码。"
 
 #: ../../messaging.rst:249
 msgid "The Wire Protocol"
-msgstr ""
+msgstr "Wire 协议"
 
 #: ../../messaging.rst:252
 msgid ""
@@ -379,12 +410,15 @@ msgid ""
 "must be implemented by Jupyter kernels and clients talking to each other "
 "over zeromq."
 msgstr ""
+"上述消息格式只是 Jupyter 消息内容的逻辑表示，但并没有描述 zeromq 中 wire 层面的实际 *实现*。"
+"本节描述了 Jupyter 内核和客户端通过 zeromq 相互交谈时必须实现的协议。"
 
 #: ../../messaging.rst:257
 msgid ""
 "The reference implementation of the message spec is our "
 ":class:`~jupyter_client.session.Session` class."
 msgstr ""
+"消息规范的参考实现是 :class:`~jupyter_client.session.Session` 类。"
 
 #: ../../messaging.rst:261
 msgid ""
@@ -392,10 +426,12 @@ msgid ""
 "protocol. Python consumers should import and the use implementation of "
 "the wire protocol in :class:`jupyter_client.session.Session`."
 msgstr ""
+"这部分应该只与该协议的非 Python consumer 有关。"
+"Python consumer 应该导入并使用 :class:`jupyter_client.session.Session` 中的 wire 协议的实现。"
 
 #: ../../messaging.rst:265
 msgid "Every message is serialized to a sequence of at least six blobs of bytes:"
-msgstr ""
+msgstr "每条信息都被序列化为一个至少由六个字节块组成的序列："
 
 #: ../../messaging.rst:281
 msgid ""
@@ -405,6 +441,10 @@ msgid ""
 "just one prefix component, which is the topic for IOPub subscribers, e.g."
 " ``execute_result``, ``display_data``."
 msgstr ""
+"消息的前面是 ZeroMQ 的路由前缀，它可以是零个或多个套接字身份。"
+"这是消息中分界符键 ``<IDS|MSG>`` 之前的每一块。"
+"在 IOPub 的情况下，应该只有一个前缀成分，这就是 IOPub 订阅者的主题，"
+"例如 ``execute_result``、``display_data``。"
 
 #: ../../messaging.rst:289
 msgid ""
@@ -414,6 +454,9 @@ msgid ""
 "extra information about the message, e.g. "
 "``kernel.{u-u-i-d}.execute_result`` or ``stream.stdout``"
 msgstr ""
+"在大多数情况下，IOPub 的主题是不相关的，完全被忽略，因为前端只是订阅了所有的主题。"
+"在 IPython 内核中的惯例是使用 msg_type 作为主题，可能还有关于消息的额外信息，例如 "
+"``kernel.{u-u-i-d}.execute_result`` 或 ``stream.stdout``"
 
 #: ../../messaging.rst:294
 msgid ""
@@ -422,40 +465,44 @@ msgid ""
 "string. By default, the hashing function used for computing these "
 "signatures is sha256."
 msgstr ""
+"分隔符之后是信息的 `HMAC`_ 签名，用于认证。"
+"如果认证被禁用，这应该是一个空字符串。"
+"默认情况下，用于计算这些签名的散列函数是 sha256。"
 
 #: ../../messaging.rst:302
 msgid ""
 "To disable authentication and signature checking, set the `key` field of "
 "a connection file to an empty string."
 msgstr ""
+"要禁用认证和签名检查，将连接文件的 ``key`` 字段设置为空字符串。"
 
 #: ../../messaging.rst:305
 msgid "The signature is the HMAC hex digest of the concatenation of:"
-msgstr ""
+msgstr "签名是 HMAC 的十六进制摘要，由以下内容串联而成："
 
 #: ../../messaging.rst:307
 msgid "A shared key (typically the ``key`` field of a connection file)"
-msgstr ""
+msgstr "一个共享密钥（通常是连接文件的 ``key`` 字段）。"
 
 #: ../../messaging.rst:308
 msgid "The serialized header dict"
-msgstr ""
+msgstr "序列化的 header dict"
 
 #: ../../messaging.rst:309
 msgid "The serialized parent header dict"
-msgstr ""
+msgstr "序列化的 parent header dict"
 
 #: ../../messaging.rst:310
 msgid "The serialized metadata dict"
-msgstr ""
+msgstr "序列化的 metadata dict"
 
 #: ../../messaging.rst:311
 msgid "The serialized content dict"
-msgstr ""
+msgstr "序列化的 content dict"
 
 #: ../../messaging.rst:313
 msgid "In Python, this is implemented via:"
-msgstr ""
+msgstr "在 Python 中，这是通过以下方式实现的："
 
 #: ../../messaging.rst:326
 msgid ""
@@ -466,6 +513,10 @@ msgid ""
 "The default and most common serialization is JSON, but msgpack and pickle"
 " are common alternatives."
 msgstr ""
+"在签名之后是实际的信息，总是在四个字节的框架内。"
+"组成一个消息的四个字典是分别序列化的，顺序是 header、parent header、metadata 和 content。"
+"这些可以由任何将字典变成字节的函数来序列化。"
+"默认和最常见的序列化是 JSON，但常被 msgpack 和 pickle 替代。"
 
 #: ../../messaging.rst:333
 msgid ""
@@ -473,6 +524,8 @@ msgid ""
 "be used by message types that support binary data, which can be used in "
 "custom messages, such as comms and extensions to the protocol."
 msgstr ""
+"在序列化的字典为零后，有许多原始数据缓冲区，可以被支持二进制数据的消息类型使用，"
+"这可以在自定义消息中使用，如 comms 和 protocol 的扩展。"
 
 #: ../../messaging.rst:339
 msgid "Python API"
@@ -485,6 +538,8 @@ msgid ""
 "functional forms of all the requests that take arguments in this manner "
 "and automatically construct the necessary dict for sending."
 msgstr ""
+"由于消息可以被表示为 dict，它们自然地映射为 ``func(**kw)`` 的调用形式。"
+"我们应该在一些关键点上开发所有请求的函数形式，这些请求以这种方式接受参数，并自动构建必要的 dict 进行发送。"
 
 #: ../../messaging.rst:346
 msgid ""
@@ -492,16 +547,18 @@ msgid ""
 "extends messages upon deserialization to the following form for "
 "convenience::"
 msgstr ""
+"此外，为了方便，消息规范的 Python 实现在反序列化时将消息扩展为以下形式："。
 
 #: ../../messaging.rst:361
 msgid ""
 "All messages sent to or received by any IPython message handler should "
 "have this extended structure."
 msgstr ""
+"所有发送的消息或由任何 IPython 消息处理程序接收的消息都应该有这个扩展结构。"
 
 #: ../../messaging.rst:366
 msgid "Messages on the shell (ROUTER/DEALER) channel"
-msgstr ""
+msgstr "shell（ROUTER/DEALER）通道上的消息"
 
 #: ../../messaging.rst:371
 msgid "Request-Reply"
