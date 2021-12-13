@@ -42,7 +42,7 @@ msgstr ""
 
 #: ../../wrapperkernels.rst:14
 msgid "A simple kernel for bash, written using this machinery"
-msgstr "一个简单的 bash 的内核，用这个机器写的"
+msgstr "一个简单的 bash 的内核，用这个机制写的"
 
 #: ../../wrapperkernels.rst:16
 msgid ""
@@ -66,7 +66,7 @@ msgid ""
 "Subclass :class:`ipykernel.kernelbase.Kernel`, and implement the "
 "following methods and attributes:"
 msgstr ""
-"子类 :class:`ipykernel.kernelbase.Kernel`，并实现以下方法和属性："
+"子类化 :class:`ipykernel.kernelbase.Kernel`，并实现以下方法和属性："
 
 #: ../../wrapperkernels.rst:33
 msgid ""
