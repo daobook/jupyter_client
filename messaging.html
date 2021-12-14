@@ -170,7 +170,7 @@
 <section id="introduction">
 <h2>介绍<a class="headerlink" href="#introduction" title="永久链接至标题">¶</a></h2>
 <p>基本设计在下图中得到了解释：</p>
-<a class="reference external image-reference" href="./figs/frontend-kernel.png"><img alt="IPython 内核/前端消息传递架构。" class="align-center" src="_images/frontend-kernel.png" style="width: 450px;" /></a>
+<a class="reference external image-reference" href="./figs/frontend-kernel.png"><img alt="IPython kernel/frontend messaging architecture." class="align-center" src="_images/frontend-kernel.png" style="width: 450px;" /></a>
 <p>一个内核可以同时连接到一个或多个前端。内核有专门的套接字，用于以下功能：</p>
 <ol class="arabic">
 <li><p><strong>Shell</strong>：这个单一的 ROUTER 套接字允许来自前端的多个传入连接，这是任何前端向内核提出的代码执行、对象消息、提示等请求的套接字。这个套接字上的通信是每个前端和内核的一连串请求/回复动作。</p></li>
@@ -291,7 +291,7 @@
 <span class="p">]</span>
 </pre></div>
 </div>
-<p>消息的前面是 ZeroMQ 的路由前缀，它可以是零个或多个套接字身份。这是消息中分界符键 <code class="docutils literal notranslate"><span class="pre">&lt;IDS|MSG&gt;</span></code> 之前的每一块。在 IOPub 的情况下，应该只有一个前缀成分，这就是 IOPub 订阅者的主题，例如 <code class="docutils literal notranslate"><span class="pre">execute_result</span></code>、<code class="docutils literal notranslate"><span class="pre">display_data</span></code>。</p>
+<p>消息的前端是 ZeroMQ 的路由前缀，它可以是零个或多个套接字身份。这是消息中分界符键 <code class="docutils literal notranslate"><span class="pre">&lt;IDS|MSG&gt;</span></code> 之前的每一块。在 IOPub 的情况下，应该只有一个前缀成分，这就是 IOPub 订阅者的主题，例如 <code class="docutils literal notranslate"><span class="pre">execute_result</span></code>、<code class="docutils literal notranslate"><span class="pre">display_data</span></code>。</p>
 <div class="admonition note">
 <p class="admonition-title">注解</p>
 <p>在大多数情况下，IOPub 的主题是不相关的，完全被忽略，因为前端只是订阅了所有的主题。在 IPython 内核中的惯例是使用 msg_type 作为主题，可能还有关于消息的额外信息，例如 <code class="docutils literal notranslate"><span class="pre">kernel.{u-u-i-d}.execute_result</span></code> 或 <code class="docutils literal notranslate"><span class="pre">stream.stdout</span></code></p>
