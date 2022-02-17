@@ -214,11 +214,7 @@ class KernelClient(ConnectionFileMixin):
     def _stdin_hook_default(self, msg: t.Dict[str, t.Any]) -> None:
         """Handle an input request"""
         content = msg["content"]
-        if content.get("password", False):
-            prompt = getpass
-        else:
-            prompt = input  # type: ignore
-
+        prompt = getpass if content.get("password", False) else input
         try:
             raw_data = prompt(content["prompt"])
         except EOFError:
@@ -472,20 +468,17 @@ class KernelClient(ConnectionFileMixin):
         )
         if stdin_hook is None:
             stdin_hook = self._stdin_hook_default
-        if output_hook is None:
-            # detect IPython kernel
-            if "IPython" in sys.modules:
-                from IPython import get_ipython  # type: ignore
+        if output_hook is None and "IPython" in sys.modules:
+            from IPython import get_ipython  # type: ignore
 
-                ip = get_ipython()
-                in_kernel = getattr(ip, "kernel", False)
-                if in_kernel:
-                    output_hook = partial(
-                        self._output_hook_kernel,
-                        ip.display_pub.session,
-                        ip.display_pub.pub_socket,
-                        ip.display_pub.parent_header,
-                    )
+            ip = get_ipython()
+            if in_kernel := getattr(ip, "kernel", False):
+                output_hook = partial(
+                    self._output_hook_kernel,
+                    ip.display_pub.session,
+                    ip.display_pub.pub_socket,
+                    ip.display_pub.parent_header,
+                )
         if output_hook is None:
             # default: redisplay plain-text outputs
             output_hook = self._output_hook_default
@@ -725,10 +718,7 @@ class KernelClient(ConnectionFileMixin):
         -------
         The msg_id of the message sent
         """
-        if target_name is None:
-            content = {}
-        else:
-            content = dict(target_name=target_name)
+        content = {} if target_name is None else dict(target_name=target_name)
         msg = self.session.msg("comm_info_request", content)
         self.shell_channel.send(msg)
         return msg["header"]["msg_id"]

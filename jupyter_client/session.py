@@ -189,9 +189,8 @@ def default_secure(cfg) -> None:
     a new random UUID.
     """
     warnings.warn("default_secure is deprecated", DeprecationWarning)
-    if "Session" in cfg:
-        if "key" in cfg.Session or "keyfile" in cfg.Session:
-            return
+    if "Session" in cfg and ("key" in cfg.Session or "keyfile" in cfg.Session):
+        return
     # key/keyfile not specified, generate new UUID:
     cfg.Session.key = new_id_bytes()
 
@@ -655,12 +654,14 @@ class Session(Configurable):
         serialize/deserialize methods converts this nested message dict to the wire
         format, which is a list of message parts.
         """
-        msg = {}
         header = self.msg_header(msg_type) if header is None else header
-        msg["header"] = header
-        msg["msg_id"] = header["msg_id"]
-        msg["msg_type"] = header["msg_type"]
-        msg["parent_header"] = {} if parent is None else extract_header(parent)
+        msg = {
+            'header': header,
+            'msg_id': header["msg_id"],
+            'msg_type': header["msg_type"],
+            'parent_header': {} if parent is None else extract_header(parent),
+        }
+
         msg["content"] = {} if content is None else content
         msg["metadata"] = self.metadata.copy()
         if metadata is not None:
@@ -818,7 +819,7 @@ class Session(Configurable):
                 header=header,
                 metadata=metadata,
             )
-        if self.check_pid and not os.getpid() == self.pid:
+        if self.check_pid and os.getpid() != self.pid:
             get_logger().warning("WARNING: attempted to send message from fork\n%s", msg)
             return None
         buffers = [] if buffers is None else buffers
@@ -841,7 +842,7 @@ class Session(Configurable):
             msg = adapt(msg, self.adapt_version)
         to_send = self.serialize(msg, ident)
         to_send.extend(buffers)
-        longest = max([len(s) for s in to_send])
+        longest = max(len(s) for s in to_send)
         copy = longest < self.copy_threshold
 
         if buffers and track and not copy:
@@ -890,9 +891,7 @@ class Session(Configurable):
         if ident is not None:
             to_send.extend(ident)
 
-        to_send.append(DELIM)
-        # Don't include buffers in signature (per spec).
-        to_send.append(self.sign(msg_list[0:4]))
+        to_send.extend((DELIM, self.sign(msg_list[:4])))
         to_send.extend(msg_list)
         stream.send_multipart(to_send, flags, copy=copy)
 
@@ -967,12 +966,7 @@ class Session(Configurable):
             return msg_list[:idx], msg_list[idx + 1 :]  # noqa
         else:
             msg_list = t.cast(t.List[zmq.Message], msg_list)
-            failed = True
-            for idx, m in enumerate(msg_list):
-                if m.bytes == DELIM:
-                    failed = False
-                    break
-            if failed:
+            if failed := next((False for m in msg_list if m.bytes == DELIM), True):
                 raise ValueError("DELIM not in msg_list")
             idents, msg_list = msg_list[:idx], msg_list[idx + 1 :]  # noqa
             return [bytes(m.bytes) for m in idents], msg_list  # type: ignore
@@ -1032,7 +1026,6 @@ class Session(Configurable):
             content, buffers].  The buffers are returned as memoryviews.
         """
         minlen = 5
-        message = {}
         if not copy:
             # pyzmq didn't copy the first parts of the message, so we'll do it
             msg_list = t.cast(t.List[zmq.Message], msg_list)
@@ -1052,18 +1045,15 @@ class Session(Configurable):
             check = self.sign(msg_list[1:5])
             if not compare_digest(signature, check):
                 raise ValueError("Invalid Signature: %r" % signature)
-        if not len(msg_list) >= minlen:
+        if len(msg_list) < minlen:
             raise TypeError("malformed message, must have at least %i elements" % minlen)
         header = self.unpack(msg_list[1])
-        message["header"] = extract_dates(header)
+        message = {'header': extract_dates(header)}
         message["msg_id"] = header["msg_id"]
         message["msg_type"] = header["msg_type"]
         message["parent_header"] = extract_dates(self.unpack(msg_list[2]))
         message["metadata"] = self.unpack(msg_list[3])
-        if content:
-            message["content"] = self.unpack(msg_list[4])
-        else:
-            message["content"] = msg_list[4]
+        message["content"] = self.unpack(msg_list[4]) if content else msg_list[4]
         buffers = [memoryview(b) for b in msg_list[5:]]
         if buffers and buffers[0].shape is None:
             # force copy to workaround pyzmq #646

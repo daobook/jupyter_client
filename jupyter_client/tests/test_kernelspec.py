@@ -181,9 +181,7 @@ class KernelSpecTests(unittest.TestCase):
                 if name == "fake":
                     spec.name = name
                     spec.resource_dir = resource_dir
-                elif name == native_name:
-                    pass
-                else:
+                elif name != native_name:
                     raise KeyError(name)
                 return spec
 

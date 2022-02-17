@@ -45,7 +45,7 @@ def config(transport):
 
 def _install_kernel(name="signaltest", extra_env=None):
     if extra_env is None:
-        extra_env = dict()
+        extra_env = {}
     kernel_dir = pjoin(paths.jupyter_data_dir(), "kernels", name)
     os.makedirs(kernel_dir)
     with open(pjoin(kernel_dir, "kernel.json"), "w") as f:
@@ -92,14 +92,12 @@ def start_kernel():
 
 @pytest.fixture
 def km(config):
-    km = KernelManager(config=config)
-    return km
+    return KernelManager(config=config)
 
 
 @pytest.fixture
 def km_subclass(config):
-    km = SyncKMSubclass(config=config)
-    return km
+    return SyncKMSubclass(config=config)
 
 
 @pytest.fixture
@@ -113,14 +111,12 @@ def zmq_context():
 
 @pytest.fixture(params=[AsyncKernelManager, AsyncKMSubclass])
 def async_km(request, config):
-    km = request.param(config=config)
-    return km
+    return request.param(config=config)
 
 
 @pytest.fixture
 def async_km_subclass(config):
-    km = AsyncKMSubclass(config=config)
-    return km
+    return AsyncKMSubclass(config=config)
 
 
 @pytest.fixture

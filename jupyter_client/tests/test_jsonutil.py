@@ -71,11 +71,11 @@ def test_parse_ms_precision():
     base = "2013-07-03T16:34:52"
     digits = "1234567890"
 
-    parsed = jsonutil.parse_date(base + "Z")
+    parsed = jsonutil.parse_date(f'{base}Z')
     assert isinstance(parsed, datetime.datetime)
     for i in range(len(digits)):
-        ts = base + "." + digits[:i]
-        parsed = jsonutil.parse_date(ts + "Z")
+        ts = f'{base}.{digits[:i]}'
+        parsed = jsonutil.parse_date(f'{ts}Z')
         if i >= 1 and i <= 6:
             assert isinstance(parsed, datetime.datetime)
         else:
@@ -102,7 +102,7 @@ def test_json_default():
     # list of input/expected output.  Use None for the expected output if it
     # can be the same as the input.
     pairs = [
-        (1, None),  # start with scalars
+        (1, None),
         (1.123, None),
         (1.0, None),
         ('a', None),
@@ -110,18 +110,17 @@ def test_json_default():
         (False, None),
         (None, None),
         ({"key": b"\xFF"}, {"key": "/w==\n"}),
-        # Containers
         ([1, 2], None),
         ((1, 2), [1, 2]),
         (set([1, 2]), [1, 2]),
         (dict(x=1), None),
         ({'x': 1, 'y': [1, 2, 3], '1': 'int'}, None),
-        # More exotic objects
-        ((x for x in range(3)), [0, 1, 2]),
+        (iter(range(3)), [0, 1, 2]),
         (iter([1, 2]), [1, 2]),
         (MyFloat(), 3.14),
         (MyInt(), 389),
     ]
+
 
     for val, jval in pairs:
         if jval is None:

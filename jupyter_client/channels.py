@@ -154,10 +154,7 @@ class HBChannel(Thread):
 
     def is_beating(self) -> bool:
         """Is the heartbeat running and responsive (and not paused)."""
-        if self.is_alive() and not self._pause and self._beating:
-            return True
-        else:
-            return False
+        return bool(self.is_alive() and not self._pause and self._beating)
 
     def stop(self) -> None:
         """Stop the channel's event loop and join its thread."""

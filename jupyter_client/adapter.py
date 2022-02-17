@@ -49,11 +49,7 @@ def extract_oname_v4(code: str, cursor_pos: int) -> str:
 
     # remove everything after last open bracket
     line = _end_bracket.sub("", line)
-    matches = _identifier.findall(line)
-    if matches:
-        return matches[-1]
-    else:
-        return ""
+    return matches[-1] if (matches := _identifier.findall(line)) else ""
 
 
 class Adapter(object):
@@ -135,11 +131,13 @@ class V5toV4(Adapter):
     # shell channel
 
     def kernel_info_reply(self, msg: Dict[str, Any]) -> Dict[str, Any]:
-        v4c = {}
         content = msg["content"]
-        for key in ("language_version", "protocol_version"):
-            if key in content:
-                v4c[key] = _version_str_to_list(content[key])
+        v4c = {
+            key: _version_str_to_list(content[key])
+            for key in ("language_version", "protocol_version")
+            if key in content
+        }
+
         if content.get("implementation", "") == "ipython" and "implementation_version" in content:
             v4c["ipython_version"] = _version_str_to_list(content["implementation_version"])
         language_info = content.get("language_info", {})
@@ -274,8 +272,7 @@ class V4toV5(Adapter):
     def execute_reply(self, msg: Dict[str, Any]) -> Dict[str, Any]:
         content = msg["content"]
         user_expressions = content.setdefault("user_expressions", {})
-        user_variables = content.pop("user_variables", {})
-        if user_variables:
+        if user_variables := content.pop("user_variables", {}):
             user_expressions.update(user_variables)
 
         # Pager payloads became a mime bundle

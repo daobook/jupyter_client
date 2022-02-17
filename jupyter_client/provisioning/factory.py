@@ -99,10 +99,12 @@ class KernelProvisionerFactory(SingletonConfigurable):
         )
         provisioner_class = self.provisioners[provisioner_name].load()
         provisioner_config = provisioner_cfg.get('config')
-        provisioner: KernelProvisionerBase = provisioner_class(
-            kernel_id=kernel_id, kernel_spec=kernel_spec, parent=parent, **provisioner_config
+        return provisioner_class(
+            kernel_id=kernel_id,
+            kernel_spec=kernel_spec,
+            parent=parent,
+            **provisioner_config
         )
-        return provisioner
 
     def _check_availability(self, provisioner_name: str) -> bool:
         """
@@ -159,10 +161,10 @@ class KernelProvisionerFactory(SingletonConfigurable):
         The key is the provisioner name for its entry point.  The value is the colon-separated
         string of the entry point's module name and object name.
         """
-        entries = {}
-        for name, ep in self.provisioners.items():
-            entries[name] = f"{ep.module_name}:{ep.object_name}"
-        return entries
+        return {
+            name: f"{ep.module_name}:{ep.object_name}"
+            for name, ep in self.provisioners.items()
+        }
 
     @staticmethod
     def _get_all_provisioners() -> List[EntryPoint]:
@@ -174,28 +176,19 @@ class KernelProvisionerFactory(SingletonConfigurable):
         try:
             ep = get_single(KernelProvisionerFactory.GROUP_NAME, name)
         except NoSuchEntryPoint:
-            # Check if the entrypoint name is 'local-provisioner'.  Although this should never
-            # happen, we have seen cases where the previous distribution of jupyter_client has
-            # remained which doesn't include kernel-provisioner entrypoints (so 'local-provisioner'
-            # is deemed not found even though its definition is in THIS package).  In such cass,
-            # the entrypoints package uses what it first finds - which is the older distribution
-            # resulting in a violation of a supposed invariant condition.  To address this scenario,
-            # we will log a warning message indicating this situation, then build the entrypoint
-            # instance ourselves - since we have that information.
-            if name == 'local-provisioner':
-                distros = glob.glob(f"{path.dirname(path.dirname(__file__))}-*")
-                self.log.warning(
-                    f"Kernel Provisioning: The 'local-provisioner' is not found.  This is likely "
-                    f"due to the presence of multiple jupyter_client distributions and a previous "
-                    f"distribution is being used as the source for entrypoints - which does not "
-                    f"include 'local-provisioner'.  That distribution should be removed such that "
-                    f"only the version-appropriate distribution remains (version >= 7).  Until "
-                    f"then, a 'local-provisioner' entrypoint will be automatically constructed "
-                    f"and used.\nThe candidate distribution locations are: {distros}"
-                )
-                ep = EntryPoint(
-                    'local-provisioner', 'jupyter_client.provisioning', 'LocalProvisioner'
-                )
-            else:
+            if name != 'local-provisioner':
                 raise
+            distros = glob.glob(f"{path.dirname(path.dirname(__file__))}-*")
+            self.log.warning(
+                f"Kernel Provisioning: The 'local-provisioner' is not found.  This is likely "
+                f"due to the presence of multiple jupyter_client distributions and a previous "
+                f"distribution is being used as the source for entrypoints - which does not "
+                f"include 'local-provisioner'.  That distribution should be removed such that "
+                f"only the version-appropriate distribution remains (version >= 7).  Until "
+                f"then, a 'local-provisioner' entrypoint will be automatically constructed "
+                f"and used.\nThe candidate distribution locations are: {distros}"
+            )
+            ep = EntryPoint(
+                'local-provisioner', 'jupyter_client.provisioning', 'LocalProvisioner'
+            )
         return ep

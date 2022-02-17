@@ -9,13 +9,13 @@ from jupyter_client import launcher
 
 def test_kms():
     for base in ("", "Async", "Multi"):
-        KM = base + "KernelManager"
+        KM = f'{base}KernelManager'
         assert KM in dir(jupyter_client)
 
 
 def test_kcs():
     for base in ("", "Blocking", "Async"):
-        KM = base + "KernelClient"
+        KM = f'{base}KernelClient'
         assert KM in dir(jupyter_client)
 
 

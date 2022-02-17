@@ -173,10 +173,9 @@ def launch_kernel(
         proc.win32_interrupt_event = interrupt_event  # type: ignore
 
     # Clean up pipes created to work around Popen bug.
-    if redirect_in:
-        if stdin is None:
-            assert proc.stdin is not None
-            proc.stdin.close()
+    if redirect_in and stdin is None:
+        assert proc.stdin is not None
+        proc.stdin.close()
 
     return proc
 

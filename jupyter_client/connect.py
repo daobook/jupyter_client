@@ -117,7 +117,7 @@ def write_connection_file(
         + int(hb_port <= 0)
     )
     if transport == "tcp":
-        for i in range(ports_needed):
+        for _ in range(ports_needed):
             sock = socket.socket()
             # struct.pack('ii', (0,0)) is 8 null bytes
             sock.setsockopt(socket.SOL_SOCKET, socket.SO_LINGER, b"\0" * 8)
@@ -129,7 +129,7 @@ def write_connection_file(
             ports.append(port)
     else:
         N = 1
-        for i in range(ports_needed):
+        for _ in range(ports_needed):
             while os.path.exists("%s-%s" % (ip, str(N))):
                 N += 1
             ports.append(N)
@@ -165,20 +165,14 @@ def write_connection_file(
         f.write(json.dumps(cfg, indent=2))
 
     if hasattr(stat, "S_ISVTX"):
-        # set the sticky bit on the parent directory of the file
-        # to ensure only owner can remove it
-        runtime_dir = os.path.dirname(fname)
-        if runtime_dir:
+        if runtime_dir := os.path.dirname(fname):
             permissions = os.stat(runtime_dir).st_mode
             new_permissions = permissions | stat.S_ISVTX
             if new_permissions != permissions:
                 try:
                     os.chmod(runtime_dir, new_permissions)
                 except OSError as e:
-                    if e.errno == errno.EPERM:
-                        # suppress permission errors setting sticky bit on runtime_dir,
-                        # which we may not own.
-                        pass
+                    pass
     return fname, cfg
 
 
@@ -222,13 +216,7 @@ def find_connection_file(
 
     # not found by full name
 
-    if "*" in filename:
-        # given as a glob already
-        pat = filename
-    else:
-        # accept any substring match
-        pat = "*%s*" % filename
-
+    pat = filename if "*" in filename else "*%s*" % filename
     matches = []
     for p in path:
         matches.extend(glob.glob(os.path.join(p, pat)))
@@ -352,13 +340,12 @@ class ConnectionFileMixin(LoggingConfigurable):
     )
 
     def _ip_default(self):
-        if self.transport == "ipc":
-            if self.connection_file:
-                return os.path.splitext(self.connection_file)[0] + "-ipc"
-            else:
-                return "kernel-ipc"
-        else:
+        if self.transport != "ipc":
             return localhost()
+        if self.connection_file:
+            return f'{os.path.splitext(self.connection_file)[0]}-ipc'
+        else:
+            return "kernel-ipc"
 
     @observe("ip")
     def _ip_changed(self, change):
