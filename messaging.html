@@ -163,7 +163,7 @@
 <h2>版本管理<a class="headerlink" href="#versioning" title="永久链接至标题">¶</a></h2>
 <p>Jupyter 消息规范是独立于使用它的软件包的版本。目前该规范的版本是 5.3。</p>
 <div class="admonition note">
-<p class="admonition-title">注解</p>
+<p class="admonition-title">备注</p>
 <p>本文档中的 <em>New in</em> 和 <em>Changed in</em> 消息指的是 <strong>Jupyter 消息规范</strong> 的版本，而不是 <a class="reference internal" href="api/index.html#module-jupyter_client" title="jupyter_client"><code class="xref py py-mod docutils literal notranslate"><span class="pre">jupyter_client</span></code></a> 的版本。</p>
 </div>
 </section>
@@ -205,7 +205,7 @@
 </pre></div>
 </div>
 <div class="admonition note">
-<p class="admonition-title">注解</p>
+<p class="admonition-title">备注</p>
 <p>消息头中的 <code class="docutils literal notranslate"><span class="pre">session</span></code> ID 标识了一个具有状态的独特实体，如内核进程或客户端进程。</p>
 <p>来自客户端的消息头中的客户端会话 ID，在连接到一个内核的所有客户端中应该是唯一的。当一个客户端重新连接到一个内核时，它应该在其消息头中使用相同的客户端会话 ID。当客户端重新启动时，它应该产生一个新的客户端会话 ID。</p>
 <p>内核会话 ID，在来自内核的消息头中，应该标识一个特定的内核进程。如果一个内核被重新启动，内核会话 ID 应该被重新生成。</p>
@@ -258,7 +258,7 @@
 </pre></div>
 </div>
 <div class="admonition note">
-<p class="admonition-title">注解</p>
+<p class="admonition-title">备注</p>
 <p>这个字典结构不是 Jupyter 协议的部分，它必须由内核和前端来实现；那将是 <a class="reference internal" href="#wire-protocol"><span class="std std-ref">Wire 协议</span></a>，它决定了这些信息如何通过 wire 进行序列化。反序列化是由内核或前端实现的，但在大多数情况下，像这样的 dict 是一个合理的选择。</p>
 </div>
 </section>
@@ -274,7 +274,7 @@
 <p>上述消息格式只是 Jupyter 消息内容的逻辑表示，但并没有描述 zeromq 中 wire 层面的实际 <em>实现</em>。本节描述了 Jupyter 内核和客户端通过 zeromq 相互交谈时必须实现的协议。</p>
 <p>消息规范的参考实现是 <code class="xref py py-class docutils literal notranslate"><span class="pre">Session</span></code> 类。</p>
 <div class="admonition note">
-<p class="admonition-title">注解</p>
+<p class="admonition-title">备注</p>
 <p>这部分应该只与该协议的非 Python consumer 有关。Python consumer 应该导入并使用 <code class="xref py py-class docutils literal notranslate"><span class="pre">jupyter_client.session.Session</span></code> 中的 wire 协议的实现。</p>
 </div>
 <p>每条信息都被序列化为一个至少由六个字节块组成的序列：</p>
@@ -293,12 +293,12 @@
 </div>
 <p>消息的前端是 ZeroMQ 的路由前缀，它可以是零个或多个套接字身份。这是消息中分界符键 <code class="docutils literal notranslate"><span class="pre">&lt;IDS|MSG&gt;</span></code> 之前的每一块。在 IOPub 的情况下，应该只有一个前缀成分，这就是 IOPub 订阅者的主题，例如 <code class="docutils literal notranslate"><span class="pre">execute_result</span></code>、<code class="docutils literal notranslate"><span class="pre">display_data</span></code>。</p>
 <div class="admonition note">
-<p class="admonition-title">注解</p>
+<p class="admonition-title">备注</p>
 <p>在大多数情况下，IOPub 的主题是不相关的，完全被忽略，因为前端只是订阅了所有的主题。在 IPython 内核中的惯例是使用 msg_type 作为主题，可能还有关于消息的额外信息，例如 <code class="docutils literal notranslate"><span class="pre">kernel.{u-u-i-d}.execute_result</span></code> 或 <code class="docutils literal notranslate"><span class="pre">stream.stdout</span></code></p>
 </div>
 <p>分隔符之后是信息的 <a class="reference external" href="https://en.wikipedia.org/wiki/HMAC">HMAC</a> 签名，用于认证。如果认证被禁用，这应该是一个空字符串。默认情况下，用于计算这些签名的散列函数是 sha256。</p>
 <div class="admonition note">
-<p class="admonition-title">注解</p>
+<p class="admonition-title">备注</p>
 <p>要禁用认证和签名检查，将连接文件的 <code class="docutils literal notranslate"><span class="pre">key</span></code> 字段设置为空字符串。</p>
 </div>
 <p>签名是 HMAC 的十六进制摘要，由以下内容串联而成：</p>
@@ -446,7 +446,7 @@ only that key containing a standard error message, of the form:</p>
 </pre></div>
 </div>
 <div class="admonition note">
-<p class="admonition-title">注解</p>
+<p class="admonition-title">备注</p>
 <p>In order to obtain the current execution counter for the purposes of
 displaying input prompts, frontends may make an execution request with an
 empty code string and <code class="docutils literal notranslate"><span class="pre">silent=True</span></code>.</p>
@@ -457,7 +457,7 @@ the outcome.  See <a class="reference internal" href="#execution-results"><span 
 codes and associated data.</p>
 <div class="admonition seealso">
 <p class="admonition-title">参见</p>
-<p><a class="reference external" href="https://ipython.readthedocs.io/en/stable/development/execution.html#execution-semantics" title="(在 IPython v7.30.1)"><span>Execution of cells in the IPython kernel</span></a></p>
+<p><a class="reference external" href="https://ipython.readthedocs.io/en/stable/development/execution.html#execution-semantics" title="(在 IPython v8.1.1)"><span>Execution of cells in the IPython kernel</span></a></p>
 </div>
 <section id="execution-counter-prompt-number">
 <span id="execution-counter"></span><h4>Execution counter (prompt number)<a class="headerlink" href="#execution-counter-prompt-number" title="永久链接至标题">¶</a></h4>
@@ -723,7 +723,7 @@ request it from the kernel when needed.</p>
 </pre></div>
 </div>
 <div class="admonition note">
-<p class="admonition-title">注解</p>
+<p class="admonition-title">备注</p>
 <p>Most of the history messaging options are not used by Jupyter frontends, and
 many kernels do not implement them. If you’re implementing these messages in
 a kernel, the ‘tail’ request is the most useful; this is used by the Qt
@@ -971,7 +971,7 @@ avoid leaving stray processes in the user’s machine.</p>
 </pre></div>
 </div>
 <div class="admonition note">
-<p class="admonition-title">注解</p>
+<p class="admonition-title">备注</p>
 <p>When the clients detect a dead kernel thanks to inactivity on the heartbeat
 socket, they simply send a forceful process termination signal, since a dead
 process is unlikely to respond in any useful way to messages.</p>
@@ -1348,7 +1348,7 @@ it shall publish a status message with <code class="docutils literal notranslate
 Thus, the outputs associated with a given execution shall generally arrive
 between the busy and idle status messages associated with a given request.</p>
 <div class="admonition note">
-<p class="admonition-title">注解</p>
+<p class="admonition-title">备注</p>
 <p><strong>A caveat for asynchronous output</strong></p>
 <p>Asynchronous output (e.g. from background threads) may be produced after the kernel
 has sent the idle status message that signals the completion of the request.
@@ -1436,7 +1436,7 @@ the user types.</p>
 <p><span class="versionmodified changed">在 5.0 版更改: </span><code class="docutils literal notranslate"><span class="pre">password</span></code> key added.</p>
 </div>
 <div class="admonition note">
-<p class="admonition-title">注解</p>
+<p class="admonition-title">备注</p>
 <p>The stdin socket of the client is required to have the same zmq IDENTITY
 as the client’s shell socket.
 Because of this, the <code class="docutils literal notranslate"><span class="pre">input_request</span></code> must be sent with the same IDENTITY
@@ -1444,7 +1444,7 @@ routing prefix as the <code class="docutils literal notranslate"><span class="pr
 the message.</p>
 </div>
 <div class="admonition note">
-<p class="admonition-title">注解</p>
+<p class="admonition-title">备注</p>
 <p>This pattern of requesting user input is quite different from how stdin works
 at a lower level. The Jupyter protocol does not support everything code
 running in a terminal can do with stdin, but we believe that this enables the
