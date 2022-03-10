@@ -185,10 +185,7 @@ class KernelProvisionerBase(ABC, LoggingConfigurable, metaclass=KernelProvisione
 
         NOTE: The superclass method must always be called first to ensure proper serialization.
         """
-        provisioner_info: Dict[str, Any] = dict()
-        provisioner_info['kernel_id'] = self.kernel_id
-        provisioner_info['connection_info'] = self.connection_info
-        return provisioner_info
+        return {'kernel_id': self.kernel_id, 'connection_info': self.connection_info}
 
     async def load_provisioner_info(self, provisioner_info: Dict) -> None:
         """
@@ -258,5 +255,5 @@ class KernelProvisionerBase(ABC, LoggingConfigurable, metaclass=KernelProvisione
             # new dict with substitutions.
             templated_env = self.kernel_spec.env
             for k, v in templated_env.items():
-                substituted_env.update({k: Template(v).safe_substitute(substitution_values)})
+                substituted_env[k] = Template(v).safe_substitute(substitution_values)
         return substituted_env

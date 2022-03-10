@@ -43,10 +43,7 @@ class LocalProvisioner(KernelProvisionerBase):
 
     async def poll(self) -> Optional[int]:
 
-        ret = 0
-        if self.process:
-            ret = self.process.poll()
-        return ret
+        return self.process.poll() if self.process else 0
 
     async def wait(self) -> Optional[int]:
         ret = 0
@@ -72,25 +69,27 @@ class LocalProvisioner(KernelProvisionerBase):
         check if the desired signal is for interrupt and apply the
         applicable code on Windows in that case.
         """
-        if self.process:
-            if signum == signal.SIGINT and sys.platform == 'win32':
-                from ..win_interrupt import send_interrupt
+        if not self.process:
+            return
 
-                send_interrupt(self.process.win32_interrupt_event)
-                return
+        if signum == signal.SIGINT and sys.platform == 'win32':
+            from ..win_interrupt import send_interrupt
 
-            # Prefer process-group over process
-            if self.pgid and hasattr(os, "killpg"):
-                try:
-                    os.killpg(self.pgid, signum)
-                    return
-                except OSError:
-                    pass
+            send_interrupt(self.process.win32_interrupt_event)
+            return
+
+        # Prefer process-group over process
+        if self.pgid and hasattr(os, "killpg"):
             try:
-                self.process.send_signal(signum)
+                os.killpg(self.pgid, signum)
+                return
             except OSError:
                 pass
-            return
+        try:
+            self.process.send_signal(signum)
+        except OSError:
+            pass
+        return
 
     async def kill(self, restart: bool = False) -> None:
         if self.process:
@@ -137,9 +136,7 @@ class LocalProvisioner(KernelProvisionerBase):
         Returns the updated kwargs.
         """
 
-        # This should be considered temporary until a better division of labor can be defined.
-        km = self.parent
-        if km:
+        if km := self.parent:
             if km.transport == 'tcp' and not is_local_ip(km.ip):
                 raise RuntimeError(
                     "Can only launch a kernel on a local interface. "

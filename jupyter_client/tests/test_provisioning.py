@@ -53,10 +53,7 @@ class CustomTestProvisioner(KernelProvisionerBase):
         return self.process is not None
 
     async def poll(self) -> Optional[int]:
-        ret = 0
-        if self.process:
-            ret = self.process.poll()
-        return ret
+        return self.process.poll() if self.process else 0
 
     async def wait(self) -> Optional[int]:
         ret = 0
@@ -95,8 +92,7 @@ class CustomTestProvisioner(KernelProvisionerBase):
             self.process.terminate()
 
     async def pre_launch(self, **kwargs: Any) -> Dict[str, Any]:
-        km = self.parent
-        if km:
+        if km := self.parent:
             # save kwargs for use in restart
             km._launch_args = kwargs.copy()
             # build the Popen cmd
@@ -204,10 +200,10 @@ initial_provisioner_map = {
 
 
 def mock_get_all_provisioners() -> List[EntryPoint]:
-    result = []
-    for name, epstr in initial_provisioner_map.items():
-        result.append(EntryPoint(name, epstr[0], epstr[1]))
-    return result
+    return [
+        EntryPoint(name, epstr[0], epstr[1])
+        for name, epstr in initial_provisioner_map.items()
+    ]
 
 
 def mock_get_provisioner(factory, name) -> EntryPoint:
@@ -229,8 +225,7 @@ def kpf(monkeypatch):
         KernelProvisionerFactory, '_get_all_provisioners', mock_get_all_provisioners
     )
     monkeypatch.setattr(KernelProvisionerFactory, '_get_provisioner', mock_get_provisioner)
-    factory = KernelProvisionerFactory.instance()
-    return factory
+    return KernelProvisionerFactory.instance()
 
 
 class TestDiscovery:

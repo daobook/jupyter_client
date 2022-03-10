@@ -30,9 +30,7 @@ def run_sync(coro):
 
 
 async def ensure_async(obj):
-    if inspect.isawaitable(obj):
-        return await obj
-    return obj
+    return await obj if inspect.isawaitable(obj) else obj
 
 
 def _filefind(filename, path_dirs=None):

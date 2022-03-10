@@ -83,8 +83,7 @@ class MultiKernelManager(LoggingConfigurable):
                     # recreate context if closed
                     self.context = self._context_default()
                 kwargs.setdefault("context", self.context)
-            km = kernel_manager_ctor(*args, **kwargs)
-            return km
+            return kernel_manager_ctor(*args, **kwargs)
 
         return create_kernel_manager
 

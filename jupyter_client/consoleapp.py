@@ -267,7 +267,7 @@ class JupyterConsoleApp(ConnectionFileMixin):
 
         cf = self.connection_file
         root, ext = os.path.splitext(cf)
-        self.connection_file = root + "-ssh" + ext
+        self.connection_file = f'{root}-ssh{ext}'
         self.write_connection_file()  # write the new connection file
         self.log.info("To connect another client via this tunnel, use:")
         self.log.info("--existing %s" % os.path.basename(self.connection_file))
@@ -314,8 +314,7 @@ class JupyterConsoleApp(ConnectionFileMixin):
 
         self.kernel_manager = cast(KernelManager, self.kernel_manager)
         self.kernel_manager.client_factory = self.kernel_client_class
-        kwargs = {}
-        kwargs["extra_arguments"] = self.kernel_argv
+        kwargs = {'extra_arguments': self.kernel_argv}
         self.kernel_manager.start_kernel(**kwargs)
         atexit.register(self.kernel_manager.cleanup_ipc_files)
 

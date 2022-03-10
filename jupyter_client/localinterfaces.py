@@ -108,10 +108,12 @@ def _load_ips_ifconfig():
 
     lines = out.splitlines()
     addrs = []
-    for line in lines:
-        m = _ifconfig_ipv4_pat.match(line.strip())
-        if m:
-            addrs.append(m.group(1))
+    addrs.extend(
+        m.group(1)
+        for line in lines
+        if (m := _ifconfig_ipv4_pat.match(line.strip()))
+    )
+
     _populate_from_list(addrs)
 
 
@@ -137,10 +139,12 @@ def _load_ips_ipconfig():
 
     lines = out.splitlines()
     addrs = []
-    for line in lines:
-        m = _ipconfig_ipv4_pat.match(line.strip())
-        if m:
-            addrs.append(m.group(1))
+    addrs.extend(
+        m.group(1)
+        for line in lines
+        if (m := _ipconfig_ipv4_pat.match(line.strip()))
+    )
+
     _populate_from_list(addrs)
 
 

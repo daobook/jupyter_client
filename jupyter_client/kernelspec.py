@@ -50,7 +50,7 @@ class KernelSpec(HasTraits):
         return cls(resource_dir=resource_dir, **kernel_dict)
 
     def to_dict(self):
-        d = dict(
+        return dict(
             argv=self.argv,
             env=self.env,
             display_name=self.display_name,
@@ -58,8 +58,6 @@ class KernelSpec(HasTraits):
             interrupt_mode=self.interrupt_mode,
             metadata=self.metadata,
         )
-
-        return d
 
     def to_json(self):
         """Serialise this kernelspec to a JSON object.

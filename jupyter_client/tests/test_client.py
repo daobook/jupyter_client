@@ -41,7 +41,7 @@ class TestKernelClient(TestCase):
 
     def _check_reply(self, reply_type, reply):
         self.assertIsInstance(reply, dict)
-        self.assertEqual(reply["header"]["msg_type"], reply_type + "_reply")
+        self.assertEqual(reply["header"]["msg_type"], f'{reply_type}_reply')
         self.assertEqual(reply["parent_header"]["msg_type"], reply_type + "_request")
 
     def test_history(self):
